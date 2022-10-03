@@ -17,8 +17,7 @@ contract DaoAccessControlInherit is AccessControl, IDaoAccessControlInherit{
 
     bytes32 internal constant STAFF_ROLE = keccak256("STAFF_ROLE");
     bytes32 internal constant VISITOR_ROLE = keccak256("VISITOR_ROLE");
-
-
+    
 
     constructor() {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());

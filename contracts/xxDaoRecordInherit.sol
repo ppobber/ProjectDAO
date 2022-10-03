@@ -11,7 +11,7 @@ pragma solidity ^0.8.4;
 import "./IDaoAccessControlInherit.sol";
 
 
-contract DaoRecord {
+contract DaoRecordInherit {
 
     bytes32 private constant riskLevelLow = keccak256(abi.encode("low"));
     bytes32 private constant riskLevelModerate = keccak256(abi.encode("moderate"));
@@ -23,12 +23,19 @@ contract DaoRecord {
     event HighRisk(string highRiskOutput);
     event ExtremeRisk(string extremeRiskOutput);
 
+    event NpvRecordSuccess(string NpvRecordSuccessOutput);
+
+    uint32[] private npvList;
+
     bytes32 internal constant STAFF_ROLE = keccak256("STAFF_ROLE");
+    bytes32 internal constant RECORD_MANAGER_ROLE = keccak256("RECORD_MANAGER_ROLE");
 
+    // address private constant daoAccessControlAddress;
+    IDaoAccessControlInherit public daoAccessControlInherit;
 
-    address private constant daoAccessControlAddress = 0x0E48A7EC9D78D0eF015A453098C3Be6B6a796F0D;
-    IDaoAccessControlInherit public daoAccessControlInherit = IDaoAccessControlInherit(daoAccessControlAddress);
-
+    constructor(address daoAccessControlAddress) {
+        daoAccessControlInherit = IDaoAccessControlInherit(daoAccessControlAddress);
+    }
 
     modifier allowStaff() {
         bool ifallow = daoAccessControlInherit.inquiryAddressPermission(STAFF_ROLE, msg.sender);
@@ -36,8 +43,20 @@ contract DaoRecord {
         _;
     }
 
-    function recordNPV() public {
+    modifier allowManager() {
+        bool ifallow = daoAccessControlInherit.inquiryAddressPermission(RECORD_MANAGER_ROLE, msg.sender);
+        require(ifallow);
+        _;
+    }
 
+    function recordNPV(uint32 npvNow) public allowStaff {
+        //todo
+        npvList.push(npvNow);
+        emit NpvRecordSuccess("Record Success.");
+    }
+
+    function inquiryNPV() public view allowManager returns(uint32[] memory) {
+        return npvList;
     }
 
     function recordRisk(string memory riskLevel) public allowStaff{
