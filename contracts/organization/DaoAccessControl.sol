@@ -19,65 +19,66 @@ contract DaoAccessControl is AccessControl{
     function createPermission(bytes memory permissionName) 
         public allowPermission(ACCESS_MANAGER) 
     {
-        AccessControl._createPermission(permissionName);
+        super._createPermission(permissionName);
     }
 
     function createPermissionByLevel(bytes memory permissionName, bytes memory permissionAlready) 
         public allowPermission(ACCESS_MANAGER) 
     {
-        AccessControl._createPermissionByLevel(permissionName, permissionAlready);
+        super._createPermissionByLevel(permissionName, permissionAlready);
     }
 
     function deletePermission(bytes memory permissionName) 
         public allowPermission(ACCESS_MANAGER) 
     {
-        AccessControl._deletePermission(permissionName);
+        super._deletePermission(permissionName);
     }
 
     function grantAccountPermission(bytes memory permissionName, address account) 
         public allowPermission(ACCESS_MANAGER) 
     {
-        AccessControl._grantAccountPermission(permissionName, account);
+        super._grantAccountPermission(permissionName, account);
     }
 
     function revokeAccountPermission(bytes memory permissionName, address account) 
         public allowPermission(ACCESS_MANAGER) 
     {
-        AccessControl._revokeAccountPermission(permissionName, account);
+        super._revokeAccountPermission(permissionName, account);
     }
 
     function deleteAccount(address account) 
         public allowPermission(ACCESS_MANAGER) 
     {
-        AccessControl._deleteAccount(account);
+        super._deleteAccount(account);
     }
 
     function transferAdmin(address account) 
         public allowPermission(ACCESS_MANAGER) 
     {
-        AccessControl._transferAdmin(account);
+        super._transferAdmin(account);
     }
 
     function inquiryAccountPermission(bytes32 permission, address account) 
         public view allowPermission(STAFF) returns (bool) 
     {
-        return AccessControl._inquiryAccountPermission(permission, account);
+        return super._inquiryAccountPermission(permission, account);
     }
 
     function inquiryAllAccountsByPermission(bytes32 permission) 
         public view allowPermission(STAFF) returns (address[] memory) 
     {
-        return AccessControl._inquiryAllAccountsByPermission(permission);
+        return super._inquiryAllAccountsByPermission(permission);
     }
 
     function inquiryAllPermissionsByAccount(address account) 
         public view allowPermission(STAFF) returns (bytes32[] memory) 
     {
-        return AccessControl._inquiryAllPermissionsByAccount(account);
+        return super._inquiryAllPermissionsByAccount(account);
     }
 
-    function inquiryAdmin() public view allowPermission(STAFF) returns (address) {
-        return AccessControl._inquiryAdmin();
+    function inquiryAdmin() public view allowPermission(STAFF) returns (address) 
+    {
+        return super._inquiryAdmin();
     }
 
 
