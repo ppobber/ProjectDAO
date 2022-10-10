@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 
 import "../AccessUtils.sol";
 
-contract DaoToken is AccessUtils, ERC20, ERC20Permit {
+contract DaoToken is AccessUtils, ERC20 {
     
     string internal constant TokenName = "DAOTOKEN";
     string internal constant TokenSymbol = "DTK";
@@ -21,8 +21,7 @@ contract DaoToken is AccessUtils, ERC20, ERC20Permit {
     }
 
 
-    function mint(address to, uint256 amount) public allowPermission(ADMIN) {
-        
+    function mint(address to, uint256 amount) public allowPermission(TOKEN_MANAGER) {
         _mint(to, amount);
     }
 
