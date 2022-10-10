@@ -44,4 +44,20 @@ $ truffle migrate --reset
 > **Note**
 > If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
 
+## Testing the code
+
+1. Install remix extension in VScode IDE [Download] (https://marketplace.visualstudio.com/items?itemName=RemixProject.ethereum-remix)
+
+2. Start remixd client in VScode
+
+3. Open the remix through a browser by navigate to https://remix.ethereum.org/
+
+4. In the Workspace dropdown, choose local host. Thiw will conect remix IDE in the broswer to your remix extention in VScode.
+
+5. Complie the contract you want to test on
+
+6. Connect Ganache wallets to remix IDE
+
+7. Copy the adress of the contract that you want to test and put in the "at address" box in remix IDE
+
 ## Download
