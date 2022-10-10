@@ -10,8 +10,8 @@ import "../AccessUtils.sol";
 
 contract DaoToken is AccessUtils, ERC20, ERC20Permit {
     
-    string internal constant TokenName = "";
-    string internal constant TokenSymbol = "";
+    string internal constant TokenName = "DAOTOKEN";
+    string internal constant TokenSymbol = "DTK";
 
 
 
