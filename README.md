@@ -60,4 +60,26 @@ $ truffle migrate --reset
 
 7. Copy the adress of the contract that you want to test and put in the "at address" box in remix IDE
 
-## Download
+## Contributors
+
+# Project management
+
+- Jia Min Huang
+- Diao Lu
+- Yichen Guo
+- Weijia Chen
+- Hexin Wang
+- Zhumin Huang
+
+# Developer
+
+- Yi Xia
+- Juncheng Li
+- Mengija Li
+- Yue Yu
+- Jarturong Thititanapak
+
+# Sponsors
+
+- Kelvin McGrath
+- Maggie Hu
