@@ -16,34 +16,34 @@ contract DaoAccessControl is AccessControl{
         _;
     }
 
-    function createPermission(bytes memory permissionName) 
+    function createPermission(string memory permissionName) 
         public allowPermission(ACCESS_MANAGER) 
     {
-        super._createPermission(permissionName);
+        super._createPermission(keccak256(bytes(permissionName)));
     }
 
-    function createPermissionByLevel(bytes memory permissionName, bytes memory permissionAlready) 
+    function createPermissionByLevel(string memory permissionName, string memory permissionAlready) 
         public allowPermission(ACCESS_MANAGER) 
     {
-        super._createPermissionByLevel(permissionName, permissionAlready);
+        super._createPermissionByLevel(keccak256(bytes(permissionName)), keccak256(bytes(permissionAlready)));
     }
 
-    function deletePermission(bytes memory permissionName) 
-        public allowPermission(ACCESS_MANAGER) 
+    function deletePermission(string memory permissionName) 
+        public allowPermission(ACCESS_MANAGER)
     {
-        super._deletePermission(permissionName);
+        super._deletePermission(keccak256(bytes(permissionName)));
     }
 
-    function grantAccountPermission(bytes memory permissionName, address account) 
+    function grantAccountPermission(string memory permissionName, address account) 
         public allowPermission(ACCESS_MANAGER) 
     {
-        super._grantAccountPermission(permissionName, account);
+        super._grantAccountPermission(keccak256(bytes(permissionName)), account);
     }
 
-    function revokeAccountPermission(bytes memory permissionName, address account) 
+    function revokeAccountPermission(string memory permissionName, address account) 
         public allowPermission(ACCESS_MANAGER) 
     {
-        super._revokeAccountPermission(permissionName, account);
+        super._revokeAccountPermission(keccak256(bytes(permissionName)), account);
     }
 
     function deleteAccount(address account) 
@@ -58,25 +58,36 @@ contract DaoAccessControl is AccessControl{
         super._transferAdmin(account);
     }
 
+    //reload
+    function inquiryAccountPermission(string memory permissionName, address account) 
+        public view override allowPermission(STAFF) returns (bool) 
+    {
+        return super._inquiryAccountPermission(keccak256(bytes(permissionName)), account);
+    }
     function inquiryAccountPermission(bytes32 permission, address account) 
-        public view allowPermission(STAFF) returns (bool) 
+        public view override allowPermission(STAFF) returns (bool) 
     {
         return super._inquiryAccountPermission(permission, account);
     }
 
+    function inquiryAllAccountsByPermission(string memory permissionName) 
+        public view override allowPermission(STAFF) returns (address[] memory) 
+    {
+        return super._inquiryAllAccountsByPermission(keccak256(bytes(permissionName)));
+    }
     function inquiryAllAccountsByPermission(bytes32 permission) 
-        public view allowPermission(STAFF) returns (address[] memory) 
+        public view override allowPermission(STAFF) returns (address[] memory) 
     {
         return super._inquiryAllAccountsByPermission(permission);
     }
 
     function inquiryAllPermissionsByAccount(address account) 
-        public view allowPermission(STAFF) returns (bytes32[] memory) 
+        public view override allowPermission(STAFF) returns (bytes32[] memory) 
     {
         return super._inquiryAllPermissionsByAccount(account);
     }
 
-    function inquiryAdmin() public view allowPermission(STAFF) returns (address) 
+    function inquiryAdmin() public view override allowPermission(STAFF) returns (address) 
     {
         return super._inquiryAdmin();
     }

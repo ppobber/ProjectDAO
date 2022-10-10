@@ -30,6 +30,14 @@ contract DaoTest is AccessControl {
         emit someOutputs("hello world.");
     }
 
+    function testString(string memory a) public {
+        emit someOutputs(a);
+    }
+
+    function testBytes(bytes memory a) public {
+        emit someOutputs(string(a));
+    }
+
 
 
     // modifier teststring(string memory _name) {

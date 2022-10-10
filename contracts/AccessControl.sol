@@ -51,7 +51,7 @@ abstract contract AccessControl is IAccessControl{
     }
 
     function _check(bytes32 permission, address account) internal view virtual returns (bool) {
-        if(!_allPermissions[permission].isValid) {
+        if(_allPermissions[permission].isValid == false) {
             return false;
         } else {
             return _allPermissions[permission].members[account];
@@ -73,18 +73,26 @@ abstract contract AccessControl is IAccessControl{
         }
     }
 
-    function _initialize() internal virtual {
-        _allPermissions[ADMIN].isValid = true;
-        _allPermissions[ADMIN].members[msg.sender] = true;
-        _allPermissions[ADMIN].index[0] = msg.sender;
-        _allPermissions[ADMIN].length = 1;
-
-        _numberOfPermissions = 1;
-        _indexOfPermissions[0] = ADMIN;
+    function _singleInit(bytes32 permission) private {
+        _allPermissions[permission].isValid = true;
+        _allPermissions[permission].members[msg.sender] = true;
+        _allPermissions[permission].index[0] = msg.sender;
+        _allPermissions[permission].length = 1;
+        _indexOfPermissions[_numberOfPermissions] = permission;
+        _numberOfPermissions++;
     }
 
-    function _createPermission(bytes memory permissionName) internal virtual {
-        bytes32 permission = keccak256(permissionName);
+    function _initialize() internal virtual {
+        _numberOfPermissions = 0;
+        _singleInit(ADMIN);
+        _singleInit(ACCESS_MANAGER);
+        _singleInit(TOKEN_MANAGER);
+        _singleInit(STAFF);
+        _singleInit(MEMBER);
+    }
+
+    function _createPermission(bytes32 permission) internal virtual {
+        // bytes32 permission = keccak256(bytes(permissionName));
         if (!_allPermissions[permission].isValid) {
             _changePermissionIndex(permission);
             _allPermissions[permission].isValid = true;
@@ -95,7 +103,7 @@ abstract contract AccessControl is IAccessControl{
                 _allPermissions[permission].index[i] = indexOfAddress;
             }
             _allPermissions[permission].length = _allPermissions[ADMIN].length;
-            emit PermissionCreated(permissionName, msg.sender);
+            emit PermissionCreated(permission, msg.sender);
         } else {
             _informFailure("The permission has alreay exist.");
         }
@@ -103,9 +111,9 @@ abstract contract AccessControl is IAccessControl{
 
     //create a new permission based on a permission already exist.
     //it is good for quick create some similar permissions.
-    function _createPermissionByLevel(bytes memory permissionName, bytes memory permissionAlready) internal virtual {
-        bytes32 permission = keccak256(permissionName);
-        bytes32 permissionA = keccak256(permissionAlready);
+    function _createPermissionByLevel(bytes32 permission, bytes32 permissionA) internal virtual {
+        // bytes32 permission = keccak256(bytes(permissionName));
+        // bytes32 permissionA = keccak256(bytes(permissionAlready));
         if (!_allPermissions[permission].isValid) {
             _changePermissionIndex(permission);
             _allPermissions[permission].isValid = true;
@@ -116,18 +124,18 @@ abstract contract AccessControl is IAccessControl{
                 _allPermissions[permission].index[i] = indexOfAddress;
             }
             _allPermissions[permission].length = _allPermissions[permissionA].length;
-            emit PermissionCreated(permissionName, msg.sender);
+            emit PermissionCreated(permission, msg.sender);
         } else {
             _informFailure("The permission has alreay exist.");
         }
     }
 
-    function _deletePermission(bytes memory permissionName) internal virtual {
-        bytes32 permission = keccak256(permissionName);
+    function _deletePermission(bytes32 permission) internal virtual {
+        // bytes32 permission = keccak256(bytes(permissionName));
         if (_allPermissions[permission].isValid && permission != ADMIN) {
             //isValid to false will not change the index of _allPermissions.
             _allPermissions[permission].isValid = false;
-            emit PermissionDeleted(permissionName, msg.sender);
+            emit PermissionDeleted(permission, msg.sender);
         } else {
             _informFailure("The permission is not valid.");
         }
@@ -150,24 +158,24 @@ abstract contract AccessControl is IAccessControl{
     }
 
     //grant permission to someone, only access manager (and admin) can access
-    function _grantAccountPermission(bytes memory permissionName, address account) internal virtual {
-        bytes32 permission = keccak256(permissionName);
+    function _grantAccountPermission(bytes32 permission, address account) internal virtual {
+        // bytes32 permission = keccak256(bytes(permissionName));
         //have to createPermission first, and then to grantAccountPermission
         if (_allPermissions[permission].isValid && permission != ADMIN) {
             _changeAccountIndex(permission, account);
             _allPermissions[permission].members[account] = true;
-            emit PermissionGranted(permissionName, account, msg.sender);
+            emit PermissionGranted(permission, account, msg.sender);
         } else {
             _informFailure("The permission is not valid.");
         }
     }
 
     //revoke permission of someone, only access manager (and admin) can access
-    function _revokeAccountPermission(bytes memory permissionName, address account) internal virtual {
-        bytes32 permission = keccak256(permissionName);
+    function _revokeAccountPermission(bytes32 permission, address account) internal virtual {
+        // bytes32 permission = keccak256(bytes(permissionName));
         if (_check(permission, account) && permission != ADMIN) {
             _allPermissions[permission].members[account] = false;
-            emit PermissionRevoked(permissionName, account, msg.sender);
+            emit PermissionRevoked(permission, account, msg.sender);
         } else {
             _informFailure("The permission is not valid or the account is not in the permission.");
         }
@@ -225,6 +233,7 @@ abstract contract AccessControl is IAccessControl{
         returns (address[] memory) 
     {
         address[] memory relatedAccounts;
+        // bytes32 permission = keccak256(bytes(permissionName));
         uint j = 0;
         for(uint i = 0; i < _allPermissions[permission].length; i++) {
             //Will not output members who are false.
