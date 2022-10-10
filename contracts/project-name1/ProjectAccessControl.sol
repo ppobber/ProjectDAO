@@ -10,9 +10,14 @@ contract ProjectAccessControl is AccessControl{
 
     IAccessControl private daoAccessControl;
 
-    constructor(address daoAccessControlAddress) {
+    string public adminName = "";
+    string public adminEmail = "";
+
+    constructor(address daoAccessControlAddress, string memory projectAdminName, string memory projectAdminEmail) {
         _initialize();
         daoAccessControl = IAccessControl(daoAccessControlAddress);
+        adminName = projectAdminName;
+        adminEmail = projectAdminEmail;
     }
 
     modifier allowPermission(bytes32 objectPermission, bytes32 organizationPermission) {
