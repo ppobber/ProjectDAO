@@ -54,7 +54,8 @@
 			"inquiryAdmin()": "7058dd24",
 			"inquiryAllAccountsByPermission(bytes32)": "9b8f3bbc",
 			"inquiryAllAccountsByPermission(string)": "56353d82",
-			"inquiryAllPermissionsByAccount(address)": "80891cb2"
+			"inquiryAllPermissionsByAccount(address)": "80891cb2",
+			"outputStorage()": "abe4165b"
 		}
 	},
 	"abi": [
@@ -299,6 +300,13 @@
 					"type": "bytes32[]"
 				}
 			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "outputStorage",
+			"outputs": [],
 			"stateMutability": "view",
 			"type": "function"
 		}

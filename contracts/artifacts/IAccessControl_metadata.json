@@ -248,6 +248,13 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "outputStorage",
+				"outputs": [],
+				"stateMutability": "view",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -278,11 +285,11 @@
 	},
 	"sources": {
 		"contracts/IAccessControl.sol": {
-			"keccak256": "0xff42cec41c5a822540856a88d45bfbb936107f86befea5c7428b0d9ce29737af",
+			"keccak256": "0xf9148796cf42e8fc0aa8e26a6146f7933d96632469e154eab455a516232c4a42",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b4a0218ca67033bd5722991cb35936b172e4acd453b0b243486faea23f1aac89",
-				"dweb:/ipfs/QmX9e6e8AvnpoVAv4gf9k812kzmoav1NRHY8cxFL472qR5"
+				"bzz-raw://0a5b5506639d7189eab1790aff93135817ecf37abf2a408c0f64d463b07f208f",
+				"dweb:/ipfs/QmYfD2Fr3GPRmHioKWg5VhEMgFmK3uXgi9oR4huS3e48wd"
 			]
 		}
 	},

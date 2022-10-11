@@ -20,8 +20,8 @@ contract DaoRecord is AccessUtils {
 
     uint32[] private npvList;
 
-    bytes32 internal constant STAFF_ROLE = keccak256("STAFF_ROLE");
-    bytes32 internal constant RECORD_MANAGER_ROLE = keccak256("RECORD_MANAGER_ROLE");
+    bytes32 internal constant STAFF_ROLE = keccak256("STAFF");
+    bytes32 internal constant RECORD_MANAGER_ROLE = keccak256("RECORD_MANAGER");
 
     constructor(address daoAccessControlAddress) {
         initializeAccessControl(daoAccessControlAddress);
@@ -31,6 +31,14 @@ contract DaoRecord is AccessUtils {
         //todo
         npvList.push(npvNow);
         emit NpvRecordSuccess("Record Success.");
+    }
+
+    function test() public returns (address) {
+        return getAdmin();
+    }
+
+    function test1() public returns (bool) {
+        return check(STAFF, msg.sender);
     }
 
     function inquiryNPV() public view allowPermission(STAFF) returns(uint32[] memory) {
