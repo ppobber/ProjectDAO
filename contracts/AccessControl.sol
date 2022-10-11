@@ -255,5 +255,13 @@ abstract contract AccessControl is IAccessControl{
         return _allPermissions[ADMIN].index[i];
     }
 
+    function _outputStorage() internal view virtual {
+        string memory log;
+
+
+        
+        // emit StorageOutput();
+    }
+
 
 }

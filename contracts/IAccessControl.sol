@@ -15,6 +15,8 @@ interface IAccessControl{
 
     event AdminTransfered(address indexed newAdmin, address indexed previousAdmin);
 
+    event StorageOutput(string indexed log);
+
     
     // function _createPermission(bytes32 permission) external;
     // function _createPermissionByLevel(bytes32 permission, bytes32 permissionA) external;
@@ -33,5 +35,7 @@ interface IAccessControl{
     function inquiryAllPermissionsByAccount(address account) external view returns (bytes32[] memory);
 
     function inquiryAdmin() external view returns (address);
+
+    function outputStorage() external view;
 
 }

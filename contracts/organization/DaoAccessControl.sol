@@ -92,5 +92,10 @@ contract DaoAccessControl is AccessControl{
         return super._inquiryAdmin();
     }
 
+    function outputStorage() public view override allowPermission(ADMIN)
+    {
+        return super._outputStorage();
+    }
+
 
 }

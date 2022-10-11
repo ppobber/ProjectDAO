@@ -23,7 +23,7 @@ abstract contract AccessUtils {
     //     AccessControl = IAccessControl(AccessControlAddress);
     // }
 
-    //todo, 重设权限的方法
+    //todo, function of reseting permission
 
     function initializeAccessControl(address AccessControlAddress) internal virtual {
         AccessControl = IAccessControl(AccessControlAddress);
@@ -33,8 +33,12 @@ abstract contract AccessUtils {
         return AccessControl.inquiryAdmin();
     }
 
+    function check(bytes32 permission, address account) internal virtual returns(bool) {
+        return AccessControl.inquiryAccountPermission(permission, account);
+    }
+
     modifier allowPermission(bytes32 permission) {
-        require(AccessControl.inquiryAccountPermission(permission, msg.sender));
+        require(AccessControl.inquiryAccountPermission(permission, msg.sender), "AccessControlUtilities: You have no permission to access this function.");
         _;
     }
 
