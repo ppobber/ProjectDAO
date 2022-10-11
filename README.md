@@ -15,7 +15,7 @@ Install Truffle suite and openzappelin by using the following commands
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/Holmes-Git/CS84-DAO.git
+$ git clone https://github.com/ppobber/ProjectDAO.git
 
 # Go into the repository
 $ cd CS84-DAO

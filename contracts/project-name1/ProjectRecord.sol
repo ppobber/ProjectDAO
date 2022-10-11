@@ -4,7 +4,7 @@ pragma solidity ^0.8.4;
 // import "../IAccessControl.sol";
 import "../AccessUtils.sol";
 
-contract ProjectRecord  {
+contract ProjectRecord is AccessUtils {
 
     bytes32 private constant riskLevelLow = keccak256(abi.encode("low"));
     bytes32 private constant riskLevelModerate = keccak256(abi.encode("moderate"));
@@ -30,9 +30,9 @@ contract ProjectRecord  {
     string private projectMgmtPlan;
     string private projectRiskPlan;
 
-    // constructor(address daoAccessControlAddress) {
-    //     initializeAccessControl(daoAccessControlAddress);
-    // }
+    constructor(address daoAccessControlAddress) {
+        initializeAccessControl(daoAccessControlAddress);
+    }
 
     function recordNPV(uint32 npvNow) public {
         //todo
