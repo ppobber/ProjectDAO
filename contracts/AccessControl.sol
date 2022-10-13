@@ -187,7 +187,7 @@ abstract contract AccessControl is IAccessControl{
     }
 
     function _transferAdmin(address account) internal virtual {
-        _allPermissions[ADMIN].members[msg.sender] = false;
+        _allPermissions[ADMIN].members[_inquiryAdmin()] = false;
         _changeAccountIndex(ADMIN, account);
         _allPermissions[ADMIN].members[account] = true;
         emit AdminTransfered(account, msg.sender);

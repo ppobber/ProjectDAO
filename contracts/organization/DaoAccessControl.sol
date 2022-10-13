@@ -69,6 +69,12 @@ contract DaoAccessControl is AccessControl{
     {
         return super._inquiryAccountPermission(permission, account);
     }
+    function inquiryAccountPermission(bytes32 projectPermission, bytes32 organizationPermission, address account) 
+        public view override allowPermission(STAFF) returns (bool) 
+    {
+        projectPermission;
+        return super._inquiryAccountPermission(organizationPermission, account);
+    }
 
     function inquiryAllAccountsByPermission(string memory permissionName) 
         public view override allowPermission(STAFF) returns (address[] memory, bool[] memory) 

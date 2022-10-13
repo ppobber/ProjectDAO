@@ -26,8 +26,12 @@ interface IAccessControl{
     // function _deleteAccount(address account) external;
     // function _transferAdmin(address account) external;
 
-    function inquiryAccountPermission(string memory permissionName, address account) external view returns (bool);
-    function inquiryAccountPermission(bytes32 permission, address account) external view returns (bool);
+    function inquiryAccountPermission(
+        string memory permissionName, address account) external view returns (bool);
+    function inquiryAccountPermission(
+        bytes32 permission, address account) external view returns (bool);
+    function inquiryAccountPermission(
+        bytes32 projectPermission, bytes32 organizationPermission, address account) external view returns (bool);
 
     function inquiryAllAccountsByPermission(
         string memory permissionName) external view returns (address[] memory,  bool[] memory);

@@ -64,10 +64,13 @@ contract ProjectAccessControl is AccessControl{
         super._deleteAccount(account);
     }
 
-    function transferAdmin(address account) 
+    //should update the administrator information
+    function transferAdmin(address account, string memory newAdminName, string memory newAdminEmail) 
         public allowPermission(ADMIN, ADMIN) 
     {
         super._transferAdmin(account);
+        adminName = newAdminName;
+        adminEmail = newAdminEmail;
     }
 
     function inquiryAccountPermission(string memory permissionName, address account) 
@@ -79,6 +82,15 @@ contract ProjectAccessControl is AccessControl{
         public view override allowPermission(STAFF, STAFF) returns (bool) 
     {
         return super._inquiryAccountPermission(permission, account);
+    }
+    function inquiryAccountPermission(bytes32 projectPermission, bytes32 organizationPermission, address account) 
+        public view override allowPermission(STAFF, STAFF) returns (bool) 
+    {
+        if (super._inquiryAccountPermission(projectPermission, account)) {
+            return true;
+        } else {
+            return daoAccessControl.inquiryAccountPermission(organizationPermission, account);
+        }
     }
 
     function inquiryAllAccountsByPermission(string memory permissionName) 
@@ -108,6 +120,12 @@ contract ProjectAccessControl is AccessControl{
         public view override allowPermission(STAFF, STAFF) returns (address) 
     {
         return super._inquiryAdmin();
+    }
+
+    function inquiryAdminInformation()
+        public view allowPermission(STAFF, STAFF) returns (string memory, string memory) 
+    {
+        return (adminName, adminEmail);
     }
 
 }
