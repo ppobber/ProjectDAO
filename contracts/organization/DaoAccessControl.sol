@@ -22,10 +22,10 @@ contract DaoAccessControl is AccessControl{
         super._createPermission(keccak256(bytes(permissionName)));
     }
 
-    function createPermissionByLevel(string memory permissionName, string memory permissionAlready) 
+    function createPermissionByLevel(string memory permissionName, string memory permissionOriginal) 
         public allowPermission(ACCESS_MANAGER) 
     {
-        super._createPermissionByLevel(keccak256(bytes(permissionName)), keccak256(bytes(permissionAlready)));
+        super._createPermissionByLevel(keccak256(bytes(permissionName)), keccak256(bytes(permissionOriginal)));
     }
 
     function deletePermission(string memory permissionName) 
@@ -53,7 +53,7 @@ contract DaoAccessControl is AccessControl{
     }
 
     function transferAdmin(address account) 
-        public allowPermission(ACCESS_MANAGER) 
+        public allowPermission(ADMIN) 
     {
         super._transferAdmin(account);
     }
@@ -71,31 +71,39 @@ contract DaoAccessControl is AccessControl{
     }
 
     function inquiryAllAccountsByPermission(string memory permissionName) 
-        public view override allowPermission(STAFF) returns (address[] memory) 
+        public view override allowPermission(STAFF) returns (address[] memory, bool[] memory) 
     {
         return super._inquiryAllAccountsByPermission(keccak256(bytes(permissionName)));
     }
     function inquiryAllAccountsByPermission(bytes32 permission) 
-        public view override allowPermission(STAFF) returns (address[] memory) 
+        public view override allowPermission(STAFF) returns (address[] memory, bool[] memory) 
     {
         return super._inquiryAllAccountsByPermission(permission);
     }
 
     function inquiryAllPermissionsByAccount(address account) 
-        public view override allowPermission(STAFF) returns (bytes32[] memory) 
+        public view override allowPermission(STAFF) returns (bytes32[] memory, bool[] memory) 
     {
         return super._inquiryAllPermissionsByAccount(account);
     }
 
-    function inquiryAdmin() public view override allowPermission(STAFF) returns (address) 
+    function inquiryAllPermissions() 
+        public view override allowPermission(STAFF) returns (bytes32[] memory, bool[] memory)
+    {
+        return super._inquiryAllPermissions();
+    }
+
+    function inquiryAdmin() 
+        public view override allowPermission(STAFF) returns (address) 
     {
         return super._inquiryAdmin();
     }
 
-    function outputStorage() public view override allowPermission(ADMIN)
-    {
-        return super._outputStorage();
-    }
+
+    // function outputStorage() public view override returns (string memory) 
+    // {
+    //     return super._outputStorage();
+    // }
 
 
 }
