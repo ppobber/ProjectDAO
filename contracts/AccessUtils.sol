@@ -15,31 +15,49 @@ abstract contract AccessUtils {
     bytes32 internal constant TOKEN_MANAGER = keccak256("TOKEN_MANAGER");
     bytes32 internal constant ACCESS_MANAGER = keccak256("ACCESS_MANAGER");
 
-
+    mapping(bytes32 => bytes32) internal _functionPermission;
 
     IAccessControl internal AccessControl;
 
-    // constructor(address AccessControlAddress) {
-    //     AccessControl = IAccessControl(AccessControlAddress);
-    // }
-
-    //todo, function of reseting permission
-
-    function initializeAccessControl(address AccessControlAddress) internal virtual {
+    function _initializeAccessControl(address AccessControlAddress) internal virtual {
         AccessControl = IAccessControl(AccessControlAddress);
     }
 
-    function getAdmin() internal virtual returns(address) {
+    function _getAdmin() internal virtual returns(address) {
         return AccessControl.inquiryAdmin();
     }
 
-    function check(bytes32 permission, address account) internal virtual returns(bool) {
+    function _checkAccountPermission(bytes32 permission, address account) internal virtual returns(bool) {
         return AccessControl.inquiryAccountPermission(permission, account);
     }
 
+    //Organizational contracts should use this.
     modifier allowPermission(bytes32 permission) {
-        require(AccessControl.inquiryAccountPermission(permission, msg.sender), "AccessControlUtilities: You have no permission to access this function.");
+        require(AccessControl.inquiryAccountPermission(
+            permission, msg.sender), "AccessControlUtilities: You have no permission to access this function.");
         _;
+    }
+
+    //Project contracts should use this.
+    modifier allowPermissions(bytes32 projectPermission, bytes32 organizationPermission) {
+        require(AccessControl.inquiryAccountPermission(
+            projectPermission, 
+            organizationPermission, 
+            msg.sender
+        ), "AccessControlUtilities: You have no permission to access this function.");
+        _;
+    }
+
+    function _initializeFunctionPermission(bytes32 functionBytes, bytes32 permission) internal virtual {
+        _functionPermission[functionBytes] = permission;
+    }
+
+    function _modifyFunctionPermission(bytes32 functionBytes, bytes32 permission) internal virtual {
+        _functionPermission[functionBytes] = permission;
+    }
+
+    function _getFunctionPermission(bytes32 functionBytes) internal virtual returns (bytes32) {
+        return _functionPermission[functionBytes];
     }
 
 
