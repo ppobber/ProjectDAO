@@ -186,19 +186,6 @@
 			"type": "event"
 		},
 		{
-			"anonymous": false,
-			"inputs": [
-				{
-					"indexed": true,
-					"internalType": "string",
-					"name": "log",
-					"type": "string"
-				}
-			],
-			"name": "StorageOutput",
-			"type": "event"
-		},
-		{
 			"inputs": [
 				{
 					"internalType": "string",
@@ -273,6 +260,11 @@
 					"internalType": "address[]",
 					"name": "",
 					"type": "address[]"
+				},
+				{
+					"internalType": "bool[]",
+					"name": "",
+					"type": "bool[]"
 				}
 			],
 			"stateMutability": "view",
@@ -292,6 +284,11 @@
 					"internalType": "address[]",
 					"name": "",
 					"type": "address[]"
+				},
+				{
+					"internalType": "bool[]",
+					"name": "",
+					"type": "bool[]"
 				}
 			],
 			"stateMutability": "view",
@@ -319,7 +316,13 @@
 		{
 			"inputs": [],
 			"name": "outputStorage",
-			"outputs": [],
+			"outputs": [
+				{
+					"internalType": "string",
+					"name": "",
+					"type": "string"
+				}
+			],
 			"stateMutability": "view",
 			"type": "function"
 		}

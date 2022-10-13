@@ -8,6 +8,14 @@ contract DaoTest is AccessControl {
 
     event someOutputs(string newValue);
 
+    struct aa {
+        mapping (bytes => bool) name;
+        uint isis;
+    }
+
+    mapping (uint => bool) tete;
+    mapping (uint => aa) tete2;
+
 
     function test(bool[] memory _accessibleRoles) public pure returns(bool)  {
         bool ifRoles = false;
@@ -36,6 +44,25 @@ contract DaoTest is AccessControl {
 
     function testBytes(bytes memory a) public {
         emit someOutputs(string(a));
+    }
+
+    function testReturn() public returns(mapping (uint => bool) memory) {
+        tete[1] = true;
+        tete[2] = false;
+        tete[3] = true;
+
+        return tete;
+    }
+
+    function testReturn2() public returns(mapping (uint => aa) memory) {
+        tete2[1].name["dfdf"] = true;
+        tete2[1].isis = 11;
+        tete2[2].name["dfdf"] = true;
+        tete2[2].isis = 11;
+        tete2[3].name["dfdf"] = true;
+        tete2[3].isis = 11;
+
+        return tete2;
     }
 
 

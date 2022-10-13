@@ -2,6 +2,7 @@
 pragma solidity ^0.8.4;
 
 import "./IAccessControl.sol";
+import "./StringUtils.sol";
 
 
 abstract contract AccessControl is IAccessControl{
@@ -9,7 +10,7 @@ abstract contract AccessControl is IAccessControl{
     struct MembersData {
         mapping(address => bool) members;
         mapping(uint => address) index;
-        uint length;
+        uint number;
         bool isValid;
     }
     mapping(bytes32 => MembersData) private _allPermissions;
@@ -33,12 +34,6 @@ abstract contract AccessControl is IAccessControl{
     bytes32 internal constant TOKEN_MANAGER = keccak256("TOKEN_MANAGER");
     bytes32 internal constant ACCESS_MANAGER = keccak256("ACCESS_MANAGER");
 
-
-    // modifier allowPermission(bytes32 permission) {
-    //     require(_check(permission, msg.sender), "AccessControl: You have no permission to access this function.");
-    //     _;
-    // }
-
     function _informFailure(string memory response) private pure {
         revert(
             string(
@@ -51,15 +46,11 @@ abstract contract AccessControl is IAccessControl{
     }
 
     function _check(bytes32 permission, address account) internal view virtual returns (bool) {
-        if(_allPermissions[permission].isValid == false) {
-            return false;
-        } else {
-            return _allPermissions[permission].members[account];
-        }
+        return _allPermissions[permission].members[account];
     }
 
     //if the permission has already exist but just set false, do not need to change the index
-    function _changePermissionIndex(bytes32 permission) private {
+    function _changePermissionIndex(bytes32 permission) private returns (bool) {
         bool isExist = false;
         for(uint i = 0; i < _numberOfPermissions; i++) {
             if(_indexOfPermissions[i] == permission) {
@@ -70,6 +61,9 @@ abstract contract AccessControl is IAccessControl{
         if(!isExist) {
             _indexOfPermissions[_numberOfPermissions] = permission;
             _numberOfPermissions++;
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -77,7 +71,7 @@ abstract contract AccessControl is IAccessControl{
         _allPermissions[permission].isValid = true;
         _allPermissions[permission].members[msg.sender] = true;
         _allPermissions[permission].index[0] = msg.sender;
-        _allPermissions[permission].length = 1;
+        _allPermissions[permission].number = 1;
         _indexOfPermissions[_numberOfPermissions] = permission;
         _numberOfPermissions++;
     }
@@ -92,52 +86,50 @@ abstract contract AccessControl is IAccessControl{
     }
 
     function _createPermission(bytes32 permission) internal virtual {
-        // bytes32 permission = keccak256(bytes(permissionName));
-        if (!_allPermissions[permission].isValid) {
-            _changePermissionIndex(permission);
-            _allPermissions[permission].isValid = true;
-            //Every permissions should contain ADMIN all the time.
-            for(uint i = 0; i < _allPermissions[ADMIN].length; i++) {
-                address indexOfAddress = _allPermissions[ADMIN].index[i];
-                _allPermissions[permission].members[indexOfAddress] = _allPermissions[ADMIN].members[indexOfAddress];
-                _allPermissions[permission].index[i] = indexOfAddress;
-            }
-            _allPermissions[permission].length = _allPermissions[ADMIN].length;
-            emit PermissionCreated(permission, msg.sender);
-        } else {
-            _informFailure("The permission has alreay exist.");
-        }
+        //Every permissions should contain ADMIN all the time.
+        _create(permission, ADMIN);
     }
 
     //create a new permission based on a permission already exist.
     //it is good for quick create some similar permissions.
-    function _createPermissionByLevel(bytes32 permission, bytes32 permissionA) internal virtual {
-        // bytes32 permission = keccak256(bytes(permissionName));
-        // bytes32 permissionA = keccak256(bytes(permissionAlready));
+    function _createPermissionByLevel(bytes32 permission, bytes32 permissionOriginal) internal virtual {
+        _create(permission, permissionOriginal);
+    }
+
+    function _create(bytes32 permission, bytes32 permissionA) private {
         if (!_allPermissions[permission].isValid) {
-            _changePermissionIndex(permission);
             _allPermissions[permission].isValid = true;
-            //copy data from permissionAlready
-            for(uint i = 0; i < _allPermissions[permissionA].length; i++) {
-                address indexOfAddress = _allPermissions[permissionA].index[i];
-                _allPermissions[permission].members[indexOfAddress] = _allPermissions[permissionA].members[indexOfAddress];
-                _allPermissions[permission].index[i] = indexOfAddress;
+            if(_changePermissionIndex(permission)) {
+                //copy data from permissionA
+                for(uint i = 0; i < _allPermissions[permissionA].number; i++) {
+                    address indexOfAddress = _allPermissions[permissionA].index[i];
+                    _allPermissions[permission].members[indexOfAddress] = _allPermissions[permissionA].members[indexOfAddress];
+                    _allPermissions[permission].index[i] = indexOfAddress;
+                }
+                _allPermissions[permission].number = _allPermissions[permissionA].number;
+            } else {
+                for(uint i = 0; i < _allPermissions[permissionA].number; i++) {
+                    address indexOfAddress = _allPermissions[permissionA].index[i];
+                    _allPermissions[permission].members[indexOfAddress] = _allPermissions[permissionA].members[indexOfAddress];
+                    _changeAccountIndex(permission, indexOfAddress);
+                }
+                _allPermissions[permission].number += _allPermissions[permissionA].number;
             }
-            _allPermissions[permission].length = _allPermissions[permissionA].length;
-            emit PermissionCreated(permission, msg.sender);
+            emit PermissionCreated(permission, permissionA, msg.sender);
         } else {
             _informFailure("The permission has alreay exist.");
         }
     }
 
     function _deletePermission(bytes32 permission) internal virtual {
-        // bytes32 permission = keccak256(bytes(permissionName));
         if (_allPermissions[permission].isValid && permission != ADMIN) {
-            //isValid to false will not change the index of _allPermissions.
+            for(uint i = 0; i < _allPermissions[permission].number; i++) {
+                _allPermissions[permission].members[_allPermissions[permission].index[i]] = false;
+            }
             _allPermissions[permission].isValid = false;
             emit PermissionDeleted(permission, msg.sender);
         } else {
-            _informFailure("The permission is not valid.");
+            _informFailure("The permission is not valid or the permission is ADMIN.");
         }
     }
 
@@ -145,21 +137,20 @@ abstract contract AccessControl is IAccessControl{
         //to check if the account has already existed
         //If it has then the index don't need to change, otherwise the index need to add it
         bool isExist = false;
-        for(uint i = 0; i < _allPermissions[permission].length; i++) {
+        for(uint i = 0; i < _allPermissions[permission].number; i++) {
             if(_allPermissions[permission].index[i] == account) {
                 isExist = true;
                 break;
             }
         }
         if(!isExist) {
-            _allPermissions[permission].index[_allPermissions[permission].length] = account;
-            _allPermissions[permission].length++;
+            _allPermissions[permission].index[_allPermissions[permission].number] = account;
+            _allPermissions[permission].number++;
         }
     }
 
     //grant permission to someone, only access manager (and admin) can access
     function _grantAccountPermission(bytes32 permission, address account) internal virtual {
-        // bytes32 permission = keccak256(bytes(permissionName));
         //have to createPermission first, and then to grantAccountPermission
         if (_allPermissions[permission].isValid && permission != ADMIN) {
             _changeAccountIndex(permission, account);
@@ -172,8 +163,7 @@ abstract contract AccessControl is IAccessControl{
 
     //revoke permission of someone, only access manager (and admin) can access
     function _revokeAccountPermission(bytes32 permission, address account) internal virtual {
-        // bytes32 permission = keccak256(bytes(permissionName));
-        if (_check(permission, account) && permission != ADMIN) {
+        if (_check(permission, account) && !_check(ADMIN, account)) {
             _allPermissions[permission].members[account] = false;
             emit PermissionRevoked(permission, account, msg.sender);
         } else {
@@ -183,8 +173,7 @@ abstract contract AccessControl is IAccessControl{
 
     //set account to false in every permissions
     function _deleteAccount(address account) internal virtual {
-        //if the account is ADMIN and msg.sender is not ADMIN, it cannot change
-        if(!_check(ADMIN, account) || _check(ADMIN, msg.sender)) {
+        if(!_check(ADMIN, account)) {
             //start from 1, becasue _indexOfPermissions[0] is ADMIN
             for(uint i = 1; i < _numberOfPermissions; i++) {
                 if(_allPermissions[_indexOfPermissions[i]].members[account]){
@@ -210,44 +199,70 @@ abstract contract AccessControl is IAccessControl{
         internal view virtual 
         returns (bool) 
     {
-        return _check(permission, account);
-    }
-
-    function _inquiryAllPermissionsByAccount(address account) 
-        internal view virtual 
-        returns (bytes32[] memory) 
-    {
-        bytes32[] memory relatedPermissions;
-        uint j = 0;
-        for(uint i = 0; i < _numberOfPermissions; i++) {
-            if(_allPermissions[_indexOfPermissions[i]].members[account]) {
-                relatedPermissions[j] = _indexOfPermissions[i];
-                j++;
-            }
+        if(!_allPermissions[permission].isValid) {
+            return false;
+        } else {
+            return _check(permission, account);
         }
-        return relatedPermissions;
     }
 
+    //ingore if the permission is valid or not.
     function _inquiryAllAccountsByPermission(bytes32 permission) 
         internal view virtual 
-        returns (address[] memory) 
+        returns (address[] memory, bool[] memory) 
     {
-        address[] memory relatedAccounts;
-        // bytes32 permission = keccak256(bytes(permissionName));
-        uint j = 0;
-        for(uint i = 0; i < _allPermissions[permission].length; i++) {
+        uint length = _allPermissions[permission].number;
+        address[] memory relatedAccounts = new address[](length);
+        bool[] memory relatedIsVailds = new bool[](length);
+        // uint j = 0;
+        for(uint i = 0; i < length; i++) {
             //Will not output members who are false.
-            if(_allPermissions[permission].members[_allPermissions[permission].index[i]]) {
-                relatedAccounts[j] = _allPermissions[permission].index[i];
-                j++;
-            }
+            relatedAccounts[i] = _allPermissions[permission].index[i];
+            relatedIsVailds[i] = _allPermissions[permission].members[_allPermissions[permission].index[i]];
+            // if(_allPermissions[permission].members[_allPermissions[permission].index[i]]) {
+            //     relatedAccounts[j] = _allPermissions[permission].index[i];
+            //     j++;
+            // }
         }
-        return relatedAccounts;
+        return (relatedAccounts, relatedIsVailds);
     }
 
-    function _inquiryAdmin() internal view virtual returns (address) {
+    //ingore if permissions are valid of not.
+    function _inquiryAllPermissionsByAccount(address account) 
+        internal view virtual 
+        returns (bytes32[] memory, bool[] memory) 
+    {
+        bytes32[] memory relatedPermissions = new bytes32[](_numberOfPermissions);
+        bool[] memory relatedIsVailds = new bool[](_numberOfPermissions);
+        // uint j = 0;
+        for(uint i = 0; i < _numberOfPermissions; i++) {
+            relatedPermissions[i] = _indexOfPermissions[i];
+            relatedIsVailds[i] = _allPermissions[_indexOfPermissions[i]].members[account];
+            // if(_allPermissions[_indexOfPermissions[i]].members[account]) {
+            //     relatedPermissions[j] = _indexOfPermissions[i];
+            //     j++;
+            // }
+        }
+        return (relatedPermissions, relatedIsVailds);
+    }
+
+    function _inquiryAllPermissions() 
+        internal view virtual 
+        returns (bytes32[] memory, bool[] memory) 
+    {
+        bytes32[] memory relatedPermissions = new bytes32[](_numberOfPermissions);
+        bool[] memory relatedIsVailds = new bool[](_numberOfPermissions);
+        for(uint i = 0; i < _numberOfPermissions; i++) {
+            relatedPermissions[i] = _indexOfPermissions[i];
+            relatedIsVailds[i] = _allPermissions[_indexOfPermissions[i]].isValid;
+        }
+        return (relatedPermissions, relatedIsVailds);
+    }
+
+    function _inquiryAdmin() internal view virtual returns (address) 
+    {
         uint i = 0;
-        for(; i < _allPermissions[ADMIN].length; i++) {
+        for(; i < _allPermissions[ADMIN].number; i++) {
             if(_allPermissions[ADMIN].members[_allPermissions[ADMIN].index[i]]) {
                 break;
             }
@@ -255,12 +270,44 @@ abstract contract AccessControl is IAccessControl{
         return _allPermissions[ADMIN].index[i];
     }
 
-    function _outputStorage() internal view virtual {
-        string memory log;
 
-        //todo
-        
-        // emit StorageOutput();
+    //For test, output _allPermissions completely as json
+    function _outputStorage() internal view virtual returns(string memory) {
+        string memory storageJson = "{";
+
+        // uint[] mutiLength;
+
+        // for(uint i = 0; i < _numberOfPermissions; i++) {
+        //     bytes32 permission = _indexOfPermissions[i];
+        //     uint oneLength = _allPermissions[permission].length;
+        //     bool oneIsValid = _allPermissions[permission].isValid;
+        //     storageJson = StringUtils.strConcat(storageJson, "\"length\":\"");
+            // storageJson = StringUtils.strConcat(storageJson, StringUtils.toString(oneLength));
+            // storageJson = StringUtils.strConcat(storageJson, "\",\"isValid\":");
+            // if (oneIsValid) {
+            //     storageJson = StringUtils.strConcat(storageJson, "true,\"members\":{");
+            // } else {
+            //     storageJson = StringUtils.strConcat(storageJson, "false,\"members\":{");
+            // }
+
+            // for(uint j = 0; j < oneLength; j++) {
+            //     address oneAddress = _allPermissions[permission].index[j];
+            //     bool oneBool = _allPermissions[permission].members[_allPermissions[permission].index[j]];
+                // storageJson = StringUtils.strConcat(storageJson, "\"");
+                // storageJson = StringUtils.strConcat(storageJson, StringUtils.toString(oneAddress));
+                // storageJson = StringUtils.strConcat(storageJson, "\":");
+                // if (oneBool) {
+                //     storageJson = StringUtils.strConcat(storageJson, "true,");
+                // } else {
+                //     storageJson = StringUtils.strConcat(storageJson, "false,");
+                // }
+                // storageJson = StringUtils.strConcat(storageJson, "}},");
+            // }
+        // }
+        // storageJson = StringUtils.strConcat(storageJson, "}");
+
+
+        return(storageJson);
     }
 
 

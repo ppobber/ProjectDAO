@@ -137,19 +137,6 @@
 				"type": "event"
 			},
 			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": true,
-						"internalType": "string",
-						"name": "log",
-						"type": "string"
-					}
-				],
-				"name": "StorageOutput",
-				"type": "event"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "string",
@@ -299,6 +286,11 @@
 						"internalType": "address[]",
 						"name": "",
 						"type": "address[]"
+					},
+					{
+						"internalType": "bool[]",
+						"name": "",
+						"type": "bool[]"
 					}
 				],
 				"stateMutability": "view",
@@ -318,6 +310,29 @@
 						"internalType": "address[]",
 						"name": "",
 						"type": "address[]"
+					},
+					{
+						"internalType": "bool[]",
+						"name": "",
+						"type": "bool[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "inquiryAllPermissions",
+				"outputs": [
+					{
+						"internalType": "bytes32[]",
+						"name": "",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "bool[]",
+						"name": "",
+						"type": "bool[]"
 					}
 				],
 				"stateMutability": "view",
@@ -337,15 +352,13 @@
 						"internalType": "bytes32[]",
 						"name": "",
 						"type": "bytes32[]"
+					},
+					{
+						"internalType": "bool[]",
+						"name": "",
+						"type": "bool[]"
 					}
 				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "outputStorage",
-				"outputs": [],
 				"stateMutability": "view",
 				"type": "function"
 			},
@@ -409,27 +422,35 @@
 	},
 	"sources": {
 		"contracts/AccessControl.sol": {
-			"keccak256": "0xf59d77ac8444802580b24f5fb6db3ee675a703ab48d5fed8d9b64446893c0837",
+			"keccak256": "0xc1bb6db0fb8bf143a21a76d53fc40f25b851b62222396c13f98deed48c129a26",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://35159315b2523228e55666791e4aefc8dcb68084e8d1e2f1640440b8c88deb74",
-				"dweb:/ipfs/QmYF6UNzV9S8svWisbDWFegeZoDmm6A91K1wUYqzrsY5Yc"
+				"bzz-raw://89a1993c5522b0487198dcd21a90fc5abc744b6c84d944106c0ff0bd2a0548cd",
+				"dweb:/ipfs/QmVicc9pJaDCuxqwDe7GpWQQSsMLBUU49XosjGh3yGinVr"
 			]
 		},
 		"contracts/IAccessControl.sol": {
-			"keccak256": "0x8a28b3d97546389b653d58009af95f88e06e141248ec9737d80a6c53f5f3279c",
+			"keccak256": "0x4ba7d76434dc685b1d3a71ca8e6e230a84512087c24e0fcd250a66a49a955c71",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://9b3fda85ee04b4ebb9c77393cb5a337b52820dc659b1c8db22a5a9e1414c8846",
-				"dweb:/ipfs/QmRekLGBCmdTkq9LmWuNT59kjf5zFoy2oiyqyAwQj79Ux6"
+				"bzz-raw://b3552538fd58b27f41c7a98de9a356ec0ccca7ee9cddb8f3050325d70c781459",
+				"dweb:/ipfs/QmNpjRiQZBqMekj2d5Vuunhans11PZu2LnBxiatt5REmHu"
+			]
+		},
+		"contracts/StringUtils.sol": {
+			"keccak256": "0x8cebec8cded290820bbd1ea822d4167202f78e2d0c4f40c1647ff7e33e45e5ef",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://76cf1af66f690b88ff52d85a029f6b59d89f375ab8eed8b45aa0f6af7f891175",
+				"dweb:/ipfs/QmRSW9N1hTm6rYiCEwkKWqe4jndDN125TattDodst48Fxj"
 			]
 		},
 		"contracts/organization/DaoAccessControl.sol": {
-			"keccak256": "0x066d014a6eca1fe8f49faebebd1ae0a1a44867a2e24782fe0f02b9c8e6519334",
+			"keccak256": "0x54584474df316854921dc00cdcf6c1a72850ff154595fccc84ba1c0e1f837962",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f088a84833f2a0a75500138f5f5afcd10c33f74a94bb785c5c40afee33c33487",
-				"dweb:/ipfs/QmWXPny4ATSpWpzgdteFgCGhecDcdaUpXSVqB9gBVugXcn"
+				"bzz-raw://6f2bb59c50485583d788c58da42a51eebae6e0a8818d42c4636d91742b28b97c",
+				"dweb:/ipfs/QmXwPyu5QZCZk4GEH2mhDanAAyLeF5ezjZikEFTG4c81we"
 			]
 		}
 	},

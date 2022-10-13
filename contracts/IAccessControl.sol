@@ -3,7 +3,7 @@ pragma solidity ^0.8.4;
 
 interface IAccessControl{
 
-    event PermissionCreated(bytes32 indexed permissionName, address indexed sender);
+    event PermissionCreated(bytes32 indexed permissionName, bytes32 indexed permissionOriginal, address indexed sender);
 
     event PermissionDeleted(bytes32 indexed permissionName, address indexed sender);
 
@@ -15,7 +15,7 @@ interface IAccessControl{
 
     event AdminTransfered(address indexed newAdmin, address indexed previousAdmin);
 
-    event StorageOutput(string indexed log);
+    // event StorageOutput(string indexed storageJson);
 
     
     // function _createPermission(bytes32 permission) external;
@@ -29,13 +29,18 @@ interface IAccessControl{
     function inquiryAccountPermission(string memory permissionName, address account) external view returns (bool);
     function inquiryAccountPermission(bytes32 permission, address account) external view returns (bool);
 
-    function inquiryAllAccountsByPermission(string memory permissionName) external view returns (address[] memory);
-    function inquiryAllAccountsByPermission(bytes32 permission) external view returns (address[] memory);
+    function inquiryAllAccountsByPermission(
+        string memory permissionName) external view returns (address[] memory,  bool[] memory);
+    function inquiryAllAccountsByPermission(
+        bytes32 permission) external view returns (address[] memory,  bool[] memory);
 
-    function inquiryAllPermissionsByAccount(address account) external view returns (bytes32[] memory);
+    function inquiryAllPermissionsByAccount(
+        address account) external view returns (bytes32[] memory, bool[] memory);
+
+    function inquiryAllPermissions() external view returns (bytes32[] memory, bool[] memory);
 
     function inquiryAdmin() external view returns (address);
 
-    function outputStorage() external view;
+    // function outputStorage() external view returns (string memory);
 
 }
