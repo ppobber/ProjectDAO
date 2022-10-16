@@ -1,53 +1,148 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
+// import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+// import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+// import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 
 import "../AccessUtils.sol";
 
-contract DaoToken is AccessUtils, ERC20, ERC20Burnable, ERC20Permit, ERC20Votes {
+contract DaoToken is AccessUtils, ERC20Votes {
     
-    string internal constant TokenName = "DAOTOKEN";
-    string internal constant TokenSymbol = "DTK";
+    // string internal constant TokenName = "";
+    // string internal constant TokenSymbol = "";
 
 
-
-    constructor(address daoAccessControlAddress) ERC20(TokenName, TokenSymbol) ERC20Permit(TokenName) {
-        initializeAccessControl(daoAccessControlAddress);
-        _mint(getAdmin(), 100 * 10 ** decimals());
-    }
-
-
-    function mint(address to, uint256 amount) public allowPermission(TOKEN_MANAGER) {
-        _mint(to, amount);
-    }
-
-// The following functions are overrides required by Solidity.
-
-    function _afterTokenTransfer(address from, address to, uint256 amount)
-        internal
-        override(ERC20, ERC20Votes)
+    constructor(address daoAccessControlAddress, string memory TokenName, string memory TokenSymbol) 
+        ERC20(TokenName, TokenSymbol) ERC20Permit(TokenName) 
     {
-        super._afterTokenTransfer(from, to, amount);
+        _initializeAccessControl(daoAccessControlAddress);
     }
 
-    function _mint(address to, uint256 amount)
-        internal
-        override(ERC20, ERC20Votes)
+    //IERC20
+    function totalSupply() 
+        public view override allowPermission(TOKEN_MANAGER) returns (uint256) 
     {
-        super._mint(to, amount);
+        return super.totalSupply();
     }
 
-    function _burn(address account, uint256 amount)
-        internal
-        override(ERC20, ERC20Votes)
+    function balanceOf(address account) 
+        public view override allowPermission(TOKEN_MANAGER) returns (uint256) 
     {
-        super._burn(account, amount);
+        return super.balanceOf(account);
     }
 
+    function transfer(address to, uint256 amount) 
+        public override allowPermission(TOKEN_MANAGER) returns (bool) 
+    {
+        return super.transfer(to, amount);
+    }
+
+    function allowance(address owner, address spender) 
+        public view override allowPermission(TOKEN_MANAGER) returns (uint256) 
+    {
+        return super.allowance(owner, spender);
+    }
+
+    function approve(address spender, uint256 amount) 
+        public override allowPermission(TOKEN_MANAGER) returns (bool) 
+    {
+        return super.approve(spender, amount);
+    }
+
+    function transferFrom(address from, address to, uint256 amount) 
+        public override allowPermission(TOKEN_MANAGER) returns (bool) 
+    {
+        return super.transferFrom(from, to, amount);
+    }
+
+    //IERC20Metadata
+    function name() 
+        public view override allowPermission(TOKEN_MANAGER) returns (string memory) 
+    {
+        return super.name();
+    }
+
+    function symbol() 
+        public view override allowPermission(TOKEN_MANAGER) returns (string memory) 
+    {
+        return super.symbol();
+    }
+
+    function decimals() 
+        public view override allowPermission(TOKEN_MANAGER) returns (uint8) 
+    {
+        return super.decimals();
+    }
+
+    //IVotes
+    function getVotes(address account) 
+        public view override allowPermission(TOKEN_MANAGER) returns (uint256) 
+    {
+        return super.getVotes(account);
+    }
+
+    function getPastVotes(address account, uint256 blockNumber) 
+        public view override allowPermission(TOKEN_MANAGER) returns (uint256) 
+    {
+        return super.getPastVotes(account, blockNumber);
+    }
+
+    function getPastTotalSupply(uint256 blockNumber) 
+        public view override allowPermission(TOKEN_MANAGER) returns (uint256)
+    {
+        return super.getPastTotalSupply(blockNumber);
+    }
+
+    function delegates(address account) 
+        public view override allowPermission(TOKEN_MANAGER) returns (address) 
+    {
+        return super.delegates(account);
+    }
+
+    function delegate(address delegatee) 
+        public override allowPermission(TOKEN_MANAGER)
+    {
+        return super.delegate(delegatee);
+    }
+
+    function delegateBySig(
+        address delegatee,
+        uint256 nonce,
+        uint256 expiry,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) public override allowPermission(TOKEN_MANAGER) {
+        return super.delegateBySig(delegatee, nonce, expiry, v, r, s);
+    }
+
+    //cannot access by interface
+    function increaseAllowance(address spender, uint256 addedValue) 
+        public override allowPermission(TOKEN_MANAGER) returns (bool) 
+    {
+        return super.increaseAllowance(spender, addedValue);
+    }
+
+    function decreaseAllowance(address spender, uint256 subtractedValue) 
+        public override allowPermission(TOKEN_MANAGER) returns (bool) 
+    {
+        return super.decreaseAllowance(spender, subtractedValue);
+    }
+
+    //internal functions
+    function mint(address account, uint256 amount) 
+        public allowPermission(TOKEN_MANAGER) 
+    {
+        _mint(account, amount);
+    }
+
+    function burn(address account, uint256 amount) 
+        public allowPermission(TOKEN_MANAGER) 
+    {
+        _burn(account, amount);
+    }
 
 
 }
