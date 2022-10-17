@@ -14,6 +14,7 @@ abstract contract AccessUtils {
 
     bytes32 internal constant TOKEN_MANAGER = keccak256("TOKEN_MANAGER");
     bytes32 internal constant ACCESS_MANAGER = keccak256("ACCESS_MANAGER");
+    bytes32 internal constant PROPOSAL_MANAGER = keccak256("PROPOSAL_MANAGER");
 
     mapping(bytes32 => bytes32) internal _functionPermission;
 
