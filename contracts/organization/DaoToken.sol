@@ -8,6 +8,8 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 
 import "../AccessUtils.sol";
 
+
+//some functions in ERC20 contract may not use because of the different architecture
 contract DaoToken is AccessUtils, ERC20Votes {
     
     // string internal constant TokenName = "";
@@ -22,7 +24,7 @@ contract DaoToken is AccessUtils, ERC20Votes {
 
     //IERC20
     function totalSupply() 
-        public view override allowPermission(TOKEN_MANAGER) returns (uint256) 
+        public view override allowPermission(STAFF) returns (uint256) 
     {
         return super.totalSupply();
     }
@@ -33,77 +35,93 @@ contract DaoToken is AccessUtils, ERC20Votes {
         return super.balanceOf(account);
     }
 
+    //STAFF can't transfer their token
     function transfer(address to, uint256 amount) 
-        public override allowPermission(TOKEN_MANAGER) returns (bool) 
+        public override allowPermission(STAFF) returns (bool) 
     {
+        require(false, "The function is not avaliable.");
         return super.transfer(to, amount);
     }
 
-    function allowance(address owner, address spender) 
-        public view override allowPermission(TOKEN_MANAGER) returns (uint256) 
+    //only TOKEN_MANAGER can transfer everyone's token
+    function transfer(address owner, address to, uint256 amount) 
+        public allowPermission(TOKEN_MANAGER)
     {
+        return super._transfer(owner, to, amount);
+    }
+
+    
+    function allowance(address owner, address spender) 
+        public view override allowPermission(STAFF) returns (uint256) 
+    {
+        require(false, "The function is not avaliable.");
         return super.allowance(owner, spender);
     }
 
     function approve(address spender, uint256 amount) 
-        public override allowPermission(TOKEN_MANAGER) returns (bool) 
+        public override allowPermission(STAFF) returns (bool) 
     {
+        require(false, "The function is not avaliable.");
         return super.approve(spender, amount);
     }
 
+
     function transferFrom(address from, address to, uint256 amount) 
-        public override allowPermission(TOKEN_MANAGER) returns (bool) 
+        public override allowPermission(STAFF) returns (bool) 
     {
+        require(false, "The function is not avaliable.");
         return super.transferFrom(from, to, amount);
     }
 
     //IERC20Metadata
     function name() 
-        public view override allowPermission(TOKEN_MANAGER) returns (string memory) 
+        public view override allowPermission(MEMBER) returns (string memory) 
     {
         return super.name();
     }
 
     function symbol() 
-        public view override allowPermission(TOKEN_MANAGER) returns (string memory) 
+        public view override allowPermission(MEMBER) returns (string memory) 
     {
         return super.symbol();
     }
 
     function decimals() 
-        public view override allowPermission(TOKEN_MANAGER) returns (uint8) 
+        public view override allowPermission(MEMBER) returns (uint8) 
     {
         return super.decimals();
     }
 
     //IVotes
     function getVotes(address account) 
-        public view override allowPermission(TOKEN_MANAGER) returns (uint256) 
+        public view override allowPermission(PROPOSAL_MANAGER) returns (uint256) 
     {
         return super.getVotes(account);
     }
 
     function getPastVotes(address account, uint256 blockNumber) 
-        public view override allowPermission(TOKEN_MANAGER) returns (uint256) 
+        public view override allowPermission(PROPOSAL_MANAGER) returns (uint256) 
     {
         return super.getPastVotes(account, blockNumber);
     }
 
     function getPastTotalSupply(uint256 blockNumber) 
-        public view override allowPermission(TOKEN_MANAGER) returns (uint256)
+        public view override allowPermission(PROPOSAL_MANAGER) returns (uint256)
     {
         return super.getPastTotalSupply(blockNumber);
     }
 
     function delegates(address account) 
-        public view override allowPermission(TOKEN_MANAGER) returns (address) 
+        public view override allowPermission(STAFF) returns (address) 
     {
+        require(false, "The function is not avaliable.");
         return super.delegates(account);
     }
 
     function delegate(address delegatee) 
-        public override allowPermission(TOKEN_MANAGER)
+        public override allowPermission(STAFF)
     {
+        require(false, "The function is not avaliable.");
         return super.delegate(delegatee);
     }
 
@@ -114,20 +132,22 @@ contract DaoToken is AccessUtils, ERC20Votes {
         uint8 v,
         bytes32 r,
         bytes32 s
-    ) public override allowPermission(TOKEN_MANAGER) {
+    ) public override allowPermission(STAFF) {
         return super.delegateBySig(delegatee, nonce, expiry, v, r, s);
     }
 
     //cannot access by interface
     function increaseAllowance(address spender, uint256 addedValue) 
-        public override allowPermission(TOKEN_MANAGER) returns (bool) 
+        public override allowPermission(STAFF) returns (bool) 
     {
+        require(false, "The function is not avaliable.");
         return super.increaseAllowance(spender, addedValue);
     }
 
     function decreaseAllowance(address spender, uint256 subtractedValue) 
-        public override allowPermission(TOKEN_MANAGER) returns (bool) 
+        public override allowPermission(STAFF) returns (bool) 
     {
+        require(false, "The function is not avaliable.");
         return super.decreaseAllowance(spender, subtractedValue);
     }
 
