@@ -4,17 +4,15 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/governance/utils/IVotes.sol";
 import "@openzeppelin/contracts/governance/Governor.sol";
 
-// import "@openzeppelin/contracts/governance/extensions/GovernorTimelockControl.sol";
-
 import "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
-// import "@openzeppelin/contracts/governance/extensions/GovernorProposalThreshold.sol";
-// import "@openzeppelin/contracts/governance/extensions/GovernorPreventLateQuorum.sol";
+import "@openzeppelin/contracts/governance/extensions/GovernorPreventLateQuorum.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorSettings.sol";
+// import "@openzeppelin/contracts/governance/extensions/GovernorTimelockControl.sol";
 
 import "../AccessUtils.sol";
 
-contract DaoProposal is AccessUtils, GovernorVotesQuorumFraction, GovernorCountingSimple, GovernorSettings {
+contract DaoProposal is AccessUtils, GovernorVotesQuorumFraction, GovernorCountingSimple, GovernorPreventLateQuorum, GovernorSettings {
 
     // IVotes internal votes;
 
@@ -23,12 +21,14 @@ contract DaoProposal is AccessUtils, GovernorVotesQuorumFraction, GovernorCounti
         string memory domainSeparator,
         IVotes daoTokenAddress,
         uint256 quorumNumeratorValue,
+        uint64 initialVoteExtension,
         uint256 initialVotingDelay,
         uint256 initialVotingPeriod,
         uint256 initialProposalThreshold) 
         Governor(domainSeparator)
         GovernorVotes(daoTokenAddress)
         GovernorVotesQuorumFraction(quorumNumeratorValue) 
+        GovernorPreventLateQuorum(initialVoteExtension)
         GovernorSettings(
             initialVotingDelay, 
             initialVotingPeriod, 
@@ -41,6 +41,23 @@ contract DaoProposal is AccessUtils, GovernorVotesQuorumFraction, GovernorCounti
         public view override(Governor, GovernorSettings) returns (uint256) 
     {
         return super.proposalThreshold();
+    }
+
+    function proposalDeadline(uint256 proposalId) 
+        public view virtual override(Governor, GovernorPreventLateQuorum) returns (uint256) 
+    {
+        return super.proposalDeadline(proposalId);
+    }
+
+    function _castVote(
+        uint256 proposalId,
+        address account,
+        uint8 support,
+        string memory reason,
+        bytes memory params)
+        internal virtual override(Governor, GovernorPreventLateQuorum) returns (uint256) 
+    {
+        return super._castVote(proposalId, account, support, reason, params);
     }
 
     //Override by GovernorSettings
