@@ -28,8 +28,6 @@ contract ProjectRecord is PublicAccessUtils {
     uint32[] private npvList;
     bytes32[] private riskList;
 
-    bytes32 internal constant RECORD_MANAGER = keccak256("RECORD_MANAGER");
-
     string private _projectObjective;
     string private _projectBudget;
     string private _projectSchedule;
