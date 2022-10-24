@@ -31,6 +31,7 @@ module.exports = async function (deployer) {
     projectAdminEmail
   );
   projectAccessControl = await ProjectAccessControl.deployed();
+  daoAccessControl.grantAccountPermission("STAFF", projectAccessControl.address);
 
   await deployer.deploy(ProjectRecord, projectAccessControl.address);
   projectRecord = await ProjectRecord.deployed();
@@ -42,6 +43,9 @@ module.exports = async function (deployer) {
     projectTokenSymbol
   );
   projectToken = await ProjectToken.deployed();
+  
+  projectAccessControl.grantAccountPermission("STAFF", projectRecord.address);
+  projectAccessControl.grantAccountPermission("STAFF", projectToken.address);
 
 
   let outputInfo = {
