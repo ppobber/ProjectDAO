@@ -1,4 +1,4 @@
-contract('DaoAccessControl', function (accounts) {
+contract('Accounts', function (accounts) {
 
     const Zoe = accounts[0];
     const Yue = accounts[1];
