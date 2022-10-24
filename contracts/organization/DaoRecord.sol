@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "../AccessUtils.sol";
+import "../PublicAccessUtils.sol";
 
-contract DaoRecord is AccessUtils {
+contract DaoRecord is PublicAccessUtils {
 
     string[] private informationList;
 

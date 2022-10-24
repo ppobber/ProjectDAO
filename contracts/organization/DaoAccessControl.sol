@@ -2,13 +2,20 @@
 pragma solidity ^0.8.4;
 
 
-import "../AccessControl.sol";
+import "../PublicAccessControl.sol";
 
+/**
+* @title DaoAccessControl
+* @dev Access control contract for organization
+* @custom:dev-run-script D:\IndividualProgramme\Blockchain\ProjectDAO\test\DaoAccessControl.test.js
+*/
+contract DaoAccessControl is PublicAccessControl{
 
-contract DaoAccessControl is AccessControl{
+    string public daoName = "";
 
-    constructor() {
+    constructor(string memory Name) {
         _initialize();
+        daoName = Name;
     }
 
     modifier allowPermission(bytes32 permission) {
@@ -105,6 +112,11 @@ contract DaoAccessControl is AccessControl{
         return super._inquiryAdmin();
     }
 
+    function inquiryDaoName()
+        public view allowPermission(STAFF) returns (string memory) 
+    {
+        return daoName;
+    }
 
     // function outputStorage() public view override returns (string memory) 
     // {

@@ -2,9 +2,9 @@
 pragma solidity ^0.8.4;
 
 // import "../IAccessControl.sol";
-import "../AccessUtils.sol";
+import "../PublicAccessUtils.sol";
 
-contract ProjectRecord is AccessUtils {
+contract ProjectRecord is PublicAccessUtils {
 
     bytes32 private constant _riskLevelLow = keccak256(abi.encode("low"));
     bytes32 private constant _riskLevelModerate = keccak256(abi.encode("moderate"));

@@ -10,9 +10,9 @@ import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol
 import "@openzeppelin/contracts/governance/extensions/GovernorSettings.sol";
 // import "@openzeppelin/contracts/governance/extensions/GovernorTimelockControl.sol";
 
-import "../AccessUtils.sol";
+import "../PublicAccessUtils.sol";
 
-contract DaoProposal is AccessUtils, GovernorVotesQuorumFraction, GovernorCountingSimple, GovernorPreventLateQuorum, GovernorSettings {
+contract DaoProposal is PublicAccessUtils, GovernorVotesQuorumFraction, GovernorCountingSimple, GovernorPreventLateQuorum, GovernorSettings {
 
     // IVotes internal votes;
 

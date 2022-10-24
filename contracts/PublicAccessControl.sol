@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./IAccessControl.sol";
+import "./IPublicAccessControl.sol";
 import "./StringUtils.sol";
 
 
-abstract contract AccessControl is IAccessControl{
+abstract contract PublicAccessControl is IPublicAccessControl{
 
     struct MembersData {
         mapping(address => bool) members;

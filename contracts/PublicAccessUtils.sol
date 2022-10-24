@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./IAccessControl.sol";
+import "./IPublicAccessControl.sol";
 
-abstract contract AccessUtils {
+abstract contract PublicAccessUtils {
 
     bytes32 internal constant ADMIN = keccak256("ADMIN");
     bytes32 internal constant MANAGER = keccak256("MANAGER");
@@ -18,30 +18,30 @@ abstract contract AccessUtils {
 
     mapping(bytes32 => bytes32) internal _functionPermission;
 
-    IAccessControl internal AccessControl;
+    IPublicAccessControl internal PublicAccessControl;
 
     function _initializeAccessControl(address AccessControlAddress) internal virtual {
-        AccessControl = IAccessControl(AccessControlAddress);
+        PublicAccessControl = IPublicAccessControl(AccessControlAddress);
     }
 
     function _getAdmin() internal virtual returns(address) {
-        return AccessControl.inquiryAdmin();
+        return PublicAccessControl.inquiryAdmin();
     }
 
     function _checkAccountPermission(bytes32 permission, address account) internal virtual returns(bool) {
-        return AccessControl.inquiryAccountPermission(permission, account);
+        return PublicAccessControl.inquiryAccountPermission(permission, account);
     }
 
     //Organizational contracts should use this.
     modifier allowPermission(bytes32 permission) {
-        require(AccessControl.inquiryAccountPermission(
+        require(PublicAccessControl.inquiryAccountPermission(
             permission, msg.sender), "AccessControlUtilities: You have no permission to access this function.");
         _;
     }
 
     //Project contracts should use this.
     modifier allowPermissions(bytes32 projectPermission, bytes32 organizationPermission) {
-        require(AccessControl.inquiryAccountPermission(
+        require(PublicAccessControl.inquiryAccountPermission(
             projectPermission, 
             organizationPermission, 
             msg.sender

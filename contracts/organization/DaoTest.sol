@@ -46,24 +46,24 @@ contract DaoTest is AccessControl {
         emit someOutputs(string(a));
     }
 
-    function testReturn() public returns(mapping (uint => bool) memory) {
-        tete[1] = true;
-        tete[2] = false;
-        tete[3] = true;
+    // function testReturn() public returns(mapping (uint => bool) memory) {
+    //     tete[1] = true;
+    //     tete[2] = false;
+    //     tete[3] = true;
 
-        return tete;
-    }
+    //     return tete;
+    // }
 
-    function testReturn2() public returns(mapping (uint => aa) memory) {
-        tete2[1].name["dfdf"] = true;
-        tete2[1].isis = 11;
-        tete2[2].name["dfdf"] = true;
-        tete2[2].isis = 11;
-        tete2[3].name["dfdf"] = true;
-        tete2[3].isis = 11;
+    // function testReturn2() public returns(mapping (uint => aa) memory) {
+    //     tete2[1].name["dfdf"] = true;
+    //     tete2[1].isis = 11;
+    //     tete2[2].name["dfdf"] = true;
+    //     tete2[2].isis = 11;
+    //     tete2[3].name["dfdf"] = true;
+    //     tete2[3].isis = 11;
 
-        return tete2;
-    }
+    //     return tete2;
+    // }
 
 
 

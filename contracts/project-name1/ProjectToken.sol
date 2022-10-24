@@ -3,9 +3,9 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 
-import "../AccessUtils.sol";
+import "../PublicAccessUtils.sol";
 
-contract ProjectToken is AccessUtils, ERC20Votes {
+contract ProjectToken is PublicAccessUtils, ERC20Votes {
     
     // string internal constant TokenName = "";
     // string internal constant TokenSymbol = "";

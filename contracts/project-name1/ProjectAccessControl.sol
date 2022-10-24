@@ -2,20 +2,20 @@
 pragma solidity ^0.8.4;
 
 
-import "../AccessControl.sol";
-import "../IAccessControl.sol";
+import "../PublicAccessControl.sol";
+import "../IPublicAccessControl.sol";
 
 
-contract ProjectAccessControl is AccessControl{
+contract ProjectAccessControl is PublicAccessControl{
 
-    IAccessControl private daoAccessControl;
+    IPublicAccessControl private daoAccessControl;
 
     string public adminName = "";
     string public adminEmail = "";
 
     constructor(address daoAccessControlAddress, string memory projectAdminName, string memory projectAdminEmail) {
         _initialize();
-        daoAccessControl = IAccessControl(daoAccessControlAddress);
+        daoAccessControl = IPublicAccessControl(daoAccessControlAddress);
         adminName = projectAdminName;
         adminEmail = projectAdminEmail;
     }

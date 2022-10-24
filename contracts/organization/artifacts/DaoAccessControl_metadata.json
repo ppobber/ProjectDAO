@@ -6,7 +6,13 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "daoAdminName",
+						"type": "string"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -55,6 +61,12 @@
 						"indexed": true,
 						"internalType": "bytes32",
 						"name": "permissionName",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "permissionOriginal",
 						"type": "bytes32"
 					},
 					{
@@ -137,6 +149,19 @@
 				"type": "event"
 			},
 			{
+				"inputs": [],
+				"name": "adminName",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "string",
@@ -158,7 +183,7 @@
 					},
 					{
 						"internalType": "string",
-						"name": "permissionAlready",
+						"name": "permissionOriginal",
 						"type": "string"
 					}
 				],
@@ -209,6 +234,35 @@
 				"name": "grantAccountPermission",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "projectPermission",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "organizationPermission",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "inquiryAccountPermission",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -267,6 +321,19 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "inquiryAdminName",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
 					}
 				],
 				"stateMutability": "view",
@@ -395,8 +462,11 @@
 			}
 		],
 		"devdoc": {
+			"custom:dev-run-script": "D:\\IndividualProgramme\\Blockchain\\ProjectDAO\\test\\DaoAccessControl.test.js",
+			"details": "Access control contract for organization",
 			"kind": "dev",
 			"methods": {},
+			"title": "DaoAccessControl",
 			"version": 1
 		},
 		"userdoc": {
@@ -421,20 +491,20 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/AccessControl.sol": {
-			"keccak256": "0xc1bb6db0fb8bf143a21a76d53fc40f25b851b62222396c13f98deed48c129a26",
+		"contracts/IPublicAccessControl.sol": {
+			"keccak256": "0xd24559202770adba9c38e0b2237d1baf3803e4d54102d702831c0a0721d8b71e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://89a1993c5522b0487198dcd21a90fc5abc744b6c84d944106c0ff0bd2a0548cd",
-				"dweb:/ipfs/QmVicc9pJaDCuxqwDe7GpWQQSsMLBUU49XosjGh3yGinVr"
+				"bzz-raw://17a1ace9f813a07f232d53710c0fcc6870277ab93a2cc317e175cb7cfb9831cc",
+				"dweb:/ipfs/QmUppJNR6X6SSjjY3TTK77Xa1gFcNJg8aezvywRUu89D7o"
 			]
 		},
-		"contracts/IAccessControl.sol": {
-			"keccak256": "0x4ba7d76434dc685b1d3a71ca8e6e230a84512087c24e0fcd250a66a49a955c71",
+		"contracts/PublicAccessControl.sol": {
+			"keccak256": "0x38b4d8c249ebed9c73f07b2392b9ed2d7adc1d7bf5c89302fc53b50ac0512cf2",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b3552538fd58b27f41c7a98de9a356ec0ccca7ee9cddb8f3050325d70c781459",
-				"dweb:/ipfs/QmNpjRiQZBqMekj2d5Vuunhans11PZu2LnBxiatt5REmHu"
+				"bzz-raw://83024aad635108e9cebe17c23bd4e892de2ce712e31334341d55597c080065d0",
+				"dweb:/ipfs/QmeBV41kcipLgRGdsLMxqaEV6pQmUYFwgcyfmcQ55k8ZRm"
 			]
 		},
 		"contracts/StringUtils.sol": {
@@ -446,11 +516,11 @@
 			]
 		},
 		"contracts/organization/DaoAccessControl.sol": {
-			"keccak256": "0x54584474df316854921dc00cdcf6c1a72850ff154595fccc84ba1c0e1f837962",
+			"keccak256": "0xb9db50637cd406c1202f0af54f4346adb1305390396e7a4191b7249ab394d07d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6f2bb59c50485583d788c58da42a51eebae6e0a8818d42c4636d91742b28b97c",
-				"dweb:/ipfs/QmXwPyu5QZCZk4GEH2mhDanAAyLeF5ezjZikEFTG4c81we"
+				"bzz-raw://b9e27366a3f7055c233c0bbc9952f641c5ded4f1c71c4cc2755aeea7b066d364",
+				"dweb:/ipfs/Qme2CgqvUAiy3RmYcx88qZZ3wyHM5mnpZTE9AeXdEmjwdo"
 			]
 		}
 	},

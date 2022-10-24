@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-interface IAccessControl{
+interface IPublicAccessControl{
 
     event PermissionCreated(bytes32 indexed permissionName, bytes32 indexed permissionOriginal, address indexed sender);
 

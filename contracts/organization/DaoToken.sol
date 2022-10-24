@@ -6,11 +6,11 @@ pragma solidity ^0.8.4;
 // import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 
-import "../AccessUtils.sol";
+import "../PublicAccessUtils.sol";
 
 
 //some functions in ERC20 contract may not use because of the different architecture
-contract DaoToken is AccessUtils, ERC20Votes {
+contract DaoToken is PublicAccessUtils, ERC20Votes {
     
     // string internal constant TokenName = "";
     // string internal constant TokenSymbol = "";
