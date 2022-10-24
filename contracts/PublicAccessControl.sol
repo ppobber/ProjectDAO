@@ -33,6 +33,7 @@ abstract contract PublicAccessControl is IPublicAccessControl{
     //..._MANAGER
     bytes32 internal constant TOKEN_MANAGER = keccak256("TOKEN_MANAGER");
     bytes32 internal constant ACCESS_MANAGER = keccak256("ACCESS_MANAGER");
+    bytes32 internal constant RECORD_MANAGER = keccak256("RECORD_MANAGER");
 
     function _informFailure(string memory response) private pure {
         revert(
@@ -81,6 +82,7 @@ abstract contract PublicAccessControl is IPublicAccessControl{
         _singleInit(ADMIN);
         _singleInit(ACCESS_MANAGER);
         _singleInit(TOKEN_MANAGER);
+        _singleInit(RECORD_MANAGER);
         _singleInit(STAFF);
         _singleInit(MEMBER);
     }

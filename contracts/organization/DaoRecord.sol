@@ -9,8 +9,6 @@ contract DaoRecord is PublicAccessUtils {
 
     event informationRecorded(address indexed sender, string indexed information);
 
-    bytes32 internal constant RECORD_MANAGER = keccak256("RECORD_MANAGER");
-
     bytes32 internal constant FUNC_recordInformation = keccak256("function recordInformation(string memory information)");
     bytes32 internal constant FUNC_inquiryInformation = keccak256("function inquiryInformation()");
 
@@ -38,6 +36,12 @@ contract DaoRecord is PublicAccessUtils {
         public allowPermission(_getFunctionPermission(FUNC_inquiryInformation)) returns(string[] memory) 
     {
         return informationList;
+    }
+
+    function inquiryTest() 
+        public view allowPermission(STAFF) returns(string memory) 
+    {
+        return "Call Success";
     }
 
 

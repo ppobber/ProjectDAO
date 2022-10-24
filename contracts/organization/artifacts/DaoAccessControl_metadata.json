@@ -9,7 +9,7 @@
 				"inputs": [
 					{
 						"internalType": "string",
-						"name": "daoAdminName",
+						"name": "Name",
 						"type": "string"
 					}
 				],
@@ -149,19 +149,6 @@
 				"type": "event"
 			},
 			{
-				"inputs": [],
-				"name": "adminName",
-				"outputs": [
-					{
-						"internalType": "string",
-						"name": "",
-						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "string",
@@ -190,6 +177,19 @@
 				"name": "createPermissionByLevel",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "daoName",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -327,19 +327,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "inquiryAdminName",
-				"outputs": [
-					{
-						"internalType": "string",
-						"name": "",
-						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "string",
@@ -430,6 +417,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "inquiryDaoName",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "string",
@@ -500,11 +500,11 @@
 			]
 		},
 		"contracts/PublicAccessControl.sol": {
-			"keccak256": "0x38b4d8c249ebed9c73f07b2392b9ed2d7adc1d7bf5c89302fc53b50ac0512cf2",
+			"keccak256": "0x47335ecf87108a0ab10d80cc8c5e5def2751fad57fdd8bb9baba0bd7ee0ca457",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://83024aad635108e9cebe17c23bd4e892de2ce712e31334341d55597c080065d0",
-				"dweb:/ipfs/QmeBV41kcipLgRGdsLMxqaEV6pQmUYFwgcyfmcQ55k8ZRm"
+				"bzz-raw://807975c53c1f9a521ce6bdfb856c64e0f4eb38fe3843f7d3c3c9350335e2b05d",
+				"dweb:/ipfs/QmXhKPCzbsCsXc6kjJ4ZKe9XdaCmEEjvSVzfRZWrGp3MiC"
 			]
 		},
 		"contracts/StringUtils.sol": {
@@ -516,11 +516,11 @@
 			]
 		},
 		"contracts/organization/DaoAccessControl.sol": {
-			"keccak256": "0xb9db50637cd406c1202f0af54f4346adb1305390396e7a4191b7249ab394d07d",
+			"keccak256": "0x53fe68a1d929612629ceed42b5ca7a89ba6848812b227bebe7b2402e31ea4297",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b9e27366a3f7055c233c0bbc9952f641c5ded4f1c71c4cc2755aeea7b066d364",
-				"dweb:/ipfs/Qme2CgqvUAiy3RmYcx88qZZ3wyHM5mnpZTE9AeXdEmjwdo"
+				"bzz-raw://3332d6f598dc145b200248b1e1c69d83b5c73bb5f7b3db42c17d8460328cf968",
+				"dweb:/ipfs/QmcX21CURs8qBM6E6ZvtAZy3UbBzKsWuBbGoRJX6ESiSwT"
 			]
 		}
 	},
