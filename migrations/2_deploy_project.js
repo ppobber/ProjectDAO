@@ -4,7 +4,6 @@ Create an Oganization
 
 const fs = require('fs-extra');
 
-// const keeper = require('./keeper');
 const DaoAccessControl = artifacts.require('./organization/DaoAccessControl');
 // const DaoRecord = artifacts.require('./organization/DaoRecord');
 // const DaoToken = artifacts.require('./organization/DaoToken');
@@ -44,15 +43,6 @@ module.exports = async function (deployer) {
   );
   projectToken = await ProjectToken.deployed();
 
-  // console.log(
-  //   'Project Acccess Control create at address: ',
-  //   keeper.projectAccessControl.address
-  // );
-  // console.log('Project Token create at address: ', keeper.projectToken.address);
-  // console.log(
-  //   'Project Record create at address: ',
-  //   keeper.projectRecord.address
-  // );
 
   let outputInfo = {
     "ProjectAccessControl": {
@@ -69,7 +59,6 @@ module.exports = async function (deployer) {
     }
   };
 
-  // console.log(outputInfo);
   await fs.writeFile("./migrations/deployedProject.json", JSON.stringify(outputInfo, null, "\t"));
 
 

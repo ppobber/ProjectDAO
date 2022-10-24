@@ -3,9 +3,7 @@ Create an Oganization
 */
 
 const fs = require('fs-extra');
-// const util = require('util');
 
-// const keeper = require('./keeper');
 const DaoAccessControl = artifacts.require('./organization/DaoAccessControl');
 const DaoRecord = artifacts.require('./organization/DaoRecord');
 const DaoToken = artifacts.require('./organization/DaoToken');
@@ -59,6 +57,10 @@ module.exports = async function (deployer) {
   //   initialProposalThreshold
   // )
   // daoProposal = await DaoProposal.deployed();
+
+  daoAccessControl.grantAccountPermission("STAFF", daoRecord.address);
+  daoAccessControl.grantAccountPermission("STAFF", daoToken.address);
+  // daoAccessControl.grantAccountPermission("STAFF", daoProposal.address);
 
   let outputInfo = {
     "DaoAccessControl": {
