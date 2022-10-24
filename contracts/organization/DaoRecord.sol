@@ -33,7 +33,7 @@ contract DaoRecord is PublicAccessUtils {
     }
 
     function inquiryInformation() 
-        public allowPermission(_getFunctionPermission(FUNC_inquiryInformation)) returns(string[] memory) 
+        public view returns(string[] memory) 
     {
         return informationList;
     }

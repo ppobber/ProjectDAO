@@ -28,12 +28,12 @@ contract ProjectRecord is PublicAccessUtils {
     uint32[] private npvList;
     bytes32[] private riskList;
 
-    string private _projectObjective;
-    string private _projectBudget;
-    string private _projectSchedule;
-    string private _projectROI;
-    string private _projectMgmtPlan;
-    string private _projectRiskPlan;
+    string private _projectObjective = "";
+    string private _projectBudget = "";
+    string private _projectSchedule= "";
+    string private _projectROI= "";
+    string private _projectMgmtPlan= "";
+    string private _projectRiskPlan= "";
 
     bytes32 internal constant FUNC_recordNPV = keccak256(
         "function recordNPV(uint32 npvNow)");
@@ -110,7 +110,7 @@ contract ProjectRecord is PublicAccessUtils {
     }
 
     function getNPV() 
-        public allowPermissions(_getFunctionPermission(FUNC_getNPV), STAFF) returns(uint32[] memory) 
+        public view returns(uint32[] memory) 
     {
         return npvList;
     }
@@ -141,7 +141,7 @@ contract ProjectRecord is PublicAccessUtils {
     }
 
     function getRisk() 
-        public allowPermissions(_getFunctionPermission(FUNC_getRisk), STAFF) returns(bytes32[] memory) 
+        public view returns(bytes32[] memory) 
     {
         return riskList;
     }
@@ -154,7 +154,7 @@ contract ProjectRecord is PublicAccessUtils {
     }
 
     function getProjectObjective() 
-        public allowPermissions(_getFunctionPermission(FUNC_getProjectObjective), STAFF) returns(string memory) 
+        public view returns(string memory) 
     {
         return _projectObjective;
     }
@@ -167,7 +167,7 @@ contract ProjectRecord is PublicAccessUtils {
     }
 
     function getProjectBudget() 
-        public allowPermissions(_getFunctionPermission(FUNC_getProjectBudget), STAFF) returns(string memory)
+        public view returns(string memory)
     {
         return _projectBudget;
     }
@@ -180,7 +180,7 @@ contract ProjectRecord is PublicAccessUtils {
     }
 
     function getProjectSchedule() 
-        public allowPermissions(_getFunctionPermission(FUNC_getProjectSchedule), STAFF) returns(string memory) 
+        public view returns(string memory) 
     {
         return _projectSchedule;
     }
@@ -193,7 +193,7 @@ contract ProjectRecord is PublicAccessUtils {
     }
 
     function getProjectROI() 
-        public allowPermissions(_getFunctionPermission(FUNC_getProjectROI), STAFF) returns(string memory) 
+        public view returns(string memory) 
     {
         return _projectROI;
     }
@@ -206,7 +206,7 @@ contract ProjectRecord is PublicAccessUtils {
     }
 
     function getProjectMgmtPlan() 
-        public allowPermissions(_getFunctionPermission(FUNC_getProjectMgmtPlan), STAFF) returns(string memory) 
+        public view returns(string memory) 
     {
         return _projectMgmtPlan;
     }
@@ -219,7 +219,7 @@ contract ProjectRecord is PublicAccessUtils {
     }
 
     function getProjectRiskPlan() 
-        public allowPermissions(_getFunctionPermission(FUNC_getProjectRiskPlan), STAFF) returns(string memory) 
+        public view returns(string memory) 
     {
         return _projectRiskPlan;
     }

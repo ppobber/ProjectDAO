@@ -1,12 +1,12 @@
 {
 	"DaoAccessControl": {
-		"address": "0x1B324519CE65bbCF7Bf160BcB635C682F9c6F39d"
+		"address": "0x7ad02bA547E4cb3598e394bf954B9Dc984ce9Bdb"
 	},
 	"DaoRecord": {
-		"address": "0x2c8997923f2D6b0a81E1AF375e97EF813877035B"
+		"address": "0x3210be95bC4D02208B6471C080e0851eB3A84758"
 	},
 	"DaoToken": {
-		"address": "0x1d7277F2Ae3BB3fcd9Df9B3872F070978538E1F8"
+		"address": "0x191ebbf9A57E0a0716D3f5f39e299fcFeB6D570d"
 	},
 	"DaoProposal": {}
 }
