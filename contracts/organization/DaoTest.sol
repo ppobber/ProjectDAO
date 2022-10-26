@@ -6,45 +6,45 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 contract DaoTest is AccessControl {
 
 
-    event someOutputs(string newValue);
+    // event someOutputs(string newValue);
 
-    struct aa {
-        mapping (bytes => bool) name;
-        uint isis;
-    }
+    // struct aa {
+    //     mapping (bytes => bool) name;
+    //     uint isis;
+    // }
 
-    mapping (uint => bool) tete;
-    mapping (uint => aa) tete2;
+    // mapping (uint => bool) tete;
+    // mapping (uint => aa) tete2;
 
 
-    function test(bool[] memory _accessibleRoles) public pure returns(bool)  {
-        bool ifRoles = false;
-        for (uint i = 0; i <_accessibleRoles.length; ++i) {
-            if (_accessibleRoles[i] == true) {
-                ifRoles = true;
-                break;
-            }
-        }
-        return(ifRoles);
-    }
+    // function test(bool[] memory _accessibleRoles) public pure returns(bool)  {
+    //     bool ifRoles = false;
+    //     for (uint i = 0; i <_accessibleRoles.length; ++i) {
+    //         if (_accessibleRoles[i] == true) {
+    //             ifRoles = true;
+    //             break;
+    //         }
+    //     }
+    //     return(ifRoles);
+    // }
 
-    function trydy() public {
-        bool[] memory accessibleRoles = new bool[](2);
-        accessibleRoles[0] = true;
-        accessibleRoles[1] = false;
+    // function trydy() public {
+    //     bool[] memory accessibleRoles = new bool[](2);
+    //     accessibleRoles[0] = true;
+    //     accessibleRoles[1] = false;
 
-        require(test(accessibleRoles), "this permission not from you");
+    //     require(test(accessibleRoles), "this permission not from you");
 
-        emit someOutputs("hello world.");
-    }
+    //     emit someOutputs("hello world.");
+    // }
 
-    function testString(string memory a) public {
-        emit someOutputs(a);
-    }
+    // function testString(string memory a) public {
+    //     emit someOutputs(a);
+    // }
 
-    function testBytes(bytes memory a) public {
-        emit someOutputs(string(a));
-    }
+    // function testBytes(bytes memory a) public {
+    //     emit someOutputs(string(a));
+    // }
 
     // function testReturn() public returns(mapping (uint => bool) memory) {
     //     tete[1] = true;

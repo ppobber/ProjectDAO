@@ -500,11 +500,11 @@
 			]
 		},
 		"contracts/PublicAccessControl.sol": {
-			"keccak256": "0x47335ecf87108a0ab10d80cc8c5e5def2751fad57fdd8bb9baba0bd7ee0ca457",
+			"keccak256": "0x562a8f4496d813831e5f5218b6af00957a30947be0210b3c05bfc62cde547498",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://807975c53c1f9a521ce6bdfb856c64e0f4eb38fe3843f7d3c3c9350335e2b05d",
-				"dweb:/ipfs/QmXhKPCzbsCsXc6kjJ4ZKe9XdaCmEEjvSVzfRZWrGp3MiC"
+				"bzz-raw://16100aa78e035185a9b8e0e7510208702262df1ce66d3078588808795f343bae",
+				"dweb:/ipfs/QmQLimCbAph2Uv9VHAg8g2W5RB7mXjdfsk15anXZj8gxie"
 			]
 		},
 		"contracts/StringUtils.sol": {

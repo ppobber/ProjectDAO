@@ -6,16 +6,11 @@ import "./IPublicAccessControl.sol";
 abstract contract PublicAccessUtils {
 
     bytes32 internal constant ADMIN = keccak256("ADMIN");
-    bytes32 internal constant MANAGER = keccak256("MANAGER");
+    // bytes32 internal constant MANAGER = keccak256("MANAGER");
     bytes32 internal constant STAFF = keccak256("STAFF");
     bytes32 internal constant MEMBER = keccak256("MEMBER");
 
-    bytes32 internal constant CONTRACT = keccak256("CONTRACT");
-
-    bytes32 internal constant TOKEN_MANAGER = keccak256("TOKEN_MANAGER");
-    bytes32 internal constant ACCESS_MANAGER = keccak256("ACCESS_MANAGER");
-    bytes32 internal constant PROPOSAL_MANAGER = keccak256("PROPOSAL_MANAGER");
-    bytes32 internal constant RECORD_MANAGER = keccak256("RECORD_MANAGER");
+    // bytes32 internal constant CONTRACT = keccak256("CONTRACT");
 
     mapping(bytes32 => bytes32) internal _functionPermission;
 

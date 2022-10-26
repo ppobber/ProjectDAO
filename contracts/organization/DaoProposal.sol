@@ -1,135 +1,195 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/governance/utils/IVotes.sol";
-import "@openzeppelin/contracts/governance/Governor.sol";
-
-import "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
-import "@openzeppelin/contracts/governance/extensions/GovernorPreventLateQuorum.sol";
+import "@openzeppelin/contracts/governance/extensions/GovernorVotes.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol";
-import "@openzeppelin/contracts/governance/extensions/GovernorSettings.sol";
-// import "@openzeppelin/contracts/governance/extensions/GovernorTimelockControl.sol";
 
 import "../PublicAccessUtils.sol";
 
-contract DaoProposal is PublicAccessUtils, GovernorVotesQuorumFraction, GovernorCountingSimple, GovernorPreventLateQuorum, GovernorSettings {
+contract DaoProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSimple {
 
-    // IVotes internal votes;
+    bytes32 internal constant PROPOSAL_MANAGER = keccak256("PROPOSAL_MANAGER");
+
+    uint256 private _votingDelay;
+    uint256 private _votingPeriod;
+    uint256 private _proposalThreshold;
 
     constructor(
         address daoAccessControlAddress, 
         string memory domainSeparator,
         IVotes daoTokenAddress,
-        uint256 quorumNumeratorValue,
-        uint64 initialVoteExtension,
         uint256 initialVotingDelay,
         uint256 initialVotingPeriod,
         uint256 initialProposalThreshold) 
         Governor(domainSeparator)
         GovernorVotes(daoTokenAddress)
-        GovernorVotesQuorumFraction(quorumNumeratorValue) 
-        GovernorPreventLateQuorum(initialVoteExtension)
-        GovernorSettings(
-            initialVotingDelay, 
-            initialVotingPeriod, 
-            initialProposalThreshold) 
     {
         _initializeAccessControl(daoAccessControlAddress);
+        _votingDelay = initialVotingDelay;
+        _votingPeriod = initialVotingPeriod;
+        _proposalThreshold = initialProposalThreshold;
     }
 
-    function proposalThreshold() 
-        public view override(Governor, GovernorSettings) returns (uint256) 
+    //user-config
+    function quorum(uint256 blockNumber) 
+        public view override allowPermission(STAFF) returns (uint256) 
     {
-        return super.proposalThreshold();
+        //Right now a single vote can make the proposal work.
+        blockNumber;
+        return 1;
+    }
+
+    //GovernorCountingSimple
+    function proposalVotes(uint256 proposalId)
+        public view override allowPermission(PROPOSAL_MANAGER)
+        returns (
+            uint256 againstVotes,
+            uint256 forVotes,
+            uint256 abstainVotes)
+    {
+        return super.proposalVotes(proposalId);
+    }
+
+
+    //IGovernor
+    function name()
+        public view override allowPermission(MEMBER) returns (string memory) 
+    {
+        return super.name();
+    }
+
+    // cannot add modifier because Governor.sol calls version() in constructor.
+    // function version() public view override returns (string memory) {
+    //     return super.version();
+    // }
+
+    function state(uint256 proposalId) 
+        public view override allowPermission(STAFF) returns (ProposalState) 
+    {
+        return super.state(proposalId);
+    }
+
+    function proposalSnapshot(uint256 proposalId) 
+        public view override allowPermission(STAFF) returns (uint256) 
+    {
+        return super.proposalSnapshot(proposalId);
     }
 
     function proposalDeadline(uint256 proposalId) 
-        public view virtual override(Governor, GovernorPreventLateQuorum) returns (uint256) 
+        public view override allowPermission(STAFF) returns (uint256)
     {
         return super.proposalDeadline(proposalId);
     }
 
-    function _castVote(
-        uint256 proposalId,
-        address account,
-        uint8 support,
-        string memory reason,
-        bytes memory params)
-        internal virtual override(Governor, GovernorPreventLateQuorum) returns (uint256) 
+    function votingDelay() 
+        public view override allowPermission(STAFF) returns (uint256) 
     {
-        return super._castVote(proposalId, account, support, reason, params);
+        return _votingDelay;
     }
 
-    //Override by GovernorSettings
-    // function votingDelay() 
-    //     public view override returns (uint256) 
-    // {
+    function votingPeriod() 
+        public view override allowPermission(STAFF) returns (uint256) 
+    {
+        return _votingPeriod;
+    }
 
+    function proposalThreshold() 
+        public view override allowPermission(STAFF) returns (uint256) 
+    {
+        return _proposalThreshold;
+    }
+
+    function getVotes(address account, uint256 blockNumber)  
+        public view override allowPermission(PROPOSAL_MANAGER) returns (uint256)
+    {
+        return super.getVotes(account, blockNumber);
+    }
+
+    function getVotesWithParams(
+        address account,
+        uint256 blockNumber,
+        bytes memory params) 
+        public view override allowPermission(PROPOSAL_MANAGER) returns (uint256) 
+    {
+        return super.getVotesWithParams(account, blockNumber, params);
+    }
+
+    function hasVoted(uint256 proposalId, address account) 
+        public view override(IGovernor, GovernorCountingSimple) 
+        allowPermission(STAFF) 
+        returns (bool) 
+    {
+        return super.hasVoted(proposalId, account);
+    }
+
+    function propose(
+        address[] memory targets,
+        uint256[] memory values,
+        bytes[] memory calldatas,
+        string memory description) 
+        public override allowPermission(STAFF) returns (uint256 proposalId) 
+    {
+        return super.propose(targets, values, calldatas, description);
+    }
+
+    function execute(
+        address[] memory targets,
+        uint256[] memory values,
+        bytes[] memory calldatas,
+        bytes32 descriptionHash) 
+        public payable override allowPermission(PROPOSAL_MANAGER) returns (uint256 proposalId)
+    {
+        return super.execute(targets, values, calldatas, descriptionHash);
+    }
+
+
+    // function castVote(uint256 proposalId, uint8 support) 
+    //     public override allowPermission(STAFF) returns (uint256 balance) 
+    // {
+    //     return super.castVote(proposalId, support);
     // }
 
-    //Override by GovernorSettings
-    // function votingPeriod() 
-    //     public view override returns (uint256) 
-    // {
-
-    // }
-
-    // Override by GovernorVotesQuorumFraction
-    // function quorum(uint256 blockNumber) 
-    //     public view override returns (uint256) 
-    // {
-
-    // }
-
-    //Override by GovernorVotes
-    // function _getVotes(
-    //     address account,
-    //     uint256 blockNumber,
-    //     bytes memory params) 
-    //     internal view override returns (uint256) 
-    // {
-
-    // }
-
-
-    //Override by GovernorCountingSimple
-    // function COUNTING_MODE() 
-    //     public pure override returns (string memory) 
-    // {
-
-    // }
-
-    //Override by GovernorCountingSimple
-    // function hasVoted(uint256 proposalId, address account) 
-    //     public view override returns (bool) 
-    // {
-
-    // }
-
-    //Override by GovernorCountingSimple
-    // function _quorumReached(uint256 proposalId) 
-    //     internal view override returns (bool) 
-    // {
-
-    // }
-
-    //Override by GovernorCountingSimple
-    // function _voteSucceeded(uint256 proposalId) 
-    //     internal view override returns (bool) 
-    // {
-
-    // }
-
-    //Override by GovernorCountingSimple
-    // function _countVote(
+    // function castVoteWithReason(
     //     uint256 proposalId,
-    //     address account,
     //     uint8 support,
-    //     uint256 weight,
-    //     bytes memory params
-    // ) internal override {
-        
+    //     string calldata reason) 
+    //     public override allowPermission(STAFF) returns (uint256 balance) 
+    // {
+    //     return super.castVoteWithReason(proposalId, support, reason);
     // }
 
+    // function castVoteWithReasonAndParams(
+    //     uint256 proposalId,
+    //     uint8 support,
+    //     string calldata reason,
+    //     bytes memory params) 
+    //     public override allowPermission(STAFF) returns (uint256 balance)
+    // {
+    //     return super.castVoteWithReasonAndParams(proposalId,support, reason, params);
+    // }
+
+    // function castVoteBySig(
+    //     uint256 proposalId,
+    //     uint8 support,
+    //     uint8 v,
+    //     bytes32 r,
+    //     bytes32 s) 
+    //     public override allowPermission(STAFF) returns (uint256 balance)
+    // {
+    //     return super.castVoteBySig(proposalId, support, v, r, s);
+    // }
+
+    // function castVoteWithReasonAndParamsBySig(
+    //     uint256 proposalId,
+    //     uint8 support,
+    //     string calldata reason,
+    //     bytes memory params,
+    //     uint8 v,
+    //     bytes32 r,
+    //     bytes32 s) 
+    //     public override allowPermission(STAFF) returns (uint256 balance) 
+    // {
+    //     return super.castVoteWithReasonAndParamsBySig(proposalId, support, reason, params, v, r, s);
+    // }
 
 }

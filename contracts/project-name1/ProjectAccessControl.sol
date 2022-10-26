@@ -10,12 +10,19 @@ contract ProjectAccessControl is PublicAccessControl{
 
     IPublicAccessControl private daoAccessControl;
 
+    string public Name = "";
     string public adminName = "";
     string public adminEmail = "";
 
-    constructor(address daoAccessControlAddress, string memory projectAdminName, string memory projectAdminEmail) {
+    constructor(
+        address daoAccessControlAddress, 
+        string memory projectName,
+        string memory projectAdminName, 
+        string memory projectAdminEmail) 
+    {
         _initialize();
         daoAccessControl = IPublicAccessControl(daoAccessControlAddress);
+        Name = projectName;
         adminName = projectAdminName;
         adminEmail = projectAdminEmail;
     }
@@ -122,10 +129,11 @@ contract ProjectAccessControl is PublicAccessControl{
         return super._inquiryAdmin();
     }
 
-    function inquiryAdminInformation()
-        public view allowPermission(STAFF, STAFF) returns (string memory, string memory) 
+    function inquiryProjectInformation()
+        public view allowPermission(STAFF, STAFF) 
+        returns (string memory, string memory, string memory) 
     {
-        return (adminName, adminEmail);
+        return (Name, adminName, adminEmail);
     }
 
 }

@@ -11,11 +11,10 @@ import "../PublicAccessUtils.sol";
 
 //some functions in ERC20 contract may not use because of the different architecture
 contract DaoToken is PublicAccessUtils, ERC20Votes {
+
+    bytes32 internal constant TOKEN_MANAGER = keccak256("TOKEN_MANAGER");
+    bytes32 internal constant PROPOSAL_MANAGER = keccak256("PROPOSAL_MANAGER");
     
-    // string internal constant TokenName = "";
-    // string internal constant TokenSymbol = "";
-
-
     constructor(address daoAccessControlAddress, string memory TokenName, string memory TokenSymbol) 
         ERC20(TokenName, TokenSymbol) ERC20Permit(TokenName) 
     {
@@ -130,8 +129,27 @@ contract DaoToken is PublicAccessUtils, ERC20Votes {
         uint8 v,
         bytes32 r,
         bytes32 s
-    ) public override allowPermission(STAFF) {
+    ) public override allowPermission(TOKEN_MANAGER) {
         return super.delegateBySig(delegatee, nonce, expiry, v, r, s);
+    }
+
+    //IERC20Permit
+    function permit(
+        address owner,
+        address spender,
+        uint256 value,
+        uint256 deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) public override allowPermission(TOKEN_MANAGER) {
+        return super.permit(owner, spender, value, deadline, v, r, s);
+    }
+
+    function nonces(address owner) 
+        public view override allowPermission(STAFF) returns (uint256)
+    {
+        return super.nonces(owner);
     }
 
     //cannot access by interface

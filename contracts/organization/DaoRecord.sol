@@ -5,6 +5,8 @@ import "../PublicAccessUtils.sol";
 
 contract DaoRecord is PublicAccessUtils {
 
+    bytes32 internal constant RECORD_MANAGER = keccak256("RECORD_MANAGER");
+
     string[] private informationList;
 
     event informationRecorded(address indexed sender, string indexed information);
