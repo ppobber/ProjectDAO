@@ -28,13 +28,13 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.balanceOf(account);
     }
 
-    //STAFF can't transfer their token
-    function transfer(address to, uint256 amount) 
-        public override allowPermissions(STAFF, STAFF) returns (bool) 
-    {
-        require(false, "The function is not avaliable.");
-        return super.transfer(to, amount);
-    }
+    // //STAFF can't transfer their token
+    // function transfer(address to, uint256 amount) 
+    //     public override allowPermissions(STAFF, STAFF) returns (bool) 
+    // {
+    //     require(false, "The function is not avaliable.");
+    //     return super.transfer(to, amount);
+    // }
 
     //only TOKEN_MANAGER can transfer everyone's token
     function transfer(address owner, address to, uint256 amount) 
@@ -44,27 +44,27 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
     }
 
     
-    function allowance(address owner, address spender) 
-        public view override allowPermissions(STAFF, STAFF) returns (uint256) 
-    {
-        require(false, "The function is not avaliable.");
-        return super.allowance(owner, spender);
-    }
+    // function allowance(address owner, address spender) 
+    //     public view override allowPermissions(STAFF, STAFF) returns (uint256) 
+    // {
+    //     require(false, "The function is not avaliable.");
+    //     return super.allowance(owner, spender);
+    // }
 
-    function approve(address spender, uint256 amount) 
-        public override allowPermissions(STAFF, STAFF) returns (bool) 
-    {
-        require(false, "The function is not avaliable.");
-        return super.approve(spender, amount);
-    }
+    // function approve(address spender, uint256 amount) 
+    //     public override allowPermissions(STAFF, STAFF) returns (bool) 
+    // {
+    //     require(false, "The function is not avaliable.");
+    //     return super.approve(spender, amount);
+    // }
 
 
-    function transferFrom(address from, address to, uint256 amount) 
-        public override allowPermissions(STAFF, STAFF) returns (bool) 
-    {
-        require(false, "The function is not avaliable.");
-        return super.transferFrom(from, to, amount);
-    }
+    // function transferFrom(address from, address to, uint256 amount) 
+    //     public override allowPermissions(STAFF, STAFF) returns (bool) 
+    // {
+    //     require(false, "The function is not avaliable.");
+    //     return super.transferFrom(from, to, amount);
+    // }
 
     //IERC20Metadata
     function name() 
@@ -161,12 +161,12 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.increaseAllowance(spender, addedValue);
     }
 
-    function decreaseAllowance(address spender, uint256 subtractedValue) 
-        public override allowPermissions(STAFF, STAFF) returns (bool) 
-    {
-        require(false, "The function is not avaliable.");
-        return super.decreaseAllowance(spender, subtractedValue);
-    }
+    // function decreaseAllowance(address spender, uint256 subtractedValue) 
+    //     public override allowPermissions(STAFF, STAFF) returns (bool) 
+    // {
+    //     require(false, "The function is not avaliable.");
+    //     return super.decreaseAllowance(spender, subtractedValue);
+    // }
 
     //internal functions
     function mint(address account, uint256 amount) 

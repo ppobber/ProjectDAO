@@ -30,12 +30,12 @@ contract ProjectRecord is PublicAccessUtils {
     uint32[] private npvList;
     bytes32[] private riskList;
 
-    string private _projectObjective;
-    string private _projectBudget;
-    string private _projectSchedule;
-    string private _projectROI;
-    string private _projectMgmtPlan;
-    string private _projectRiskPlan;
+    string private _projectObjective = "";
+    string private _projectBudget = "";
+    string private _projectSchedule= "";
+    string private _projectROI= "";
+    string private _projectMgmtPlan= "";
+    string private _projectRiskPlan= "";
 
     bytes32 internal constant FUNC_recordNPV = keccak256(
         "function recordNPV(uint32 npvNow)");
