@@ -58,7 +58,7 @@ abstract contract PublicAccessUtils {
         _functionPermission[functionBytes] = permission;
     }
 
-    function _getFunctionPermission(bytes32 functionBytes) internal virtual returns (bytes32) {
+    function _getFunctionPermission(bytes32 functionBytes) internal view virtual returns (bytes32) {
         return _functionPermission[functionBytes];
     }
 
