@@ -15,15 +15,5 @@ contract('Accounts', function (accounts) {
     module.exports = {
         Zoe, Yue, Home, Mengjia, Juncheng, Minjia, Diao, Yichen, Weijia, Hexin
     }
-    // exports.user_Zoe = user_Zoe;
-    // exports.user_Yue = user_Yue;
-    // exports.user_Home = user_Home;
-    // exports.user_Mengjia = user_Mengjia;
-    // exports.user_Juncheng = user_Juncheng;
-    // exports.user_Minjia = user_Minjia;
-    // exports.user_Diao = user_Diao;
-    // exports.user_Yichen = user_Yichen;
-    // exports.user_Weijia = user_Weijia;
-    // exports.user_Hexin = user_Hexin;
     
 })

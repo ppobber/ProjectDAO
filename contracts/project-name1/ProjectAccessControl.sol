@@ -28,9 +28,10 @@ contract ProjectAccessControl is PublicAccessControl{
     }
 
     modifier allowPermission(bytes32 objectPermission, bytes32 organizationPermission) {
+        //short circuit characteristic
         require(
             _check(objectPermission, msg.sender) || daoAccessControl.inquiryAccountPermission(organizationPermission, msg.sender), 
-            "AccessControl: You have no permission to access this function."
+            "ProjectAccessControl: You have no permission to access this function."
         );
         _;
     }

@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
+// import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract DaoTest is AccessControl {
+contract DaoTest {
 
 
     // event someOutputs(string newValue);
@@ -15,6 +15,27 @@ contract DaoTest is AccessControl {
 
     // mapping (uint => bool) tete;
     // mapping (uint => aa) tete2;
+
+    uint asa = 0;
+
+    function te() public returns (uint) {
+        if(te1() || te2()) {
+        } 
+        return asa;
+    }
+
+    function te1() public pure returns(bool) {
+        return true;
+    }
+
+    function te2() public returns(bool) {
+        asa = 3;
+        return true;
+    }
+
+    function inquiry() public view returns(uint) {
+        return asa;
+    }
 
 
     // function test(bool[] memory _accessibleRoles) public pure returns(bool)  {

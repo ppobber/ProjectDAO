@@ -22,7 +22,7 @@ const initialVotingDelay = 1293143;
 const initialVotingPeriod = 5891431;
 const initialProposalThreshold = 0;
 
-module.exports = async function (deployer) {
+module.exports = async function (deployer, accounts) {
 
   let daoAccessControl = await DaoAccessControl.deployed();
   await deployer.deploy(
@@ -32,11 +32,11 @@ module.exports = async function (deployer) {
     projectAdminName,
     projectAdminEmail
   );
-  projectAccessControl = await ProjectAccessControl.deployed();
+  projectAccessControl = await ProjectAccessControl.deployed({from: accounts[0]});
   daoAccessControl.grantAccountPermission("STAFF", projectAccessControl.address);
 
   await deployer.deploy(ProjectRecord, projectAccessControl.address);
-  projectRecord = await ProjectRecord.deployed();
+  projectRecord = await ProjectRecord.deployed({from: accounts[0]});
 
   await deployer.deploy(
     ProjectToken,
@@ -44,7 +44,7 @@ module.exports = async function (deployer) {
     projectTokenName,
     projectTokenSymbol
   );
-  projectToken = await ProjectToken.deployed();
+  projectToken = await ProjectToken.deployed({from: accounts[0]});
 
   await deployer.deploy(
     ProjectProposal,
@@ -55,7 +55,7 @@ module.exports = async function (deployer) {
     initialVotingPeriod,
     initialProposalThreshold
   );
-  projectProposal = await ProjectProposal.deployed();
+  projectProposal = await ProjectProposal.deployed({from: accounts[0]});
   
   projectAccessControl.grantAccountPermission("STAFF", projectRecord.address);
   projectAccessControl.grantAccountPermission("STAFF", projectToken.address);

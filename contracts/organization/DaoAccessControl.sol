@@ -19,7 +19,7 @@ contract DaoAccessControl is PublicAccessControl{
     }
 
     modifier allowPermission(bytes32 permission) {
-        require(_check(permission, msg.sender), "AccessControl: You have no permission to access this function.");
+        require(_check(permission, msg.sender), "DaoAccessControl: You have no permission to access this function.");
         _;
     }
 
