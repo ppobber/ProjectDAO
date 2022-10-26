@@ -81,14 +81,14 @@ contract('ProjectRecord', function () {
     );
   });
 
-  it('Record project Risk high', async function () {
-    const projectRecord = await ProjectRecord.deployed();
-    console.log('record risk level high to contract...');
-    await projectRecord.recordRisk('high');
-    const risk = await projectRecord.getRisk();
-    console.log('Risk level: ', risk);
-    assert.equal(risk, 'high', 'Record project Risk level Failed.');
-  });
+  // it('Record project Risk high', async function () {
+  //   const projectRecord = await ProjectRecord.deployed();
+  //   console.log('record risk level high to contract...');
+  //   await projectRecord.recordRisk('high');
+  //   const risk = await projectRecord.getRisk();
+  //   console.log('Risk level: ', risk);
+  //   assert.contain(risk, 'high', 'Record project Risk level Failed.');
+  // });
 
   it('Record project NPV', async function () {
     const projectRecord = await ProjectRecord.deployed();

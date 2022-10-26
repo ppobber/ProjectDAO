@@ -22,7 +22,9 @@ const initialVotingDelay = 1293143;
 const initialVotingPeriod = 5891431;
 const initialProposalThreshold = 0;
 
-module.exports = async function (deployer, accounts) {
+module.exports = async function (deployer, network, accounts) {
+
+  fromAdmin = { from: accounts[0] };
 
   let daoAccessControl = await DaoAccessControl.deployed();
   await deployer.deploy(
@@ -30,21 +32,25 @@ module.exports = async function (deployer, accounts) {
     daoAccessControl.address,
     projectName,
     projectAdminName,
-    projectAdminEmail
-  );
-  projectAccessControl = await ProjectAccessControl.deployed({from: accounts[0]});
-  daoAccessControl.grantAccountPermission("STAFF", projectAccessControl.address);
+    projectAdminEmail,
+    fromAdmin);
+  projectAccessControl = await ProjectAccessControl.deployed();
+  await daoAccessControl.grantAccountPermission("STAFF", projectAccessControl.address, fromAdmin);
 
-  await deployer.deploy(ProjectRecord, projectAccessControl.address);
-  projectRecord = await ProjectRecord.deployed({from: accounts[0]});
+  await deployer.deploy(
+    ProjectRecord,
+    projectAccessControl.address,
+    fromAdmin);
+  projectRecord = await ProjectRecord.deployed();
 
   await deployer.deploy(
     ProjectToken,
     projectAccessControl.address,
     projectTokenName,
-    projectTokenSymbol
+    projectTokenSymbol,
+    fromAdmin
   );
-  projectToken = await ProjectToken.deployed({from: accounts[0]});
+  projectToken = await ProjectToken.deployed();
 
   await deployer.deploy(
     ProjectProposal,
@@ -53,13 +59,14 @@ module.exports = async function (deployer, accounts) {
     projectToken.address,
     initialVotingDelay,
     initialVotingPeriod,
-    initialProposalThreshold
+    initialProposalThreshold,
+    fromAdmin
   );
-  projectProposal = await ProjectProposal.deployed({from: accounts[0]});
+  projectProposal = await ProjectProposal.deployed();
   
-  projectAccessControl.grantAccountPermission("STAFF", projectRecord.address);
-  projectAccessControl.grantAccountPermission("STAFF", projectToken.address);
-  projectAccessControl.grantAccountPermission("STAFF", projectProposal.address);
+  await projectAccessControl.grantAccountPermission("STAFF", projectRecord.address, fromAdmin);
+  await projectAccessControl.grantAccountPermission("STAFF", projectToken.address, fromAdmin);
+  await projectAccessControl.grantAccountPermission("STAFF", projectProposal.address, fromAdmin);
 
   let outputInfo = {
     "ProjectAccessControl": {

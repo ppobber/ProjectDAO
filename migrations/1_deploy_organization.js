@@ -22,21 +22,24 @@ const initialVotingPeriod = 5891431;
 const initialProposalThreshold = 0;
 
 
-module.exports = async function (deployer, accounts) {
+module.exports = async function (deployer, network, accounts) {
 
-  await deployer.deploy(DaoAccessControl, daoName);
-  daoAccessControl = await DaoAccessControl.deployed({from: accounts[0]});
+  fromAdmin = { from: accounts[0] };
 
-  await deployer.deploy(DaoRecord, daoAccessControl.address);
-  daoRecord = await DaoRecord.deployed({from: accounts[1]});
+  await deployer.deploy(DaoAccessControl, daoName, fromAdmin);
+  daoAccessControl = await DaoAccessControl.deployed();
+
+  await deployer.deploy(DaoRecord, daoAccessControl.address, fromAdmin);
+  daoRecord = await DaoRecord.deployed();
 
   await deployer.deploy(
     DaoToken,
     daoAccessControl.address,
     daoTokenName,
-    daoTokenSymbol
+    daoTokenSymbol,
+    fromAdmin
   );
-  daoToken = await DaoToken.deployed({from: accounts[1]});
+  daoToken = await DaoToken.deployed();
 
   await deployer.deploy(
     DaoProposal,
@@ -45,13 +48,14 @@ module.exports = async function (deployer, accounts) {
     daoToken.address,
     initialVotingDelay,
     initialVotingPeriod,
-    initialProposalThreshold
+    initialProposalThreshold,
+    fromAdmin
   );
-  daoProposal = await DaoProposal.deployed({from: accounts[0]});
+  daoProposal = await DaoProposal.deployed();
 
-  daoAccessControl.grantAccountPermission("STAFF", daoRecord.address);
-  daoAccessControl.grantAccountPermission("STAFF", daoToken.address);
-  daoAccessControl.grantAccountPermission("STAFF", daoProposal.address);
+  await daoAccessControl.grantAccountPermission("STAFF", daoRecord.address, fromAdmin);
+  await daoAccessControl.grantAccountPermission("STAFF", daoToken.address, fromAdmin);
+  await daoAccessControl.grantAccountPermission("STAFF", daoProposal.address, fromAdmin);
 
   let outputInfo = {
     "DaoAccessControl": {

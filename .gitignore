@@ -4,5 +4,4 @@ build/*
 contracts/project-name1/artifacts/*
 artifacts
 
-migrations/deployedOrganization.json
-migrations/deployedProject.json
+migrations/*.json
