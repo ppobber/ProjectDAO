@@ -1,12 +1,6 @@
-/*
-Create an Oganization
-*/
-
 const fs = require('fs-extra');
 
 const DaoAccessControl = artifacts.require('./organization/DaoAccessControl');
-// const DaoRecord = artifacts.require('./organization/DaoRecord');
-// const DaoToken = artifacts.require('./organization/DaoToken');
 const ProjectAccessControl = artifacts.require('./project-name1/ProjectAccessControl');
 const ProjectRecord = artifacts.require('./project-name1/ProjectRecord');
 const ProjectToken = artifacts.require('./project-name1/ProjectToken');
@@ -15,38 +9,64 @@ const ProjectProposal = artifacts.require('./project-name1/ProjectProposal');
 let projectAccessControl;
 let projectRecord;
 let projectToken;
+let projectProposal;
 
-const projectTokenName = 'ProjectTokenNameForScript';
+const projectName = "ProjectNameForTest";
+const projectTokenName = 'ProjectTokenNameForTest';
 const projectTokenSymbol = 'PPP';
 const projectAdminName = 'Yue';
 const projectAdminEmail = 'yuyu5305@uni.sydney.edu.au';
 
-module.exports = async function (deployer) {
-  // Command Truffle to deploy the Smart Contract
+const domainSeparator = "bbb";
+const initialVotingDelay = 1293143;
+const initialVotingPeriod = 5891431;
+const initialProposalThreshold = 0;
+
+module.exports = async function (deployer, network, accounts) {
+
+  fromAdmin = { from: accounts[0] };
+
   let daoAccessControl = await DaoAccessControl.deployed();
   await deployer.deploy(
     ProjectAccessControl,
     daoAccessControl.address,
+    projectName,
     projectAdminName,
-    projectAdminEmail
-  );
+    projectAdminEmail,
+    fromAdmin);
   projectAccessControl = await ProjectAccessControl.deployed();
-  daoAccessControl.grantAccountPermission("STAFF", projectAccessControl.address);
+  await daoAccessControl.grantAccountPermission("STAFF", projectAccessControl.address, fromAdmin);
 
-  await deployer.deploy(ProjectRecord, projectAccessControl.address);
+  await deployer.deploy(
+    ProjectRecord,
+    projectAccessControl.address,
+    fromAdmin);
   projectRecord = await ProjectRecord.deployed();
 
   await deployer.deploy(
     ProjectToken,
     projectAccessControl.address,
     projectTokenName,
-    projectTokenSymbol
+    projectTokenSymbol,
+    fromAdmin
   );
   projectToken = await ProjectToken.deployed();
-  
-  projectAccessControl.grantAccountPermission("STAFF", projectRecord.address);
-  projectAccessControl.grantAccountPermission("STAFF", projectToken.address);
 
+  await deployer.deploy(
+    ProjectProposal,
+    projectAccessControl.address,
+    domainSeparator,
+    projectToken.address,
+    initialVotingDelay,
+    initialVotingPeriod,
+    initialProposalThreshold,
+    fromAdmin
+  );
+  projectProposal = await ProjectProposal.deployed();
+  
+  await projectAccessControl.grantAccountPermission("STAFF", projectRecord.address, fromAdmin);
+  await projectAccessControl.grantAccountPermission("STAFF", projectToken.address, fromAdmin);
+  await projectAccessControl.grantAccountPermission("STAFF", projectProposal.address, fromAdmin);
 
   let outputInfo = {
     "ProjectAccessControl": {
@@ -59,7 +79,7 @@ module.exports = async function (deployer) {
       "address": projectToken.address
     },
     "ProjectProposal": {
-      // "address": daoProposal.address
+      "address": projectProposal.address
     }
   };
 

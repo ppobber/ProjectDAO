@@ -14,6 +14,11 @@
 					},
 					{
 						"internalType": "string",
+						"name": "projectName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
 						"name": "projectAdminName",
 						"type": "string"
 					},
@@ -69,9 +74,15 @@
 				"inputs": [
 					{
 						"indexed": true,
-						"internalType": "bytes",
+						"internalType": "bytes32",
 						"name": "permissionName",
-						"type": "bytes"
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "permissionOriginal",
+						"type": "bytes32"
 					},
 					{
 						"indexed": true,
@@ -88,9 +99,9 @@
 				"inputs": [
 					{
 						"indexed": true,
-						"internalType": "bytes",
+						"internalType": "bytes32",
 						"name": "permissionName",
-						"type": "bytes"
+						"type": "bytes32"
 					},
 					{
 						"indexed": true,
@@ -107,9 +118,9 @@
 				"inputs": [
 					{
 						"indexed": true,
-						"internalType": "bytes",
+						"internalType": "bytes32",
 						"name": "permissionName",
-						"type": "bytes"
+						"type": "bytes32"
 					},
 					{
 						"indexed": true,
@@ -132,9 +143,9 @@
 				"inputs": [
 					{
 						"indexed": true,
-						"internalType": "bytes",
+						"internalType": "bytes32",
 						"name": "permissionName",
-						"type": "bytes"
+						"type": "bytes32"
 					},
 					{
 						"indexed": true,
@@ -151,6 +162,19 @@
 				],
 				"name": "PermissionRevoked",
 				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "Name",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
 				"inputs": [],
@@ -181,9 +205,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "bytes",
+						"internalType": "string",
 						"name": "permissionName",
-						"type": "bytes"
+						"type": "string"
 					}
 				],
 				"name": "createPermission",
@@ -194,14 +218,14 @@
 			{
 				"inputs": [
 					{
-						"internalType": "bytes",
+						"internalType": "string",
 						"name": "permissionName",
-						"type": "bytes"
+						"type": "string"
 					},
 					{
-						"internalType": "bytes",
-						"name": "permissionAlready",
-						"type": "bytes"
+						"internalType": "string",
+						"name": "permissionOriginal",
+						"type": "string"
 					}
 				],
 				"name": "createPermissionByLevel",
@@ -225,9 +249,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "bytes",
+						"internalType": "string",
 						"name": "permissionName",
-						"type": "bytes"
+						"type": "string"
 					}
 				],
 				"name": "deletePermission",
@@ -238,9 +262,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "bytes",
+						"internalType": "string",
 						"name": "permissionName",
-						"type": "bytes"
+						"type": "string"
 					},
 					{
 						"internalType": "address",
@@ -251,6 +275,59 @@
 				"name": "grantAccountPermission",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "projectPermission",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "organizationPermission",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "inquiryAccountPermission",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "permissionName",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "inquiryAccountPermission",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -293,6 +370,30 @@
 			{
 				"inputs": [
 					{
+						"internalType": "string",
+						"name": "permissionName",
+						"type": "string"
+					}
+				],
+				"name": "inquiryAllAccountsByPermission",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					},
+					{
+						"internalType": "bool[]",
+						"name": "",
+						"type": "bool[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "bytes32",
 						"name": "permission",
 						"type": "bytes32"
@@ -304,6 +405,29 @@
 						"internalType": "address[]",
 						"name": "",
 						"type": "address[]"
+					},
+					{
+						"internalType": "bool[]",
+						"name": "",
+						"type": "bool[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "inquiryAllPermissions",
+				"outputs": [
+					{
+						"internalType": "bytes32[]",
+						"name": "",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "bool[]",
+						"name": "",
+						"type": "bool[]"
 					}
 				],
 				"stateMutability": "view",
@@ -323,6 +447,34 @@
 						"internalType": "bytes32[]",
 						"name": "",
 						"type": "bytes32[]"
+					},
+					{
+						"internalType": "bool[]",
+						"name": "",
+						"type": "bool[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "inquiryProjectInformation",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
 					}
 				],
 				"stateMutability": "view",
@@ -331,9 +483,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "bytes",
+						"internalType": "string",
 						"name": "permissionName",
-						"type": "bytes"
+						"type": "string"
 					},
 					{
 						"internalType": "address",
@@ -352,6 +504,16 @@
 						"internalType": "address",
 						"name": "account",
 						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "newAdminName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "newAdminEmail",
+						"type": "string"
 					}
 				],
 				"name": "transferAdmin",
@@ -387,28 +549,36 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/AccessControl.sol": {
-			"keccak256": "0xfdac10f5edfe5d28517eabdb7364542942dfed898f726c7921c8abdf1115eb67",
+		"contracts/IPublicAccessControl.sol": {
+			"keccak256": "0xd24559202770adba9c38e0b2237d1baf3803e4d54102d702831c0a0721d8b71e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e1a676093243e5ed5d65f5fcebeac6b24255a6a2ea3c096a832faa38bab06836",
-				"dweb:/ipfs/QmPE7cKDcp8EJDRs1LkmbaBfx2LNQVfSer5TxXGF7VuJAu"
+				"bzz-raw://17a1ace9f813a07f232d53710c0fcc6870277ab93a2cc317e175cb7cfb9831cc",
+				"dweb:/ipfs/QmUppJNR6X6SSjjY3TTK77Xa1gFcNJg8aezvywRUu89D7o"
 			]
 		},
-		"contracts/IAccessControl.sol": {
-			"keccak256": "0x0e1b4675ba5a535d859403c3ffed3fa511bb2d683af5d712cba0c7f52e4e34ae",
+		"contracts/PublicAccessControl.sol": {
+			"keccak256": "0x562a8f4496d813831e5f5218b6af00957a30947be0210b3c05bfc62cde547498",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://08507d36388ed28f6b41606b13092e9b103e89ff8527656ed1330fe125888bc6",
-				"dweb:/ipfs/QmZw5CfWA3ZqPGSwW8FoZ2cetfDhk8mSFRfXjqYPwDr3ib"
+				"bzz-raw://16100aa78e035185a9b8e0e7510208702262df1ce66d3078588808795f343bae",
+				"dweb:/ipfs/QmQLimCbAph2Uv9VHAg8g2W5RB7mXjdfsk15anXZj8gxie"
+			]
+		},
+		"contracts/StringUtils.sol": {
+			"keccak256": "0x8cebec8cded290820bbd1ea822d4167202f78e2d0c4f40c1647ff7e33e45e5ef",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://76cf1af66f690b88ff52d85a029f6b59d89f375ab8eed8b45aa0f6af7f891175",
+				"dweb:/ipfs/QmRSW9N1hTm6rYiCEwkKWqe4jndDN125TattDodst48Fxj"
 			]
 		},
 		"contracts/project-name1/ProjectAccessControl.sol": {
-			"keccak256": "0xdd29e6ca809428089710a677743210881658a5df88db0f26293592418597b79f",
+			"keccak256": "0xf16fe48bc4fc8027085c7300c7a361fadd8902db3952d3292e4d06de1daf4c26",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://19d916afca5651862353e1d03335dcb319487f88f702e516f73a045efa57f456",
-				"dweb:/ipfs/QmeT7wGSKhRCpFjwovBhmGormP9JxL7CKg7CWKHP4EvCy6"
+				"bzz-raw://2a48649c61bfd5d213c09834bb0e1d3a964451242a9c9581710c6e49e64cb284",
+				"dweb:/ipfs/Qmbxyq88t88rGDP5BK6c296ZZ7MaDSGH9kv3ph1U8eXBeo"
 			]
 		}
 	},

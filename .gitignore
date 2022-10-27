@@ -4,3 +4,4 @@ build/*
 contracts/project-name1/artifacts/*
 artifacts
 
+migrations/*.json

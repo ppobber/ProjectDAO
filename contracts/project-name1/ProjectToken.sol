@@ -6,11 +6,10 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 import "../PublicAccessUtils.sol";
 
 contract ProjectToken is PublicAccessUtils, ERC20Votes {
+
+    bytes32 internal constant TOKEN_MANAGER = keccak256("TOKEN_MANAGER");
+    bytes32 internal constant PROPOSAL_MANAGER = keccak256("PROPOSAL_MANAGER");
     
-    // string internal constant TokenName = "";
-    // string internal constant TokenSymbol = "";
-
-
     constructor(address projectAccessControlAddress, string memory TokenName, string memory TokenSymbol) 
         ERC20(TokenName, TokenSymbol) ERC20Permit(TokenName) 
     {
@@ -111,19 +110,17 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.getPastTotalSupply(blockNumber);
     }
 
-    // function delegates(address account) 
-    //     public view override allowPermissions(STAFF, STAFF) returns (address) 
-    // {
-    //     require(false, "The function is not avaliable.");
-    //     return super.delegates(account);
-    // }
+    function delegates(address account) 
+        public view override allowPermissions(STAFF, STAFF) returns (address) 
+    {
+        return super.delegates(account);
+    }
 
-    // function delegate(address delegatee) 
-    //     public override allowPermissions(STAFF, STAFF)
-    // {
-    //     require(false, "The function is not avaliable.");
-    //     return super.delegate(delegatee);
-    // }
+    function delegate(address delegatee) 
+        public override allowPermissions(TOKEN_MANAGER, STAFF)
+    {
+        return super.delegate(delegatee);
+    }
 
     function delegateBySig(
         address delegatee,
@@ -137,13 +134,32 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.delegateBySig(delegatee, nonce, expiry, v, r, s);
     }
 
-    // //cannot access by interface
-    // function increaseAllowance(address spender, uint256 addedValue) 
-    //     public override allowPermissions(STAFF, STAFF) returns (bool) 
-    // {
-    //     require(false, "The function is not avaliable.");
-    //     return super.increaseAllowance(spender, addedValue);
-    // }
+    //IERC20Permit
+    function permit(
+        address owner,
+        address spender,
+        uint256 value,
+        uint256 deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) public override allowPermissions(TOKEN_MANAGER, ADMIN) {
+        return super.permit(owner, spender, value, deadline, v, r, s);
+    }
+
+    function nonces(address owner) 
+        public view override allowPermissions(STAFF, STAFF) returns (uint256)
+    {
+        return super.nonces(owner);
+    }
+
+    //cannot access by interface
+    function increaseAllowance(address spender, uint256 addedValue) 
+        public override allowPermissions(STAFF, STAFF) returns (bool) 
+    {
+        require(false, "The function is not avaliable.");
+        return super.increaseAllowance(spender, addedValue);
+    }
 
     // function decreaseAllowance(address spender, uint256 subtractedValue) 
     //     public override allowPermissions(STAFF, STAFF) returns (bool) 

@@ -5,6 +5,8 @@ import "../PublicAccessUtils.sol";
 
 contract DaoRecord is PublicAccessUtils {
 
+    bytes32 internal constant RECORD_MANAGER = keccak256("RECORD_MANAGER");
+
     string[] private informationList;
 
     event informationRecorded(address indexed sender, string indexed information);
@@ -33,7 +35,7 @@ contract DaoRecord is PublicAccessUtils {
     }
 
     function inquiryInformation() 
-        public view returns(string[] memory) 
+        public view allowPermission(_getFunctionPermission(FUNC_inquiryInformation)) returns(string[] memory) 
     {
         return informationList;
     }

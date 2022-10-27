@@ -1,17 +1,5 @@
-const { copySync } = require('fs-extra');
-
+const user = require('./accounts');
 const ProjectRecord = artifacts.require('./project-name1/ProjectRecord');
-contract('ProjectRecord', function (accounts) {
-  const user_Zoe = accounts[0];
-  const user_Yue = accounts[1];
-  const user_Home = accounts[2];
-  const user_Mengjia = accounts[3];
-  const user_Juncheng = accounts[4];
-  const user_Minjia = accounts[5];
-  const user_Diao = accounts[6];
-  const user_Yichen = accounts[7];
-  const user_Weijia = accounts[8];
-  const user_Hexin = accounts[9];
 
   it('Record project Objective', async () => {
     const projectRecord = await ProjectRecord.deployed();
@@ -26,7 +14,7 @@ contract('ProjectRecord', function (accounts) {
     );
   });
 
-  it('Record project Budget', async () => {
+  it('Record project Budget', async function () {
     const projectRecord = await ProjectRecord.deployed();
     console.log('record file projectBudget.json to contract...');
     await projectRecord.setProjectBudget('projectBudget.json');
@@ -39,7 +27,7 @@ contract('ProjectRecord', function (accounts) {
     );
   });
 
-  it('Record project Schedule', async () => {
+  it('Record project Schedule', async function () {
     const projectRecord = await ProjectRecord.deployed();
     console.log('record file projectSchedule.json to contract...');
     await projectRecord.setProjectSchedule('projectSchedule.json');
@@ -52,7 +40,7 @@ contract('ProjectRecord', function (accounts) {
     );
   });
 
-  it('Record project ROI Document', async () => {
+  it('Record project ROI Document', async function () {
     const projectRecord = await ProjectRecord.deployed();
     console.log('record file ProjectROI.json to contract...');
     await projectRecord.setProjectROI('projectROI.json');
@@ -65,7 +53,7 @@ contract('ProjectRecord', function (accounts) {
     );
   });
 
-  it('Record project Manament Plan Document', async () => {
+  it('Record project Manament Plan Document', async function () {
     const projectRecord = await ProjectRecord.deployed();
     console.log('record file projectMgmtPlan.json to contract...');
     await projectRecord.setProjectMgmtPlan('ProjectMgmtPlan.json');
@@ -78,7 +66,7 @@ contract('ProjectRecord', function (accounts) {
     );
   });
 
-  it('Record project Manament Risk plan document', async () => {
+  it('Record project Manament Risk plan document', async function () {
     const projectRecord = await ProjectRecord.deployed();
     console.log('record file ProjectRiskPlan.json to contract...');
     await projectRecord.setProjectRiskPlan('ProjectRiskPlan.json');
@@ -101,7 +89,7 @@ contract('ProjectRecord', function (accounts) {
     assert.equal(risk, hash_high, 'Record project Risk level Failed.');
   });
 
-  it('Record project NPV', async () => {
+  it('Record project NPV', async function () {
     const projectRecord = await ProjectRecord.deployed();
     console.log('record NPV 1000 to contract...');
     await projectRecord.recordNPV(1000);

@@ -1,50 +1,71 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
+// import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract DaoTest is AccessControl {
+contract DaoTest {
 
 
-    event someOutputs(string newValue);
+    // event someOutputs(string newValue);
 
-    struct aa {
-        mapping (bytes => bool) name;
-        uint isis;
+    // struct aa {
+    //     mapping (bytes => bool) name;
+    //     uint isis;
+    // }
+
+    // mapping (uint => bool) tete;
+    // mapping (uint => aa) tete2;
+
+    uint asa = 0;
+
+    function te() public returns (uint) {
+        if(te1() || te2()) {
+        } 
+        return asa;
     }
 
-    mapping (uint => bool) tete;
-    mapping (uint => aa) tete2;
-
-
-    function test(bool[] memory _accessibleRoles) public pure returns(bool)  {
-        bool ifRoles = false;
-        for (uint i = 0; i <_accessibleRoles.length; ++i) {
-            if (_accessibleRoles[i] == true) {
-                ifRoles = true;
-                break;
-            }
-        }
-        return(ifRoles);
+    function te1() public pure returns(bool) {
+        return true;
     }
 
-    function trydy() public {
-        bool[] memory accessibleRoles = new bool[](2);
-        accessibleRoles[0] = true;
-        accessibleRoles[1] = false;
-
-        require(test(accessibleRoles), "this permission not from you");
-
-        emit someOutputs("hello world.");
+    function te2() public returns(bool) {
+        asa = 3;
+        return true;
     }
 
-    function testString(string memory a) public {
-        emit someOutputs(a);
+    function inquiry() public view returns(uint) {
+        return asa;
     }
 
-    function testBytes(bytes memory a) public {
-        emit someOutputs(string(a));
-    }
+
+    // function test(bool[] memory _accessibleRoles) public pure returns(bool)  {
+    //     bool ifRoles = false;
+    //     for (uint i = 0; i <_accessibleRoles.length; ++i) {
+    //         if (_accessibleRoles[i] == true) {
+    //             ifRoles = true;
+    //             break;
+    //         }
+    //     }
+    //     return(ifRoles);
+    // }
+
+    // function trydy() public {
+    //     bool[] memory accessibleRoles = new bool[](2);
+    //     accessibleRoles[0] = true;
+    //     accessibleRoles[1] = false;
+
+    //     require(test(accessibleRoles), "this permission not from you");
+
+    //     emit someOutputs("hello world.");
+    // }
+
+    // function testString(string memory a) public {
+    //     emit someOutputs(a);
+    // }
+
+    // function testBytes(bytes memory a) public {
+    //     emit someOutputs(string(a));
+    // }
 
     // function testReturn() public returns(mapping (uint => bool) memory) {
     //     tete[1] = true;

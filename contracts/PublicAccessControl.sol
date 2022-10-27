@@ -34,6 +34,7 @@ abstract contract PublicAccessControl is IPublicAccessControl{
     bytes32 internal constant TOKEN_MANAGER = keccak256("TOKEN_MANAGER");
     bytes32 internal constant ACCESS_MANAGER = keccak256("ACCESS_MANAGER");
     bytes32 internal constant RECORD_MANAGER = keccak256("RECORD_MANAGER");
+    bytes32 internal constant PROPOSAL_MANAGER = keccak256("PROPOSAL_MANAGER");
 
     function _informFailure(string memory response) private pure {
         revert(

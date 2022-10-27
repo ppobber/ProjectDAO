@@ -1,20 +1,9 @@
-const { copySync } = require('fs-extra');
-
+const user = require('./accounts');
 const DaoToken = artifacts.require('./organization/DaoToken');
-contract('DaoToken', function (accounts) {
-  const user_Zoe = accounts[0];
-  const user_Yue = accounts[1];
-  const user_Home = accounts[2];
-  const user_Mengjia = accounts[3];
-  const user_Juncheng = accounts[4];
-  const user_Minjia = accounts[5];
-  const user_Diao = accounts[6];
-  const user_Yichen = accounts[7];
-  const user_Weijia = accounts[8];
-  const user_Hexin = accounts[9];
-  // const user_Zhumin = accounts[10];
 
-  it('Check name and tokens symbol', async () => {
+contract('DaoToken', function () {
+
+  it('Check name and tokens symbol', async function () {
     //const daoAccessControl = await DaoAccessControl.deployed();
     const daoToken = await DaoToken.deployed();
     const decimals = await daoToken.decimals();
@@ -34,12 +23,12 @@ contract('DaoToken', function (accounts) {
     //expect(totalSupply).to.equal(12);
   });
 
-  it('mint 100 token to Zoe', async () => {
+  it('mint 100 token to Zoe', async function () {
     //const daoAccessControl = await DaoAccessControl.deployed();
     const daoToken = await DaoToken.deployed();
     const decimals = await daoToken.decimals();
     const name = await daoToken.name();
-    await daoToken.mint(accounts[0], 100);
+    await daoToken.mint(user.Zoe, 100);
 
     console.log('minting ...........');
     const totalSupply = await daoToken.totalSupply();
@@ -52,18 +41,18 @@ contract('DaoToken', function (accounts) {
     //expect(totalSupply).to.equal(12);
   });
 
-  it('Zoe tranfer 50 tokens to Yue', async () => {
+  it('Zoe tranfer 50 tokens to Yue', async function () {
     const daoToken = await DaoToken.deployed();
     console.log('==============Before tranfer================');
-    const zoeBalance_before = await daoToken.balanceOf(user_Zoe);
-    const yueBalance_before = await daoToken.balanceOf(user_Yue);
+    const zoeBalance_before = await daoToken.balanceOf(user.Zoe);
+    const yueBalance_before = await daoToken.balanceOf(user.Yue);
     console.log('Zoe balance: ', zoeBalance_before.toNumber());
     console.log('Yue balance: ', yueBalance_before.toNumber());
-    await daoToken.transfer(user_Zoe, user_Yue, 50);
+    await daoToken.transfer(user.Zoe, user.Yue, 50);
 
     console.log('==============After tranfer================');
-    const zoeBalance_after = await daoToken.balanceOf(user_Zoe);
-    const yueBalance_after = await daoToken.balanceOf(user_Yue);
+    const zoeBalance_after = await daoToken.balanceOf(user.Zoe);
+    const yueBalance_after = await daoToken.balanceOf(user.Yue);
     console.log('Zoe balance: ', zoeBalance_after.toNumber());
     console.log('Yue balance: ', yueBalance_after.toNumber());
 
