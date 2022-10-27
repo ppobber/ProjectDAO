@@ -96,8 +96,9 @@ contract('ProjectRecord', function (accounts) {
     console.log('record risk level high to contract...');
     await projectRecord.recordRisk('high');
     const risk = await projectRecord.getRisk();
+    const hash_high = 0x078337cd7e888008d653d6c34a2d35f15deaf16a2b59266222cab4f560af370f;
     console.log('Risk level: ', risk);
-    assert.equal(risk, 'high', 'Record project Risk level Failed.');
+    assert.equal(risk, hash_high, 'Record project Risk level Failed.');
   });
 
   it('Record project NPV', async () => {
@@ -105,7 +106,7 @@ contract('ProjectRecord', function (accounts) {
     console.log('record NPV 1000 to contract...');
     await projectRecord.recordNPV(1000);
     const NPV = await projectRecord.getNPV();
-    console.log('NPV: ', NPV);
+    console.log('NPV: ', NPV[0]);
     assert.equal(NPV[0], 1000, 'Record project NPV Failed.');
   });
 });
