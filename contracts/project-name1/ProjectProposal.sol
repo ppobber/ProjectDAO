@@ -13,28 +13,24 @@ contract ProjectProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSi
     uint256 private _votingDelay;
     uint256 private _votingPeriod;
     uint256 private _proposalThreshold;
+    uint256 private _quorumNumber;
 
     constructor(
         address projectAccessControlAddress, 
-        string memory domainSeparator,
+        string memory projectProposalContractName,
         IVotes projectTokenAddress,
         uint256 initialVotingDelay,
         uint256 initialVotingPeriod,
-        uint256 initialProposalThreshold) 
-        Governor(domainSeparator)
+        uint256 initialProposalThreshold,
+        uint256 quorumNumber) 
+        Governor(projectProposalContractName)
         GovernorVotes(projectTokenAddress)
     {
         _initializeAccessControl(projectAccessControlAddress);
         _votingDelay = initialVotingDelay;
         _votingPeriod = initialVotingPeriod;
         _proposalThreshold = initialProposalThreshold;
-    }
-
-    function quorum(uint256 blockNumber) 
-        public view override allowPermissions(STAFF, STAFF) returns (uint256) 
-    {
-        blockNumber;
-        return 1;
+        _quorumNumber = quorumNumber;
     }
 
     function proposalVotes(uint256 proposalId)
@@ -45,6 +41,44 @@ contract ProjectProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSi
             uint256 abstainVotes)
     {
         return super.proposalVotes(proposalId);
+    }
+
+    function quorum(uint256) 
+        public view override allowPermissions(STAFF, STAFF) returns (uint256) 
+    {
+        return _quorumNumber;
+    }
+
+    function votingDelay() 
+        public view override allowPermissions(STAFF, STAFF) returns (uint256) 
+    {
+        return _votingDelay;
+    }
+
+    function votingPeriod() 
+        public view override allowPermissions(STAFF, STAFF) returns (uint256) 
+    {
+        return _votingPeriod;
+    }
+
+    function proposalThreshold() 
+        public view override allowPermissions(STAFF, STAFF) returns (uint256) 
+    {
+        return _proposalThreshold;
+    }
+
+    function changeVotingSetting(
+        uint256 newVotingDelay, 
+        uint256 newVotingPeriod, 
+        uint256 newProposalThreshold,
+        uint256 newQuormNumber)
+        public allowPermissions(PROPOSAL_MANAGER, ADMIN) 
+    {
+        require(newVotingPeriod > 0, "ProjectProposal: voting period too low.");
+        _votingDelay = newVotingDelay;
+        _votingPeriod = newVotingPeriod;
+        _proposalThreshold = newProposalThreshold;
+        _quorumNumber = newQuormNumber;
     }
 
     function name()
@@ -69,24 +103,6 @@ contract ProjectProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSi
         public view override allowPermissions(STAFF, STAFF) returns (uint256)
     {
         return super.proposalDeadline(proposalId);
-    }
-
-    function votingDelay() 
-        public view override allowPermissions(STAFF, STAFF) returns (uint256) 
-    {
-        return _votingDelay;
-    }
-
-    function votingPeriod() 
-        public view override allowPermissions(STAFF, STAFF) returns (uint256) 
-    {
-        return _votingPeriod;
-    }
-
-    function proposalThreshold() 
-        public view override allowPermissions(STAFF, STAFF) returns (uint256) 
-    {
-        return _proposalThreshold;
     }
 
     function getVotes(address account, uint256 blockNumber)  

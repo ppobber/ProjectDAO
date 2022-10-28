@@ -1,0 +1,14 @@
+{
+	"ProjectAccessControl": {
+		"address": "0x804de2624E698dDE633a5CB862cA14208321A027"
+	},
+	"ProjectRecord": {
+		"address": "0xb24FA43842725d43b0Af01964D8168c946E69855"
+	},
+	"ProjectToken": {
+		"address": "0x32ece84D2eD272FA1e085f726F16FA600D9E76f3"
+	},
+	"ProjectProposal": {
+		"address": "0x9A4607Ac23239733d3eDA7ff057f005ebeD6c278"
+	}
+}

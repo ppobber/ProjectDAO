@@ -11,16 +11,17 @@ let projectRecord;
 let projectToken;
 let projectProposal;
 
-const projectName = "ProjectNameForTest";
-const projectTokenName = 'ProjectTokenNameForTest';
+const projectName = "Project Name";
+const projectTokenName = 'Project Token Name';
 const projectTokenSymbol = 'PPP';
 const projectAdminName = 'Yue';
 const projectAdminEmail = 'yuyu5305@uni.sydney.edu.au';
 
-const domainSeparator = "bbb";
-const initialVotingDelay = 1293143;
-const initialVotingPeriod = 5891431;
+const projectProposalContractName = "Project Proposal Contract";
+const initialVotingDelay = 0;
+const initialVotingPeriod = 10;
 const initialProposalThreshold = 0;
+const initialquorumNumber = 0;
 
 module.exports = async function (deployer, network, accounts) {
 
@@ -55,11 +56,12 @@ module.exports = async function (deployer, network, accounts) {
   await deployer.deploy(
     ProjectProposal,
     projectAccessControl.address,
-    domainSeparator,
+    projectProposalContractName,
     projectToken.address,
     initialVotingDelay,
     initialVotingPeriod,
     initialProposalThreshold,
+    initialquorumNumber,
     fromAdmin
   );
   projectProposal = await ProjectProposal.deployed();

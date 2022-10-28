@@ -40,11 +40,11 @@ contract DaoRecord is PublicAccessUtils {
         return informationList;
     }
 
-    function inquiryTest() 
-        public view allowPermission(STAFF) returns(string memory) 
-    {
-        return "Call Success";
-    }
+    // function inquiryTest() 
+    //     public view allowPermission(STAFF) returns(string memory) 
+    // {
+    //     return "Call Success";
+    // }
 
 
 }

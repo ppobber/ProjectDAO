@@ -574,11 +574,11 @@
 			]
 		},
 		"contracts/project-name1/ProjectAccessControl.sol": {
-			"keccak256": "0xf16fe48bc4fc8027085c7300c7a361fadd8902db3952d3292e4d06de1daf4c26",
+			"keccak256": "0x5bb852d0f2a736670667abe60dc028c97e819d608d039a044d919582b9dc7b0e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2a48649c61bfd5d213c09834bb0e1d3a964451242a9c9581710c6e49e64cb284",
-				"dweb:/ipfs/Qmbxyq88t88rGDP5BK6c296ZZ7MaDSGH9kv3ph1U8eXBeo"
+				"bzz-raw://7fc117c907d42e749ca01f7dcf1986d58f51872ddc6a79a5745636f5442dc96c",
+				"dweb:/ipfs/QmUitwDTsEA1uKwbUpL2gs4nTR8eTgvxWQUWr8ZAJBesKA"
 			]
 		}
 	},

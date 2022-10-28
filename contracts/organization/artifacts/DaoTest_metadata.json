@@ -6,55 +6,50 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
-				"name": "inquiry",
-				"outputs": [
+				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "addr",
+						"type": "address"
 					}
 				],
-				"stateMutability": "view",
+				"name": "callRecord",
+				"outputs": [],
+				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "te",
-				"outputs": [
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_addr",
+						"type": "address"
+					},
 					{
 						"internalType": "uint256",
-						"name": "",
+						"name": "values",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "gass",
 						"type": "uint256"
 					}
 				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "te1",
+				"name": "senTo",
 				"outputs": [
 					{
 						"internalType": "bool",
 						"name": "",
 						"type": "bool"
-					}
-				],
-				"stateMutability": "pure",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "te2",
-				"outputs": [
+					},
 					{
-						"internalType": "bool",
+						"internalType": "bytes",
 						"name": "",
-						"type": "bool"
+						"type": "bytes"
 					}
 				],
-				"stateMutability": "nonpayable",
+				"stateMutability": "payable",
 				"type": "function"
 			}
 		],
@@ -86,11 +81,11 @@
 	},
 	"sources": {
 		"contracts/organization/DaoTest.sol": {
-			"keccak256": "0x5f9fd4c30dfbad6da2e127a82072a9b22efd94753760a976cbdb682bb7d20f1c",
+			"keccak256": "0x7a465e3bf6b8970fef492610812c487299016422db86444302f03243dcb51067",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://117ad580aba68ee3d752a5cd1445efb07e65406d0ae0ff47524be6fb9de25556",
-				"dweb:/ipfs/QmQQrC1vBCiJmgTFEJgNjpxH8D6ueUKi6PQ7kbhAixLSuq"
+				"bzz-raw://3632ff81d78838244c74e651b853cd2c0041a2a76d4ab0c104d393b57ff74b1d",
+				"dweb:/ipfs/QmemhZepUpyjL39kpWNRYe8PXaf2S4YzmGgmUS5Tv4ctQZ"
 			]
 		}
 	},

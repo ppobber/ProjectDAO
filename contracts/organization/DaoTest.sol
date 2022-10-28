@@ -16,25 +16,63 @@ contract DaoTest {
     // mapping (uint => bool) tete;
     // mapping (uint => aa) tete2;
 
-    uint asa = 0;
+    // uint asa = 0;
 
-    function te() public returns (uint) {
-        if(te1() || te2()) {
-        } 
-        return asa;
+    // enum VoteType {
+    //     Against,
+    //     For,
+    //     Abstain
+    // }
+
+    // function te(address _addr) public payable returns (bool, bytes memory) {
+    //     (bool send, bytes memory data) = _addr.call{value: 0, gas: 500000}(
+    //         abi.encodeWithSignature("mememe()"));
+    //     require(send, "Failed.");
+    //     return (send, data);
+    // }
+
+    // function te2(address _addr) public payable returns (bool, bytes memory) {
+    //     (bool send, bytes memory data) = _addr.call{value: 0, gas: 500000}(
+    //         abi.encodeWithSignature("mememe2()"));
+    //     require(send, "Failed.");
+    //     return (send, data);
+    // }
+
+    // function changeBytes() public pure returns (bytes memory) {
+    //     return abi.encodeWithSignature("recordInformation(string)", "Slogan: Think Different.");
+    // }
+
+    // function changeBytes2() public pure returns (bytes32) {
+    //     return keccak256(bytes("Minjia wants to record information of organizaitonal slogan in blockchain."));
+    // }
+
+    function callRecord(address addr) public payable {
+        (bool send, bytes memory data) =  0xeF50110EAc01512796e7AaFEe68458800A4bD358.call{value: 0}(
+            abi.encodeWithSignature("recordInformation(string)", "Slogan: Think Different."));
+        require(send, "Failed.");
     }
 
-    function te1() public pure returns(bool) {
-        return true;
-    }
+    // function voteBytes(uint number) public pure returns (uint8) {
+    //     if (number == 0) {
+    //         return uint8(VoteType.Against);
+    //     } else if (number == 1) {
+    //         return uint8(VoteType.For);
+    //     } else {
+    //         return uint8(VoteType.Abstain);
+    //     }
+    // }
 
-    function te2() public returns(bool) {
-        asa = 3;
-        return true;
-    }
 
-    function inquiry() public view returns(uint) {
-        return asa;
+
+    // function inquiry() public view returns(uint) {
+    //     return asa;
+    // }
+
+    function senTo(address _addr, uint values, uint gass) public payable returns (bool, bytes memory) {
+        (bool send, bytes memory data) = _addr.call{value: values, gas: gass}(
+            abi.encodeWithSignature("dd()"));
+        require(send, "Failed.");
+        return (send, data);
     }
 
 

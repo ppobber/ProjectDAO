@@ -516,11 +516,11 @@
 			]
 		},
 		"contracts/organization/DaoAccessControl.sol": {
-			"keccak256": "0x53fe68a1d929612629ceed42b5ca7a89ba6848812b227bebe7b2402e31ea4297",
+			"keccak256": "0x012aa0dfae8d514e5abae24f113e848fe09109b46c875ca9de1acdfcf4987536",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3332d6f598dc145b200248b1e1c69d83b5c73bb5f7b3db42c17d8460328cf968",
-				"dweb:/ipfs/QmcX21CURs8qBM6E6ZvtAZy3UbBzKsWuBbGoRJX6ESiSwT"
+				"bzz-raw://5ab996fd140875f04e1bb6c950abd9558a35415bea96cb98d92dd5c6e9bde3d4",
+				"dweb:/ipfs/QmVAna5xGPYDK3yEpEmZjwdVDmrcZmbGuEtJxzAGwWUWDd"
 			]
 		}
 	},

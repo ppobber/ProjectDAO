@@ -11,15 +11,16 @@ let daoToken;
 let daoProposal;
 
 const daoName = "CS84";
-const daoTokenName = "DaoTokenNameForScript";
+const daoTokenName = "DAO Token Name";
 const daoTokenSymbol = "DDD";
 
-const domainSeparator = "aaa";
+const daoProposalContractName = "DAO Proposal Contract";
 // const quorumNumeratorValue = 0;
 // const initialVoteExtension = 0;
-const initialVotingDelay = 1293143;
-const initialVotingPeriod = 5891431;
+const initialVotingDelay = 0;
+const initialVotingPeriod = 10;
 const initialProposalThreshold = 0;
+const initialquorumNumber = 0;
 
 
 module.exports = async function (deployer, network, accounts) {
@@ -44,11 +45,12 @@ module.exports = async function (deployer, network, accounts) {
   await deployer.deploy(
     DaoProposal,
     daoAccessControl.address,
-    domainSeparator,
+    daoProposalContractName,
     daoToken.address,
     initialVotingDelay,
     initialVotingPeriod,
     initialProposalThreshold,
+    initialquorumNumber,
     fromAdmin
   );
   daoProposal = await DaoProposal.deployed();

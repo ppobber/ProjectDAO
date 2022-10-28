@@ -122,6 +122,15 @@ contract DaoToken is PublicAccessUtils, ERC20Votes {
         return super.delegate(delegatee);
     }
 
+    /**
+     * @dev allow manager manages staff's delegatees.
+     */
+    function delegateFrom(address delegator, address delegatee) 
+        public allowPermission(TOKEN_MANAGER)
+    {
+        return super._delegate(delegator, delegatee);
+    }
+
     function delegateBySig(
         address delegatee,
         uint256 nonce,

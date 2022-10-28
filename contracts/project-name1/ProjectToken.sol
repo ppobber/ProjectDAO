@@ -37,10 +37,15 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
     // }
 
     //only TOKEN_MANAGER can transfer everyone's token
-    function transfer(address owner, address to, uint256 amount) 
-        public allowPermissions(TOKEN_MANAGER, ADMIN)
+    function transferFrom(address from, address to, uint256 amount) 
+        public override allowPermissions(TOKEN_MANAGER, ADMIN) returns (bool)
     {
-        return super._transfer(owner, to, amount);
+        // address spender = _msgSender();
+        // _spendAllowance(from, spender, amount);
+        super._transfer(from, to, amount);
+        return true;
+        // return super._transfer(from, to, amount);
+
     }
 
     
@@ -122,6 +127,12 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.delegate(delegatee);
     }
 
+    function delegateFrom(address delegator, address delegatee) 
+        public allowPermissions(TOKEN_MANAGER, STAFF)
+    {
+        return super._delegate(delegator, delegatee);
+    }
+
     function delegateBySig(
         address delegatee,
         uint256 nonce,
@@ -172,13 +183,13 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
     function mint(address account, uint256 amount) 
         public allowPermissions(TOKEN_MANAGER, ADMIN) 
     {
-        _mint(account, amount);
+        super._mint(account, amount);
     }
 
     function burn(address account, uint256 amount) 
         public allowPermissions(TOKEN_MANAGER, ADMIN) 
     {
-        _burn(account, amount);
+        super._burn(account, amount);
     }
 
 

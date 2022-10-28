@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol
 
 import "../PublicAccessUtils.sol";
 
+//enable optimization (run: 200) to compile Proposal contract.
 contract DaoProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSimple {
 
     bytes32 internal constant PROPOSAL_MANAGER = keccak256("PROPOSAL_MANAGER");
@@ -13,30 +14,24 @@ contract DaoProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSimple
     uint256 private _votingDelay;
     uint256 private _votingPeriod;
     uint256 private _proposalThreshold;
+    uint256 private _quorumNumber;
 
     constructor(
         address daoAccessControlAddress, 
-        string memory domainSeparator,
+        string memory daoProposalContractName,
         IVotes daoTokenAddress,
         uint256 initialVotingDelay,
         uint256 initialVotingPeriod,
-        uint256 initialProposalThreshold) 
-        Governor(domainSeparator)
+        uint256 initialProposalThreshold,
+        uint256 initialquorumNumber) 
+        Governor(daoProposalContractName)
         GovernorVotes(daoTokenAddress)
     {
         _initializeAccessControl(daoAccessControlAddress);
         _votingDelay = initialVotingDelay;
         _votingPeriod = initialVotingPeriod;
         _proposalThreshold = initialProposalThreshold;
-    }
-
-    //user-config
-    function quorum(uint256 blockNumber) 
-        public view override allowPermission(STAFF) returns (uint256) 
-    {
-        //Right now a single vote can make the proposal work.
-        blockNumber;
-        return 1;
+        _quorumNumber = initialquorumNumber;
     }
 
     //GovernorCountingSimple
@@ -50,6 +45,44 @@ contract DaoProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSimple
         return super.proposalVotes(proposalId);
     }
 
+    //user-config
+    function quorum(uint256) 
+        public view override allowPermission(STAFF) returns (uint256) 
+    {
+        return _quorumNumber;
+    }
+
+    function votingDelay() 
+        public view override allowPermission(STAFF) returns (uint256) 
+    {
+        return _votingDelay;
+    }
+
+    function votingPeriod() 
+        public view override allowPermission(STAFF) returns (uint256) 
+    {
+        return _votingPeriod;
+    }
+
+    function proposalThreshold() 
+        public view override allowPermission(STAFF) returns (uint256) 
+    {
+        return _proposalThreshold;
+    }
+
+    function changeVotingSetting(
+        uint256 newVotingDelay, 
+        uint256 newVotingPeriod, 
+        uint256 newProposalThreshold,
+        uint256 newQuormNumber)
+        public allowPermission(PROPOSAL_MANAGER) 
+    {
+        require(newVotingPeriod > 0, "DaoProposal: voting period too low.");
+        _votingDelay = newVotingDelay;
+        _votingPeriod = newVotingPeriod;
+        _proposalThreshold = newProposalThreshold;
+        _quorumNumber = newQuormNumber;
+    }
 
     //IGovernor
     function name()
@@ -79,24 +112,6 @@ contract DaoProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSimple
         public view override allowPermission(STAFF) returns (uint256)
     {
         return super.proposalDeadline(proposalId);
-    }
-
-    function votingDelay() 
-        public view override allowPermission(STAFF) returns (uint256) 
-    {
-        return _votingDelay;
-    }
-
-    function votingPeriod() 
-        public view override allowPermission(STAFF) returns (uint256) 
-    {
-        return _votingPeriod;
-    }
-
-    function proposalThreshold() 
-        public view override allowPermission(STAFF) returns (uint256) 
-    {
-        return _proposalThreshold;
     }
 
     function getVotes(address account, uint256 blockNumber)  
