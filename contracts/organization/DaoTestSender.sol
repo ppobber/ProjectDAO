@@ -3,7 +3,7 @@ pragma solidity ^0.8.4;
 
 // import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract DaoTest {
+contract DaoTestSender {
 
 
     // event someOutputs(string newValue);
@@ -24,12 +24,16 @@ contract DaoTest {
     //     Abstain
     // }
 
-    // function te(address _addr) public payable returns (bool, bytes memory) {
-    //     (bool send, bytes memory data) = _addr.call{value: 0, gas: 500000}(
-    //         abi.encodeWithSignature("mememe()"));
-    //     require(send, "Failed.");
-    //     return (send, data);
-    // }
+    function te(address _addr) public payable returns (bool, bytes memory) {
+        (bool send, bytes memory data) = _addr.call{value: 0}(
+            abi.encodeWithSignature("mememe()"));
+        require(send, "Failed.");
+        return (send, data);
+    }
+
+    function useful(string memory aaa) public pure returns (bytes32) {
+        return keccak256(bytes(aaa));
+    }
 
     // function te2(address _addr) public payable returns (bool, bytes memory) {
     //     (bool send, bytes memory data) = _addr.call{value: 0, gas: 500000}(
@@ -47,8 +51,9 @@ contract DaoTest {
     // }
 
     function callRecord(address addr) public payable {
-        (bool send, bytes memory data) =  0xeF50110EAc01512796e7AaFEe68458800A4bD358.call{value: 0}(
+        (bool send, bytes memory data) =  addr.call{value: 0}(
             abi.encodeWithSignature("recordInformation(string)", "Slogan: Think Different."));
+        data;
         require(send, "Failed.");
     }
 
@@ -68,9 +73,8 @@ contract DaoTest {
     //     return asa;
     // }
 
-    function senTo(address _addr, uint values, uint gass) public payable returns (bool, bytes memory) {
-        (bool send, bytes memory data) = _addr.call{value: values, gas: gass}(
-            abi.encodeWithSignature("dd()"));
+    function senTo(address _addr, uint values) public payable returns (bool, bytes memory) {
+        (bool send, bytes memory data) = _addr.call{value: values}("");
         require(send, "Failed.");
         return (send, data);
     }

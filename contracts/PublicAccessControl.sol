@@ -84,6 +84,7 @@ abstract contract PublicAccessControl is IPublicAccessControl{
         _singleInit(ACCESS_MANAGER);
         _singleInit(TOKEN_MANAGER);
         _singleInit(RECORD_MANAGER);
+        _singleInit(PROPOSAL_MANAGER);
         _singleInit(STAFF);
         _singleInit(MEMBER);
     }

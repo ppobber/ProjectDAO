@@ -3,14 +3,14 @@ pragma solidity ^0.8.4;
 
 // import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract DaoTest2 {
+contract DaoTestReceiver {
 
     event dododo(string indexed dd);
     uint32 aa = 0;
 
     string[] internal info;
 
-    function mememe() external payable returns(uint32) {
+    function mememe() public returns(uint32) {
         // emit dododo("fagafdagd");
         aa += 3;
         // info.push(information);
@@ -18,7 +18,7 @@ contract DaoTest2 {
         return aa;
     }
 
-    function mememe2() external payable returns(uint32) {
+    function mememe2() public returns(uint32) {
         // emit dododo("fagafdagd");
         aa += 3;
         // info.push(information);

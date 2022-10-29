@@ -66,10 +66,10 @@ contract DaoToken is PublicAccessUtils, ERC20Votes {
 
 
     function transferFrom(address from, address to, uint256 amount) 
-        public override allowPermission(STAFF) returns (bool) 
+        public override allowPermission(TOKEN_MANAGER) returns (bool) 
     {
-        require(false, "The function is not avaliable.");
-        return super.transferFrom(from, to, amount);
+        super._transfer(from, to, amount);
+        return true;
     }
 
     //IERC20Metadata

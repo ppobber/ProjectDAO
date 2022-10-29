@@ -4,11 +4,14 @@ const DaoAccessControl = artifacts.require('./organization/DaoAccessControl');
 const DaoRecord = artifacts.require('./organization/DaoRecord');
 const DaoToken = artifacts.require('./organization/DaoToken');
 const DaoProposal = artifacts.require('./organization/DaoProposal');
+const DaoProposalRecord = artifacts.require('./organization/DaoProposalRecord');
+const StringUtils = artifacts.require('./StringUtils.sol');
 
 let daoAccessControl;
 let daoRecord;
 let daoToken;
 let daoProposal;
+let daoProposalRecord;
 
 const daoName = "CS84";
 const daoTokenName = "DAO Token Name";
@@ -55,9 +58,29 @@ module.exports = async function (deployer, network, accounts) {
   );
   daoProposal = await DaoProposal.deployed();
 
+  await deployer.deploy(StringUtils, fromAdmin);
+  await deployer.link(StringUtils, DaoProposalRecord, fromAdmin);
+  await deployer.deploy(
+    DaoProposalRecord,
+    daoAccessControl.address,
+    daoProposal.address,
+    daoRecord.address,
+    daoToken.address,
+    fromAdmin
+  );
+  daoProposalRecord = await DaoProposalRecord.deployed();
+
   await daoAccessControl.grantAccountPermission("STAFF", daoRecord.address, fromAdmin);
   await daoAccessControl.grantAccountPermission("STAFF", daoToken.address, fromAdmin);
   await daoAccessControl.grantAccountPermission("STAFF", daoProposal.address, fromAdmin);
+  await daoAccessControl.grantAccountPermission("STAFF", daoProposalRecord.address, fromAdmin);
+
+  await daoAccessControl.grantAccountPermission("ACCESS_MANAGER", daoProposal.address, fromAdmin);
+  await daoAccessControl.grantAccountPermission("TOKEN_MANAGER", daoProposal.address, fromAdmin);
+  await daoAccessControl.grantAccountPermission("RECORD_MANAGER", daoProposal.address, fromAdmin);
+  await daoAccessControl.grantAccountPermission("PROPOSAL_MANAGER", daoProposal.address, fromAdmin);
+
+  await daoAccessControl.grantAccountPermission("PROPOSAL_MANAGER", daoProposalRecord.address, fromAdmin);
 
   let outputInfo = {
     "DaoAccessControl": {
