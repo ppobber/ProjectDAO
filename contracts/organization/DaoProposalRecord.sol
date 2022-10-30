@@ -126,6 +126,7 @@ contract DaoProposalRecord is PublicAccessUtils {
         emit behaviourAdded(proposalNumber, recordAddress, 0, behaviour.operation);
     }
 
+    //It will cause unexpected results. It's not good to transfer eth by contract.
     function addTransferEthBehaviour(
         uint16 proposalNumber, 
         address receiveAddress, 

@@ -60,9 +60,11 @@ contract('DaoProposal', function () {
         const proposalNumber = await daoProposalRecord.inquiryLatestProposalNumber({ from: user.Minjia });
 
         await daoProposalRecord.addRecordBehaviour(proposalNumber, "Slogan: Think Different.", { from: user.Minjia });
+
         // await daoProposalRecord.addTransferEthBehaviour(
         //     proposalNumber, user.Yichen, web3.utils.toWei("1", "ether"),
-        //     { from: user.Minjia, value: web3.utils.toWei("1.1", "ether")});
+        //     { from: user.Minjia, value: web3.utils.toWei("1.1", "ether") });
+        
         await daoProposalRecord.addMintTokenBehaviour(proposalNumber, user.Yichen, 22, { from: user.Minjia });
         console.log("Minjia creates a proposal.");
 

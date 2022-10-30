@@ -79,6 +79,14 @@ contract DaoTestSender {
         return (send, data);
     }
 
+    function addTransferEthBehaviour() public payable returns (uint256, uint256) {
+        return (address(this).balance, msg.value);
+    }
+
+    function inquiryInfo() public view returns (uint256) {
+        return address(this).balance;
+    }
+
 
     // function test(bool[] memory _accessibleRoles) public pure returns(bool)  {
     //     bool ifRoles = false;
