@@ -167,16 +167,20 @@ contract DaoProposalRecord is PublicAccessUtils {
         checkState(proposalNumber) 
         returns (bool) 
     {
-        Behaviour[] memory behaviours = _proposalList[proposalNumber].behaviours;
-        uint256 behaviourNumber = behaviours.length;
-        address[] memory targets = new address[](behaviourNumber);
-        uint256[] memory values = new uint256[](behaviourNumber);
-        bytes[] memory calldatas = new bytes[](behaviourNumber);
-        for (uint i = 0; i < behaviourNumber; i++) {
-            targets[i] = behaviours[i].target;
-            values[i] = behaviours[i].value;
-            calldatas[i] = behaviours[i].operation;
-        }
+        (address[] memory targets, 
+         uint256[] memory values, 
+         bytes[] memory calldatas) = _arrangeBehaviour(proposalNumber);
+
+        // Behaviour[] memory behaviours = _proposalList[proposalNumber].behaviours;
+        // uint256 behaviourNumber = behaviours.length;
+        // address[] memory targets = new address[](behaviourNumber);
+        // uint256[] memory values = new uint256[](behaviourNumber);
+        // bytes[] memory calldatas = new bytes[](behaviourNumber);
+        // for (uint i = 0; i < behaviourNumber; i++) {
+        //     targets[i] = behaviours[i].target;
+        //     values[i] = behaviours[i].value;
+        //     calldatas[i] = behaviours[i].operation;
+        // }
         _proposalList[proposalNumber].isReleased = true;
         string memory description = _proposalList[proposalNumber].description;
         uint256 proposalId = DaoProposal.propose(targets, values, calldatas, description);
@@ -228,16 +232,9 @@ contract DaoProposalRecord is PublicAccessUtils {
         checkNumber(proposalNumber) 
         returns (bool) 
     {
-        Behaviour[] memory behaviours = _proposalList[proposalNumber].behaviours;
-        uint256 behaviourNumber = behaviours.length;
-        address[] memory targets = new address[](behaviourNumber);
-        uint256[] memory values = new uint256[](behaviourNumber);
-        bytes[] memory calldatas = new bytes[](behaviourNumber);
-        for (uint i = 0; i < behaviours.length; i++) {
-            targets[i] = behaviours[i].target;
-            values[i] = behaviours[i].value;
-            calldatas[i] = behaviours[i].operation;
-        }
+        (address[] memory targets, 
+         uint256[] memory values, 
+         bytes[] memory calldatas) = _arrangeBehaviour(proposalNumber);
         bytes32 descriptionHash = toHash(_proposalList[proposalNumber].description);
         DaoProposal.execute(targets, values, calldatas, descriptionHash);
         return true;
@@ -245,6 +242,24 @@ contract DaoProposalRecord is PublicAccessUtils {
 
     function toHash(string memory description) public pure returns (bytes32) {
         return keccak256(bytes(description));
+    }
+
+    function _arrangeBehaviour(uint16 proposalNumber) 
+        private view returns (
+            address[] memory targets, 
+            uint256[] memory values, 
+            bytes[] memory calldatas) 
+    {
+        Behaviour[] memory behaviours = _proposalList[proposalNumber].behaviours;
+        uint256 behaviourNumber = behaviours.length;
+        targets = new address[](behaviourNumber);
+        values = new uint256[](behaviourNumber);
+        calldatas = new bytes[](behaviourNumber);
+        for (uint i = 0; i < behaviours.length; i++) {
+            targets[i] = behaviours[i].target;
+            values[i] = behaviours[i].value;
+            calldatas[i] = behaviours[i].operation;
+        }
     }
 
 }

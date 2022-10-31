@@ -157,6 +157,16 @@ contract DaoProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSimple
         return super.execute(targets, values, calldatas, descriptionHash);
     }
 
+    function cancel(
+        address[] memory targets,
+        uint256[] memory values,
+        bytes[] memory calldatas,
+        bytes32 descriptionHash) 
+        public allowPermission(PROPOSAL_MANAGER) returns (uint256 proposalId)
+    {
+        return super._cancel(targets, values, calldatas, descriptionHash);
+    }
+
 
     // function castVote(uint256 proposalId, uint8 support) 
     //     public override allowPermission(STAFF) returns (uint256 balance) 
