@@ -38,42 +38,42 @@ contract ProjectRecord is PublicAccessUtils {
     string private _projectRiskPlan= "";
 
     bytes32 internal constant FUNC_recordNPV = keccak256(
-        "function recordNPV(uint32 npvNow)");
+        "function recordNPV(uint32)");
     bytes32 internal constant FUNC_getNPV = keccak256(
         "function getNPV()");
 
     bytes32 internal constant FUNC_recordRisk = keccak256(
-        "function recordRisk(string memory riskLevel)");
+        "function recordRisk(string)");
     bytes32 internal constant FUNC_getRisk = keccak256(
-        "function getRisk(string memory riskLevel)");
+        "function getRisk(string)");
 
     bytes32 internal constant FUNC_setProjectObjective = keccak256(
-        "function setProjectObjective(string memory _projectObjective)");
+        "function setProjectObjective(string)");
     bytes32 internal constant FUNC_getProjectObjective = keccak256(
         "function getProjectObjective()");
 
     bytes32 internal constant FUNC_setProjectBudget = keccak256(
-        "function setProjectBudget(string memory _projectBudget)");
+        "function setProjectBudget(string)");
     bytes32 internal constant FUNC_getProjectBudget = keccak256(
         "function getProjectBudget()");
 
     bytes32 internal constant FUNC_setProjectSchedule = keccak256(
-        "function setProjectSchedule(string memory _projectSchedule)");
+        "function setProjectSchedule(string)");
     bytes32 internal constant FUNC_getProjectSchedule = keccak256(
         "function getProjectSchedule()");
 
     bytes32 internal constant FUNC_setProjectROI = keccak256(
-        "function setProjectROI(string memory _projectROI)");
+        "function setProjectROI(string)");
     bytes32 internal constant FUNC_getProjectROI = keccak256(
         "function getProjectROI()");
 
     bytes32 internal constant FUNC_setProjectMgmtPlan = keccak256(
-        "function setProjectMgmtPlan(string memory_projectMgmtPlan)");
+        "function setProjectMgmtPlan(string)");
     bytes32 internal constant FUNC_getProjectMgmtPlan = keccak256(
         "function getProjectMgmtPlan()");
 
     bytes32 internal constant FUNC_setProjectRiskPlan = keccak256(
-        "function setProjectRiskPlan(string memory_projectRiskPlan)");
+        "function setProjectRiskPlan(string)");
     bytes32 internal constant FUNC_getProjectRiskPlan = keccak256(
         "function getProjectRiskPlan()");
     

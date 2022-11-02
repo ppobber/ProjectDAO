@@ -71,7 +71,9 @@ contract('DaoProposal', function () {
         const stateNow1 = await daoProposalRecord.inquiryProposalState(proposalNumber, { from: user.Hexin });
         expect(stateNow1).to.equal("Unreleased");
 
-        await daoProposalRecord.releaseProposal(proposalNumber, { from: user.Yue });
+        // await daoProposalRecord.releaseProposal(proposalNumber, { from: user.Yue });
+        await daoProposalRecord.releaseProposalWithSetting(proposalNumber, 0, 11, 0, 0, { from: user.Yue });
+
         const proposalId = await daoProposalRecord.inquiryProposalId(proposalNumber, { from: user.Yue });
 
         // const stateNow2 = await daoProposalRecord.inquiryProposalState(proposalNumber, { from: user.Hexin });

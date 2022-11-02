@@ -5,11 +5,15 @@ const ProjectAccessControl = artifacts.require('./project-name1/ProjectAccessCon
 const ProjectRecord = artifacts.require('./project-name1/ProjectRecord');
 const ProjectToken = artifacts.require('./project-name1/ProjectToken');
 const ProjectProposal = artifacts.require('./project-name1/ProjectProposal');
+const ProjectProposalRecord = artifacts.require('./organization/ProjectProposalRecord');
+
+const StringUtils = artifacts.require('./StringUtils.sol');
 
 let projectAccessControl;
 let projectRecord;
 let projectToken;
 let projectProposal;
+let projectProposalRecord;
 
 const projectName = "Project Name";
 const projectTokenName = 'Project Token Name';
@@ -19,7 +23,7 @@ const projectAdminEmail = 'yuyu5305@uni.sydney.edu.au';
 
 const projectProposalContractName = "Project Proposal Contract";
 const initialVotingDelay = 0;
-const initialVotingPeriod = 10;
+const initialVotingPeriod = 8;
 const initialProposalThreshold = 0;
 const initialquorumNumber = 0;
 
@@ -65,10 +69,29 @@ module.exports = async function (deployer, network, accounts) {
     fromAdmin
   );
   projectProposal = await ProjectProposal.deployed();
+
+  await deployer.link(StringUtils, ProjectProposalRecord, fromAdmin);
+  await deployer.deploy(
+    ProjectProposalRecord,
+    projectAccessControl.address,
+    projectProposal.address,
+    projectRecord.address,
+    projectToken.address,
+    fromAdmin
+  );
+  projectProposalRecord = await ProjectProposalRecord.deployed();
   
   await projectAccessControl.grantAccountPermission("STAFF", projectRecord.address, fromAdmin);
   await projectAccessControl.grantAccountPermission("STAFF", projectToken.address, fromAdmin);
   await projectAccessControl.grantAccountPermission("STAFF", projectProposal.address, fromAdmin);
+  await projectAccessControl.grantAccountPermission("STAFF", projectProposalRecord.address, fromAdmin);
+
+  await projectAccessControl.grantAccountPermission("ACCESS_MANAGER", projectProposal.address, fromAdmin);
+  await projectAccessControl.grantAccountPermission("TOKEN_MANAGER", projectProposal.address, fromAdmin);
+  await projectAccessControl.grantAccountPermission("RECORD_MANAGER", projectProposal.address, fromAdmin);
+  await projectAccessControl.grantAccountPermission("PROPOSAL_MANAGER", projectProposal.address, fromAdmin);
+
+  await projectAccessControl.grantAccountPermission("PROPOSAL_MANAGER", projectProposalRecord.address, fromAdmin);
 
   let outputInfo = {
     "ProjectAccessControl": {

@@ -1,6 +1,7 @@
 const user = require('./accounts');
 const ProjectRecord = artifacts.require('./project-name1/ProjectRecord');
 
+contract('ProjectRecord', function () {
   it('Record project Objective', async () => {
     const projectRecord = await ProjectRecord.deployed();
     console.log('record file projectObj.json to contract...');

@@ -8,16 +8,21 @@ contract DaoRecord is PublicAccessUtils {
     bytes32 internal constant RECORD_MANAGER = keccak256("RECORD_MANAGER");
 
     string[] private informationList;
+    string[] private projectNameList;
 
     event informationRecorded(address indexed sender, string indexed information);
 
-    bytes32 internal constant FUNC_recordInformation = keccak256("function recordInformation(string memory information)");
+    bytes32 internal constant FUNC_recordInformation = keccak256("function recordInformation(string)");
     bytes32 internal constant FUNC_inquiryInformation = keccak256("function inquiryInformation()");
+    bytes32 internal constant FUNC_recordProjectName = keccak256("function recordProjectName(string)");
+    bytes32 internal constant FUNC_inquiryProjectName = keccak256("function inquiryProjectName()");
 
     constructor(address daoAccessControlAddress) {
         _initializeAccessControl(daoAccessControlAddress);
         _initializeFunctionPermission(FUNC_recordInformation, RECORD_MANAGER);
         _initializeFunctionPermission(FUNC_inquiryInformation, STAFF);
+        _initializeFunctionPermission(FUNC_recordProjectName, RECORD_MANAGER);
+        _initializeFunctionPermission(FUNC_inquiryProjectName, STAFF);
         //...should initialize all functions permission at the first time
     }
 
@@ -40,11 +45,18 @@ contract DaoRecord is PublicAccessUtils {
         return informationList;
     }
 
-    // function inquiryTest() 
-    //     public view allowPermission(STAFF) returns(string memory) 
-    // {
-    //     return "Call Success";
-    // }
+    function recordProjectName(string memory projectName)
+        public allowPermission(_getFunctionPermission(FUNC_recordProjectName)) 
+    {
+        projectNameList.push(projectName);
+        emit informationRecorded(msg.sender, projectName);
+    }
 
+    function inquiryProjectName()
+        public view allowPermission(_getFunctionPermission(FUNC_inquiryProjectName)) 
+        returns(string[] memory) 
+    {
+        return projectNameList;
+    }
 
 }

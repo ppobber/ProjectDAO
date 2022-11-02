@@ -5,7 +5,7 @@ const DaoRecord = artifacts.require('./organization/DaoRecord');
 const DaoToken = artifacts.require('./organization/DaoToken');
 const DaoProposal = artifacts.require('./organization/DaoProposal');
 const DaoProposalRecord = artifacts.require('./organization/DaoProposalRecord');
-const DaoTestSender = artifacts.require('./organization/DaoTestSender');
+// const DaoTestSender = artifacts.require('./organization/DaoTestSender');
 
 const StringUtils = artifacts.require('./StringUtils.sol');
 
@@ -14,7 +14,7 @@ let daoRecord;
 let daoToken;
 let daoProposal;
 let daoProposalRecord;
-let daoTestSender;
+// let daoTestSender;
 
 const daoName = "CS84";
 const daoTokenName = "DAO Token Name";
@@ -61,7 +61,7 @@ module.exports = async function (deployer, network, accounts) {
   );
   daoProposal = await DaoProposal.deployed();
 
-  await deployer.deploy(StringUtils, fromAdmin);
+  // await deployer.deploy(StringUtils, fromAdmin);
   await deployer.link(StringUtils, DaoProposalRecord, fromAdmin);
   await deployer.deploy(
     DaoProposalRecord,
@@ -85,8 +85,8 @@ module.exports = async function (deployer, network, accounts) {
 
   await daoAccessControl.grantAccountPermission("PROPOSAL_MANAGER", daoProposalRecord.address, fromAdmin);
 
-  await deployer.deploy(DaoTestSender);
-  daoTestSender = await DaoTestSender.deployed();
+  // await deployer.deploy(DaoTestSender);
+  // daoTestSender = await DaoTestSender.deployed();
 
 
   let outputInfo = {

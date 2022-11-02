@@ -9,7 +9,7 @@ import "../PublicAccessControl.sol";
 * @dev Access control contract for organization
 * @custom:dev-run-script D:\IndividualProgramme\Blockchain\ProjectDAO\test\DaoAccessControl.test.js
 */
-contract DaoAccessControl is PublicAccessControl{
+contract DaoAccessControl is PublicAccessControl {
 
     string public daoName = "";
 
