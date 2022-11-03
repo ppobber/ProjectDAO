@@ -15,8 +15,8 @@ contract DaoToken is PublicAccessUtils, ERC20Votes {
     bytes32 internal constant TOKEN_MANAGER = keccak256("TOKEN_MANAGER");
     bytes32 internal constant PROPOSAL_MANAGER = keccak256("PROPOSAL_MANAGER");
     
-    constructor(address daoAccessControlAddress, string memory TokenName, string memory TokenSymbol) 
-        ERC20(TokenName, TokenSymbol) ERC20Permit(TokenName) 
+    constructor(address daoAccessControlAddress, string memory daoTokenName, string memory daoTokenSymbol) 
+        ERC20(daoTokenName, daoTokenSymbol) ERC20Permit(daoTokenName) 
     {
         _initializeAccessControl(daoAccessControlAddress);
     }

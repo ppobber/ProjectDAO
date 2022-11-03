@@ -1,5 +1,5 @@
 const user = require('./accounts');
-const ProjectRecord = artifacts.require('./project-name1/ProjectRecord');
+const ProjectRecord = artifacts.require('./project/ProjectRecord');
 
 contract('ProjectRecord', function () {
   it('Record project Objective', async () => {

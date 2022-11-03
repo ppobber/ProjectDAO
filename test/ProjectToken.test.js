@@ -1,5 +1,5 @@
 const user = require('./accounts');
-const ProjectToken = artifacts.require('./project-name1/ProjectToken');
+const ProjectToken = artifacts.require('./project/ProjectToken');
 
 contract('ProjectToken', function () {
 

@@ -10,8 +10,8 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
     bytes32 internal constant TOKEN_MANAGER = keccak256("TOKEN_MANAGER");
     bytes32 internal constant PROPOSAL_MANAGER = keccak256("PROPOSAL_MANAGER");
     
-    constructor(address projectAccessControlAddress, string memory TokenName, string memory TokenSymbol) 
-        ERC20(TokenName, TokenSymbol) ERC20Permit(TokenName) 
+    constructor(address projectAccessControlAddress, string memory projectTokenName, string memory projectTokenSymbol) 
+        ERC20(projectTokenName, projectTokenSymbol) ERC20Permit(projectTokenName) 
     {
         _initializeAccessControl(projectAccessControlAddress);
     }

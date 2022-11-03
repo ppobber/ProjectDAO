@@ -3,6 +3,7 @@ pragma solidity ^0.8.4;
 
 import "../PublicAccessUtils.sol";
 import "../PublicProposalRecord.sol";
+import "./DaoProjectCreate.sol";
 
 contract DaoProposalRecord is PublicAccessUtils, PublicProposalRecord {
 
@@ -287,18 +288,22 @@ contract DaoProposalRecord is PublicAccessUtils, PublicProposalRecord {
     //     }
     // }
 
+    address internal projectCreateAddress;
 
     constructor (
         address daoAccessControlAddress, 
         address daoProposalAddress,
         address daoRecordAddress,
-        address daoTokenAddress) 
+        address daoTokenAddress
+        // address daoProjectCreateAddress
+    ) 
         PublicProposalRecord(
             daoAccessControlAddress, 
             daoProposalAddress, 
             daoRecordAddress, 
             daoTokenAddress) {
         _initializeAccessControl(daoAccessControlAddress);
+        // projectCreateAddress = daoProjectCreateAddress;
     }
 
     function createProposal(string memory description) 
@@ -349,6 +354,50 @@ contract DaoProposalRecord is PublicAccessUtils, PublicProposalRecord {
     {
         return super._releaseProposal(proposalNumber);
     }
+
+    // function applyProjectProposal(
+    //     string memory description,
+    //     string memory projectAdminName,
+    //     string memory projectAdminEmail, 
+    //     string memory projectTokenName,
+    //     string memory projectTokenSymbol, 
+    //     string memory projectNPV, 
+    //     string memory projectRisk,
+    //     string memory projectObjective,
+    //     string memory projectBudget,
+    //     string memory projectchedule,
+    //     string memory projectROI,
+    //     string memory projectManagementRisk,
+    //     string memory projectRiskPlan) 
+    //     public allowPermission(STAFF) returns (uint16) 
+    // {
+    //     uint16 proposalNumber = super._createProposal(description);
+    //     // _addCreateContractBehaviour(proposalNumber, );
+    //     // _addRecordProjectInformationBehaviour(proposalNumber, );
+    //     return proposalNumber;
+    // }
+
+    // function _addCreateContractBehaviour(
+    //     uint16 proposalNumber, 
+    //     string memory infomation) 
+    //     private 
+    // {
+    //     Behaviour storage behaviour = _proposalList[proposalNumber].behaviours.push();
+    //     behaviour.target = projectCreateAddress;
+    //     behaviour.value = 0;
+    //     //todo
+    //     behaviour.operation = abi.encodeWithSignature("createProjectAccessControl(string)", infomation);
+    //     behaviour.operation = abi.encodeWithSignature("createProjectToken(string)", infomation);
+    //     behaviour.operation = abi.encodeWithSignature("createProjectRecord(string)", infomation);
+    //     behaviour.operation = abi.encodeWithSignature("creaateProjectProposal(string)", infomation);
+    //     behaviour.operation = abi.encodeWithSignature("createProjectProposalRecord(string)", infomation);
+
+    //     // emit behaviourAdded(proposalNumber, recordAddress, 0, behaviour.operation);
+    // }
+
+    // function _addRecordProjectInformationBehaviour() private {
+        
+    // }
 
     function releaseProposalWithSetting(
         uint16 proposalNumber,

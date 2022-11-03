@@ -32,7 +32,7 @@ abstract contract PublicProposalRecord {
         string description;
     }
 
-    ProposalInformation[] private _proposalList;
+    ProposalInformation[] internal _proposalList;
 
     address internal recordAddress;
     address internal tokenAddress;

@@ -11,11 +11,11 @@ const DaoRecord = artifacts.require('./organization/DaoRecord');
 const DaoToken = artifacts.require('./organization/DaoToken');
 const DaoProposal = artifacts.require('./organization/DaoProposal');
 const ProjectAccessControl = artifacts.require(
-  './project-name1/ProjectAccessControl'
+  './project/ProjectAccessControl'
 );
-const ProjectRecord = artifacts.require('./project-name1/ProjectRecord');
-const ProjectToken = artifacts.require('./project-name1/ProjectToken');
-const ProjectProposal = artifacts.require('./project-name1/ProjectProposal');
+const ProjectRecord = artifacts.require('./project/ProjectRecord');
+const ProjectToken = artifacts.require('./project/ProjectToken');
+const ProjectProposal = artifacts.require('./project/ProjectProposal');
 
 module.exports = async function (callback) {
   // Zoe create the organization call MyCOM and create Token name MyCOMTOKEN (MCT)

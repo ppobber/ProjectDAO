@@ -1,11 +1,11 @@
 const fs = require('fs-extra');
 
 const DaoAccessControl = artifacts.require('./organization/DaoAccessControl');
-const ProjectAccessControl = artifacts.require('./project-name1/ProjectAccessControl');
-const ProjectRecord = artifacts.require('./project-name1/ProjectRecord');
-const ProjectToken = artifacts.require('./project-name1/ProjectToken');
-const ProjectProposal = artifacts.require('./project-name1/ProjectProposal');
-const ProjectProposalRecord = artifacts.require('./organization/ProjectProposalRecord');
+const ProjectAccessControl = artifacts.require('./project/ProjectAccessControl');
+const ProjectRecord = artifacts.require('./project/ProjectRecord');
+const ProjectToken = artifacts.require('./project/ProjectToken');
+const ProjectProposal = artifacts.require('./project/ProjectProposal');
+const ProjectProposalRecord = artifacts.require('./project/ProjectProposalRecord');
 
 const StringUtils = artifacts.require('./StringUtils.sol');
 

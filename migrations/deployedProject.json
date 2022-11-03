@@ -1,14 +1,14 @@
 {
 	"ProjectAccessControl": {
-		"address": "0x57dA8f59a1Cf5Be63a2510C13fC55659706D92Ff"
+		"address": "0x41272D4a9F79de1b9F26da044daEa3E87DB622b7"
 	},
 	"ProjectRecord": {
-		"address": "0x2C9Dd3b0B03bC74290CFF8622BE98D343f692ea6"
+		"address": "0xfA9C359D408EB3e9136E8c86226cE037CC43db69"
 	},
 	"ProjectToken": {
-		"address": "0x924B299ba436f2C9C40D57Dc680C12EfBa179e86"
+		"address": "0x4689E2eCED602680A9a8b750EB09CEB9581318f0"
 	},
 	"ProjectProposal": {
-		"address": "0xcd037b47A767f7913788b89583333aB2FE6B3db6"
+		"address": "0xbB05e77315Ac9b977b5AB196119Af0059318Db0a"
 	}
 }
