@@ -19,18 +19,7 @@ const ProjectProposal = artifacts.require('./project/ProjectProposal');
 
 module.exports = async function (callback) {
   // Zoe create the organization call MyCOM and create Token name MyCOMTOKEN (MCT)
-  const [
-    Zoe,
-    Yue,
-    Home,
-    Mengjia,
-    Juncheng,
-    voter6,
-    voter7,
-    voter8,
-    voter9,
-    voter10,
-  ] = await web3.eth.getAccounts();
+  const [Zoe, Yue, Home, Mengjia, Juncheng] = await web3.eth.getAccounts();
   const daoAccessControl = await DaoAccessControl.deployed();
   const daoRecord = await DaoRecord.deployed();
   const daoToken = await DaoToken.deployed();
@@ -41,9 +30,18 @@ module.exports = async function (callback) {
   const projectRecord = await ProjectRecord.deployed();
   const projectToken = await ProjectToken.deployed();
 
+  // await daoAccessControl.grantAccountPermission('STAFF', Yue);
+  // await daoAccessControl.grantAccountPermission('RECORD_MANAGER', Yue);
+  // await daoAccessControl.grantAccountPermission('STAFF', Home);
+  // await daoAccessControl.grantAccountPermission('TOKEN_MANAGER', Home);
+  // await projectAccessControl.grantAccountPermission('ACCESS_MANAGER', Mengjia);
+  // await projectAccessControl.grantAccountPermission('STAFF', Mengjia);
+  // await projectAccessControl.grantAccountPermission('RECORD_MANAGER', Mengjia);
+
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
+  await sleep(6000);
 
   console.log('====  Print Company information ====');
   console.log('Organization Name: ', companyName);
@@ -56,7 +54,7 @@ module.exports = async function (callback) {
   await daoRecord.recordInformation(
     'This is Zoe anybody who has an idea of a project can contact me'
   );
-  const internalmsg = await daoRecord.inquiryInformation();
+  let internalmsg = await daoRecord.inquiryInformation();
   console.log("====  Zoe's message  ====");
   console.log('Massgae to Company Members: ', internalmsg[0]);
 
@@ -81,12 +79,14 @@ module.exports = async function (callback) {
   await daoAccessControl.grantAccountPermission('RECORD_MANAGER', Yue, {
     from: Zoe,
   });
-  await sleep(6000);
 
   // Now Yue can add the massge to the company records.
   await daoRecord.recordInformation('This is Yue I am the record manager', {
     from: Yue,
   });
+
+  internalmsg = await daoRecord.inquiryInformation();
+
   console.log("====  Yue's message  ====");
   console.log('Massgae to Company Members: ', internalmsg[0]);
   console.log('Massgae to Company Members: ', internalmsg[1]);
@@ -99,21 +99,24 @@ module.exports = async function (callback) {
   await daoAccessControl.grantAccountPermission('TOKEN_MANAGER', Home, {
     from: Zoe,
   });
-  await sleep(6000);
+
   // const tokenManagerPermission = 'TOKEN_MANAGER';
   // const tokenMgmt = await daoAccessControl.inquiryAccountPermission(
   //   tokenManagerPermission,
   //   Home,
   //   { from: Zoe }
   // );
-  const totalSupply = await daoToken.totalSupply();
   //console.log('TokenMgmt: ', tokenMgmt);
+
+  let totalSupply = await daoToken.totalSupply();
+
   console.log('Total supply: ', totalSupply.toNumber());
 
   // Home create 100 Token and assign it to Zoe
 
   console.log('====  Home mint 100 Token to Zoe  ====');
   await daoToken.mint(Zoe, 100, { from: Home });
+  totalSupply = await daoToken.totalSupply();
   console.log('Total supply: ', totalSupply.toNumber());
   var zoeBalance = await daoToken.balanceOf(Zoe);
   console.log('Zoe balance: ', zoeBalance.toNumber());
@@ -121,10 +124,11 @@ module.exports = async function (callback) {
 
   // Zoe what to tranfer 25 token to home and 25 token to Yue
   console.log('====  Zoe tranfer 25 token to home and 25 token to Yue  ====');
-  var yueBalance = await daoToken.balanceOf(Yue);
-  var homeBalance = await daoToken.balanceOf(Home);
   await daoToken.transfer(Zoe, Yue, 25);
   await daoToken.transfer(Zoe, Home, 25);
+  var zoeBalance = await daoToken.balanceOf(Zoe);
+  var yueBalance = await daoToken.balanceOf(Yue);
+  var homeBalance = await daoToken.balanceOf(Home);
   console.log('Zoe balance: ', zoeBalance.toNumber());
   console.log('Yue balance: ', yueBalance.toNumber());
   console.log('Home balance: ', homeBalance.toNumber());
@@ -165,7 +169,7 @@ module.exports = async function (callback) {
   const risk = await projectRecord.getRisk();
   console.log('Risk level: ', risk[0]);
   console.log('===== record NPV 1000 to contract =====');
-  await projectRecord.recordNPV(1000);
+  await projectRecord.recordNPV(1);
   const NPV = await projectRecord.getNPV();
   console.log('NPV: ', NPV[0].toNumber());
 
