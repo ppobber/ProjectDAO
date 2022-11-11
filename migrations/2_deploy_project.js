@@ -105,6 +105,9 @@ module.exports = async function (deployer, network, accounts) {
     },
     "ProjectProposal": {
       "address": projectProposal.address
+    },
+    "ProjectProposalRecord": {
+      "address": projectProposalRecord.address
     }
   };
 

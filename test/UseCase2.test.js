@@ -9,10 +9,7 @@ contract('DaoProposal', function () {
 
     it('Assign tokens and create a proposal to vote', async function () {
 
-        /**
-         * 
-         * 
-         */
+
         let daoAccessControl = await DaoAccessControl.deployed();
         await daoAccessControl.grantAccountPermission("PROPOSAL_MANAGER", user.Yue, { from: user.Zoe });
         await daoAccessControl.grantAccountPermission("TOKEN_MANAGER", user.Home, { from: user.Zoe });

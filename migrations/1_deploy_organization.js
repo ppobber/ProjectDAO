@@ -101,6 +101,9 @@ module.exports = async function (deployer, network, accounts) {
     },
     "DaoProposal": {
       "address": daoProposal.address
+    },
+    "DaoProposalRecord": {
+      "address": daoProposalRecord.address
     }
   };
 
