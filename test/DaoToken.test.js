@@ -17,7 +17,7 @@ contract('DaoToken', function () {
     console.log('total Supply: ', totalSupply);
     console.log('address: ', daoToken.address);
     assert.equal(symbol, 'DDD', 'symbol failed.');
-    assert.equal(name, 'DaoTokenNameForScript', 'name failed.');
+    assert.equal(name, 'DAO Token Name', 'name failed.');
     assert.equal(totalSupply.toNumber(), 0, 'totalSupply failed.');
 
     //expect(totalSupply).to.equal(12);

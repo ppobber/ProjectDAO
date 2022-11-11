@@ -56,7 +56,7 @@ module.exports = async function (callback) {
   );
   let internalmsg = await daoRecord.inquiryInformation();
   console.log("====  Zoe's message  ====");
-  console.log('Massgae to Company Members: ', internalmsg[0]);
+  console.log('Message to Company Members: ', internalmsg[0]);
 
   // Yue add a new message to add more deteils about the company but faile because he dosen't have the right
   console.log(
@@ -88,8 +88,8 @@ module.exports = async function (callback) {
   internalmsg = await daoRecord.inquiryInformation();
 
   console.log("====  Yue's message  ====");
-  console.log('Massgae to Company Members: ', internalmsg[0]);
-  console.log('Massgae to Company Members: ', internalmsg[1]);
+  console.log('Message to Company Members: ', internalmsg[0]);
+  console.log('Message to Company Members: ', internalmsg[1]);
 
   // Zoe want to add Home in as a person who haddle Token
   console.log('====  Zoe grant a Token manager permision to home  ====');
