@@ -5,7 +5,6 @@ const DaoRecord = artifacts.require('./organization/DaoRecord');
 const DaoToken = artifacts.require('./organization/DaoToken');
 const DaoProposal = artifacts.require('./organization/DaoProposal');
 const DaoProposalRecord = artifacts.require('./organization/DaoProposalRecord');
-// const DaoTestSender = artifacts.require('./organization/DaoTestSender');
 
 const StringUtils = artifacts.require('./StringUtils.sol');
 
@@ -14,7 +13,6 @@ let daoRecord;
 let daoToken;
 let daoProposal;
 let daoProposalRecord;
-// let daoTestSender;
 
 const daoName = "CS84";
 const daoTokenName = "DAO Token Name";
@@ -27,7 +25,6 @@ const initialVotingDelay = 0;
 const initialVotingPeriod = 10;
 const initialProposalThreshold = 0;
 const initialquorumNumber = 0;
-
 
 module.exports = async function (deployer, network, accounts) {
 
@@ -61,7 +58,6 @@ module.exports = async function (deployer, network, accounts) {
   );
   daoProposal = await DaoProposal.deployed();
 
-  // await deployer.deploy(StringUtils, fromAdmin);
   await deployer.link(StringUtils, DaoProposalRecord, fromAdmin);
   await deployer.deploy(
     DaoProposalRecord,
@@ -85,10 +81,6 @@ module.exports = async function (deployer, network, accounts) {
 
   await daoAccessControl.grantAccountPermission("PROPOSAL_MANAGER", daoProposalRecord.address, fromAdmin);
 
-  // await deployer.deploy(DaoTestSender);
-  // daoTestSender = await DaoTestSender.deployed();
-
-
   let outputInfo = {
     "DaoAccessControl": {
       "address": daoAccessControl.address
@@ -107,7 +99,6 @@ module.exports = async function (deployer, network, accounts) {
     }
   };
 
-  // console.log(outputInfo);
   await fs.writeFile("./migrations/deployedOrganization.json", JSON.stringify(outputInfo, null, "\t"));
 
 };

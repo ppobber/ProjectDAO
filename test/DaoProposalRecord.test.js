@@ -14,7 +14,7 @@ contract('DaoProposal', function () {
 
         const proposalNumber = await daoProposalRecord.inquiryLatestProposalNumber({ from: user.Zoe });
 
-        await daoProposalRecord.addRecordBehaviour(proposalNumber, "Slogan: Think Different.", { from: user.Zoe });
+        await daoProposalRecord.addRecordBehavior(proposalNumber, "Slogan: Think Different.", { from: user.Zoe });
 
         const stateNow2 = await daoProposalRecord.inquiryProposalState(proposalNumber, { from: user.Zoe });
         expect(stateNow2).to.equal("Unreleased");

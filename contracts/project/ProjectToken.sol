@@ -5,6 +5,11 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 
 import "../PublicAccessUtils.sol";
 
+/**
+ * @dev This is the project token contract.
+ *
+ * See {DaoToken}.
+ */
 contract ProjectToken is PublicAccessUtils, ERC20Votes {
 
     bytes32 internal constant TOKEN_MANAGER = keccak256("TOKEN_MANAGER");
@@ -16,62 +21,37 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         _initializeAccessControl(projectAccessControlAddress);
     }
 
+    /**
+    * @dev See {DaoToken-totalSupply}.
+    */
     function totalSupply() 
         public view override allowPermissions(STAFF, STAFF) returns (uint256) 
     {
         return super.totalSupply();
     }
 
+    /**
+    * @dev See {DaoToken-balanceOf}.
+    */
     function balanceOf(address account) 
         public view override allowPermissions(TOKEN_MANAGER, ADMIN) returns (uint256) 
     {
         return super.balanceOf(account);
     }
 
-    // //STAFF can't transfer their token
-    // function transfer(address to, uint256 amount) 
-    //     public override allowPermissions(STAFF, STAFF) returns (bool) 
-    // {
-    //     require(false, "The function is not avaliable.");
-    //     return super.transfer(to, amount);
-    // }
-
-    //only TOKEN_MANAGER can transfer everyone's token
+    /**
+    * @dev See {DaoToken-transferFrom}.
+    */
     function transferFrom(address from, address to, uint256 amount) 
         public override allowPermissions(TOKEN_MANAGER, ADMIN) returns (bool)
     {
-        // address spender = _msgSender();
-        // _spendAllowance(from, spender, amount);
         super._transfer(from, to, amount);
         return true;
-        // return super._transfer(from, to, amount);
-
     }
 
-    
-    // function allowance(address owner, address spender) 
-    //     public view override allowPermissions(STAFF, STAFF) returns (uint256) 
-    // {
-    //     require(false, "The function is not avaliable.");
-    //     return super.allowance(owner, spender);
-    // }
-
-    // function approve(address spender, uint256 amount) 
-    //     public override allowPermissions(STAFF, STAFF) returns (bool) 
-    // {
-    //     require(false, "The function is not avaliable.");
-    //     return super.approve(spender, amount);
-    // }
-
-
-    // function transferFrom(address from, address to, uint256 amount) 
-    //     public override allowPermissions(STAFF, STAFF) returns (bool) 
-    // {
-    //     require(false, "The function is not avaliable.");
-    //     return super.transferFrom(from, to, amount);
-    // }
-
-    //IERC20Metadata
+    /**
+    * @dev See {DaoToken-name}.
+    */
     function name() 
         public view override 
         allowPermissions(MEMBER, MEMBER) returns (string memory) 
@@ -79,6 +59,9 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.name();
     }
 
+    /**
+    * @dev See {DaoToken-symbol}.
+    */
     function symbol() 
         public view override 
         allowPermissions(MEMBER, MEMBER) returns (string memory) 
@@ -86,6 +69,9 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.symbol();
     }
 
+    /**
+    * @dev See {DaoToken-decimals}.
+    */
     function decimals() 
         public view override 
         allowPermissions(MEMBER, MEMBER) returns (uint8) 
@@ -93,7 +79,9 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.decimals();
     }
 
-    //IVotes
+    /**
+    * @dev See {DaoToken-getVotes}.
+    */
     function getVotes(address account) 
         public view override 
         allowPermissions(PROPOSAL_MANAGER, ADMIN) returns (uint256) 
@@ -101,6 +89,9 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.getVotes(account);
     }
 
+    /**
+    * @dev See {DaoToken-getPastVotes}.
+    */
     function getPastVotes(address account, uint256 blockNumber) 
         public view override 
         allowPermissions(PROPOSAL_MANAGER, ADMIN) returns (uint256) 
@@ -108,6 +99,9 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.getPastVotes(account, blockNumber);
     }
 
+    /**
+    * @dev See {DaoToken-getPastTotalSupply}.
+    */
     function getPastTotalSupply(uint256 blockNumber) 
         public view override 
         allowPermissions(PROPOSAL_MANAGER, ADMIN) returns (uint256)
@@ -115,24 +109,36 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.getPastTotalSupply(blockNumber);
     }
 
+    /**
+    * @dev See {DaoToken-delegates}.
+    */
     function delegates(address account) 
         public view override allowPermissions(STAFF, STAFF) returns (address) 
     {
         return super.delegates(account);
     }
 
+    /**
+    * @dev See {DaoToken-delegate}.
+    */
     function delegate(address delegatee) 
         public override allowPermissions(TOKEN_MANAGER, STAFF)
     {
         return super.delegate(delegatee);
     }
 
+    /**
+    * @dev See {DaoToken-delegateFrom}.
+    */
     function delegateFrom(address delegator, address delegatee) 
         public allowPermissions(TOKEN_MANAGER, STAFF)
     {
         return super._delegate(delegator, delegatee);
     }
 
+    /**
+    * @dev See {DaoToken-delegateBySig}.
+    */
     function delegateBySig(
         address delegatee,
         uint256 nonce,
@@ -145,7 +151,9 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.delegateBySig(delegatee, nonce, expiry, v, r, s);
     }
 
-    //IERC20Permit
+    /**
+    * @dev See {DaoToken-permit}.
+    */
     function permit(
         address owner,
         address spender,
@@ -158,13 +166,18 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.permit(owner, spender, value, deadline, v, r, s);
     }
 
+    /**
+    * @dev See {DaoToken-nonces}.
+    */
     function nonces(address owner) 
         public view override allowPermissions(STAFF, STAFF) returns (uint256)
     {
         return super.nonces(owner);
     }
 
-    //cannot access by interface
+    /**
+    * @dev See {DaoToken-increaseAllowance}.
+    */
     function increaseAllowance(address spender, uint256 addedValue) 
         public override allowPermissions(STAFF, STAFF) returns (bool) 
     {
@@ -172,26 +185,22 @@ contract ProjectToken is PublicAccessUtils, ERC20Votes {
         return super.increaseAllowance(spender, addedValue);
     }
 
-    // function decreaseAllowance(address spender, uint256 subtractedValue) 
-    //     public override allowPermissions(STAFF, STAFF) returns (bool) 
-    // {
-    //     require(false, "The function is not avaliable.");
-    //     return super.decreaseAllowance(spender, subtractedValue);
-    // }
-
-    //internal functions
+    /**
+    * @dev See {DaoToken-mint}.
+    */    
     function mint(address account, uint256 amount) 
         public allowPermissions(TOKEN_MANAGER, ADMIN) 
     {
         super._mint(account, amount);
     }
 
+    /**
+    * @dev See {DaoToken-burn}.
+    */
     function burn(address account, uint256 amount) 
         public allowPermissions(TOKEN_MANAGER, ADMIN) 
     {
         super._burn(account, amount);
     }
-
-
 
 }

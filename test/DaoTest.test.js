@@ -9,7 +9,7 @@ contract('DaoTest', function () {
         const info = await daoTestSender.inquiryInfo({ from: user.Minjia });
         console.log("before: ", info.toString());
 
-        await daoTestSender.addTransferEthBehaviour(
+        await daoTestSender.addTransferEthBehavior(
             { from: user.Minjia, value: web3.utils.toWei("1.1", "ether") });
         
         const infoA = await daoTestSender.inquiryInfo({ from: user.Minjia });

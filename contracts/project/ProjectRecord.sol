@@ -1,9 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-// import "../IAccessControl.sol";
 import "../PublicAccessUtils.sol";
 
+/**
+ * @dev The contract records the important information of the project.
+ *
+ * The project record contract uses mutable function permissions to give all stored data greater permission freedom. In the project record contract, we mainly used different arrays to store different project information according to all the requirements of PM team for the project. 
+ * And each piece of information has a special write function and a query function. The write function requires the permission of the manager, while the query function only requires the permission of the staff.
+ */
 contract ProjectRecord is PublicAccessUtils {
 
     bytes32 internal constant RECORD_MANAGER = keccak256("RECORD_MANAGER");
@@ -13,19 +18,19 @@ contract ProjectRecord is PublicAccessUtils {
     bytes32 private constant _riskLevelHigh = keccak256(abi.encode("high"));
     bytes32 private constant _riskLevelExtreme = keccak256(abi.encode("extreme"));
 
-    event LowRisk(bytes32 indexed lowRisk, address indexed sender);
-    event ModerateRisk(bytes32 indexed moderateRisk, address indexed sender);
-    event HighRisk(bytes32 indexed highRisk, address indexed sender);
-    event ExtremeRisk(bytes32 indexed extremeRisk, address indexed sender);
+    event LowRisk(bytes32 lowRisk, address sender);
+    event ModerateRisk(bytes32 moderateRisk, address sender);
+    event HighRisk(bytes32 highRisk, address sender);
+    event ExtremeRisk(bytes32 extremeRisk, address sender);
 
-    event NpvRecorded(uint32 indexed NpvRecord, address indexed sender);
+    event NpvRecorded(uint32 NpvRecord, address sender);
 
-    event objectiveRecorded(string indexed projectObjective, address indexed sender);
-    event BudgetRecorded(string indexed projectBudget, address indexed sender);
-    event ScheduleRecorded(string indexed projectSchedule, address indexed sender);
-    event ROIRecorded(string indexed projectROI, address indexed sender);
-    event MgmtPlanRecorded(string indexed projectMgmtPlan, address indexed sender);
-    event RiskPlanRecorded(string indexed projectRiskPlan, address indexed sender);
+    event objectiveRecorded(string projectObjective, address sender);
+    event BudgetRecorded(string projectBudget, address sender);
+    event ScheduleRecorded(string projectSchedule, address sender);
+    event ROIRecorded(string projectROI, address sender);
+    event MgmtPlanRecorded(string projectMgmtPlan, address sender);
+    event RiskPlanRecorded(string projectRiskPlan, address sender);
 
     uint32[] private npvList;
     bytes32[] private riskList;
@@ -104,6 +109,10 @@ contract ProjectRecord is PublicAccessUtils {
         _modifyFunctionPermission(functionBytes, permission);
     }
 
+    /**
+     * @dev NPV is a very important part of a project, and it needs to be recorded and updated frequently. * 
+     * NPV is stored as an array unlike other records, which means that we can view all historical NPV states on the blockchain.
+     */
     function recordNPV(uint32 npvNow) 
         public allowPermissions(_getFunctionPermission(FUNC_recordNPV), ADMIN) 
     {
@@ -111,12 +120,20 @@ contract ProjectRecord is PublicAccessUtils {
         emit NpvRecorded(npvNow, msg.sender);
     }
 
+    /**
+     * @dev Query the NPV content of all records.
+     */
     function getNPV() 
         public view allowPermissions(_getFunctionPermission(FUNC_getNPV), STAFF) returns(uint32[] memory) 
     {
         return npvList;
     }
 
+    /**
+     * @dev Record the risk status.
+     *
+     * We have stipulated that there are several different levels of risk, so the content of the record must be carried out according to the stipulation, otherwise the record will not be successful.
+     */
     function recordRisk(string memory riskLevel) 
         public allowPermissions(_getFunctionPermission(FUNC_recordRisk), ADMIN) 
     {
@@ -142,12 +159,18 @@ contract ProjectRecord is PublicAccessUtils {
         }
     }
 
+    /**
+     * @dev Get the current risk status.
+     */
     function getRisk() 
         public view allowPermissions(_getFunctionPermission(FUNC_getRisk), STAFF) returns(bytes32[] memory) 
     {
         return riskList;
     }
 
+    /**
+     * @dev Set the goal for the project.
+     */
     function setProjectObjective(string memory projectObjective) 
         public allowPermissions(_getFunctionPermission(FUNC_setProjectObjective), ADMIN)
     {
@@ -155,12 +178,18 @@ contract ProjectRecord is PublicAccessUtils {
         emit objectiveRecorded(_projectObjective, msg.sender);
     }
 
+    /**
+     * @dev Get the goal of the project.
+     */
     function getProjectObjective() 
         public view allowPermissions(_getFunctionPermission(FUNC_getProjectObjective), STAFF) returns(string memory) 
     {
         return _projectObjective;
     }
 
+    /**
+     * @dev Set the budget for the project.
+     */
     function setProjectBudget(string memory projectBudget) 
         public allowPermissions(_getFunctionPermission(FUNC_setProjectBudget), ADMIN)
     {
@@ -168,12 +197,18 @@ contract ProjectRecord is PublicAccessUtils {
         emit BudgetRecorded(_projectBudget, msg.sender);
     }
 
+    /**
+     * @dev Get the budget for the project.
+     */
     function getProjectBudget() 
         public view allowPermissions(_getFunctionPermission(FUNC_getProjectBudget), STAFF) returns(string memory)
     {
         return _projectBudget;
     }
 
+    /**
+     * @dev Sets the schedule for the project. This information helps keep the progress of the project under control.
+     */
     function setProjectSchedule(string memory projectSchedule) 
         public allowPermissions(_getFunctionPermission(FUNC_setProjectSchedule), ADMIN)
     {
@@ -181,12 +216,18 @@ contract ProjectRecord is PublicAccessUtils {
         emit ScheduleRecorded(_projectSchedule, msg.sender);
     }
 
+    /**
+     * @dev Gets the schedule for the project.
+     */
     function getProjectSchedule() 
         public view allowPermissions(_getFunctionPermission(FUNC_getProjectSchedule), STAFF) returns(string memory) 
     {
         return _projectSchedule;
     }
 
+    /**
+     * @dev Set the ROI for the project.
+     */
     function setProjectROI(string memory projectROI) 
         public allowPermissions(_getFunctionPermission(FUNC_setProjectROI), ADMIN)
     {
@@ -194,12 +235,18 @@ contract ProjectRecord is PublicAccessUtils {
         emit ROIRecorded(_projectROI, msg.sender);
     }
 
+    /**
+     * @dev Get the ROI for the project.
+     */
     function getProjectROI() 
         public view allowPermissions(_getFunctionPermission(FUNC_getProjectROI), STAFF) returns(string memory) 
     {
         return _projectROI;
     }
 
+    /**
+     * @dev Set the management plan for the project.
+     */
     function setProjectMgmtPlan(string memory projectMgmtPlan) 
         public allowPermissions(_getFunctionPermission(FUNC_setProjectMgmtPlan), ADMIN)
     {
@@ -207,12 +254,18 @@ contract ProjectRecord is PublicAccessUtils {
         emit MgmtPlanRecorded(_projectMgmtPlan, msg.sender);
     }
 
+    /**
+     * @dev Get the management plan for the project.
+     */
     function getProjectMgmtPlan() 
         public view allowPermissions(_getFunctionPermission(FUNC_getProjectMgmtPlan), STAFF) returns(string memory) 
     {
         return _projectMgmtPlan;
     }
 
+    /**
+     * @dev Set the risk plan for the project.
+     */
     function setProjectRiskPlan(string memory projectRiskPlan) 
         public allowPermissions(_getFunctionPermission(FUNC_setProjectRiskPlan), ADMIN)
     {
@@ -220,6 +273,9 @@ contract ProjectRecord is PublicAccessUtils {
         emit RiskPlanRecorded(_projectRiskPlan, msg.sender);
     }
 
+    /**
+     * @dev Get the risk plan for the project.
+     */
     function getProjectRiskPlan() 
         public view allowPermissions(_getFunctionPermission(FUNC_getProjectRiskPlan), STAFF) returns(string memory) 
     {

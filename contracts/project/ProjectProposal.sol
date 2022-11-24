@@ -6,6 +6,11 @@ import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol
 
 import "../PublicAccessUtils.sol";
 
+/**
+ * @dev This is the project proposal contract.
+ *
+ * See {DaoProposal}.
+ */
 contract ProjectProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSimple {
 
     bytes32 internal constant PROPOSAL_MANAGER = keccak256("PROPOSAL_MANAGER");
@@ -33,6 +38,9 @@ contract ProjectProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSi
         _quorumNumber = quorumNumber;
     }
 
+    /**
+    * @dev See {DaoProposal-proposalVotes}.
+    */
     function proposalVotes(uint256 proposalId)
         public view override allowPermissions(PROPOSAL_MANAGER, ADMIN)
         returns (
@@ -43,30 +51,45 @@ contract ProjectProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSi
         return super.proposalVotes(proposalId);
     }
 
+    /**
+    * @dev See {DaoProposal-quorum}.
+    */
     function quorum(uint256) 
         public view override allowPermissions(STAFF, STAFF) returns (uint256) 
     {
         return _quorumNumber;
     }
 
+    /**
+    * @dev See {DaoProposal-votingDelay}.
+    */
     function votingDelay() 
         public view override allowPermissions(STAFF, STAFF) returns (uint256) 
     {
         return _votingDelay;
     }
 
+    /**
+    * @dev See {DaoProposal-votingPeriod}.
+    */
     function votingPeriod() 
         public view override allowPermissions(STAFF, STAFF) returns (uint256) 
     {
         return _votingPeriod;
     }
 
+    /**
+    * @dev See {DaoProposal-proposalThreshold}.
+    */
     function proposalThreshold() 
         public view override allowPermissions(STAFF, STAFF) returns (uint256) 
     {
         return _proposalThreshold;
     }
 
+    /**
+    * @dev See {DaoProposal-changeVotingSetting}.
+    */
     function changeVotingSetting(
         uint256 newVotingDelay, 
         uint256 newVotingPeriod, 
@@ -81,36 +104,54 @@ contract ProjectProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSi
         _quorumNumber = newQuormNumber;
     }
 
+    /**
+    * @dev See {DaoProposal-name}.
+    */
     function name()
         public view override allowPermissions(MEMBER, STAFF) returns (string memory) 
     {
         return super.name();
     }
 
+    /**
+    * @dev See {DaoProposal-state}.
+    */
     function state(uint256 proposalId) 
         public view override allowPermissions(STAFF, STAFF) returns (ProposalState) 
     {
         return super.state(proposalId);
     }
 
+    /**
+    * @dev See {DaoProposal-proposalSnapshot}.
+    */
     function proposalSnapshot(uint256 proposalId) 
         public view override allowPermissions(STAFF, STAFF) returns (uint256) 
     {
         return super.proposalSnapshot(proposalId);
     }
 
+    /**
+    * @dev See {DaoProposal-proposalDeadline}.
+    */
     function proposalDeadline(uint256 proposalId) 
         public view override allowPermissions(STAFF, STAFF) returns (uint256)
     {
         return super.proposalDeadline(proposalId);
     }
 
+    /**
+    * @dev See {DaoProposal-getVotes}.
+    */
     function getVotes(address account, uint256 blockNumber)  
         public view override allowPermissions(PROPOSAL_MANAGER, ADMIN) returns (uint256)
     {
         return super.getVotes(account, blockNumber);
     }
 
+    /**
+    * @dev See {DaoProposal-getVotesWithParams}.
+    */
     function getVotesWithParams(
         address account,
         uint256 blockNumber,
@@ -120,6 +161,9 @@ contract ProjectProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSi
         return super.getVotesWithParams(account, blockNumber, params);
     }
 
+    /**
+    * @dev See {DaoProposal-hasVoted}.
+    */
     function hasVoted(uint256 proposalId, address account) 
         public view override(IGovernor, GovernorCountingSimple) 
         allowPermissions(STAFF, STAFF) 
@@ -128,6 +172,9 @@ contract ProjectProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSi
         return super.hasVoted(proposalId, account);
     }
 
+    /**
+    * @dev See {DaoProposal-propose}.
+    */
     function propose(
         address[] memory targets,
         uint256[] memory values,
@@ -138,6 +185,9 @@ contract ProjectProposal is PublicAccessUtils, GovernorVotes, GovernorCountingSi
         return super.propose(targets, values, calldatas, description);
     }
 
+    /**
+    * @dev See {DaoProposal-execute}.
+    */
     function execute(
         address[] memory targets,
         uint256[] memory values,
